@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+	<definition name="adminhome" extends="baseLayout">
+		<put-attribute name="title" value="Admin Home" />
+		<put-attribute name="body" value="/WEB-INF/jsp/admin/home.jsp" />
+	</definition>
+
+
+	<definition name="adminerror" extends="baseLayout">
+		<put-attribute name="title" value="Error" />
+		<put-attribute name="body" value="/WEB-INF/tiles/errorbody.jsp" />
+	</definition>
+	<definition name="adminhelp" extends="baseLayout">
+		<put-attribute name="title" value="Help" />
+
+		<put-attribute name="body" value="/WEB-INF/jsp/admin/help.jsp" />
+	</definition>
+	<definition name="logout" extends="loginLayout">
+		<put-attribute name="title" value="Log Out" />
+		<put-attribute name="body" value="/WEB-INF/jsp/admin/login.jsp" />
+	</definition>
+
+
+	<definition name="register" extends="baseLayout">
+		<put-attribute name="title" value="User Register" />
+
+		<put-attribute name="body" value="/WEB-INF/jsp/admin/register.jsp" />
+	</definition>
+
+
+	<definition name="users" extends="baseLayout">
+		<put-attribute name="title" value="Users" />
+
+		<put-attribute name="body" value="/WEB-INF/jsp/admin/users.jsp" />
+	</definition>
+
+
+
+	<definition name="adddatabasetype" extends="baseLayout">
+		<put-attribute name="title" value="adddatabasetype" />
+		<!-- <put-attribute name="header" value="/WEB-INF/jsp/modeler/header.jsp"/> -->
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/admin/adddatabasetype.jsp" />
+	</definition>
+
+
+	<definition name="databasetype" extends="baseLayout">
+		<put-attribute name="title" value="Clear DataBase" />
+		<!-- <put-attribute name="header" value="/WEB-INF/jsp/modeler/header.jsp"/> -->
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/admin/databasetype.jsp" />
+	</definition>
+
+	<definition name="viewdatabasetype" extends="baseLayout">
+		<put-attribute name="title" value="Clear DataBase" />
+		<!-- <put-attribute name="header" value="/WEB-INF/jsp/modeler/header.jsp"/> -->
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/admin/viewdatabasetype.jsp" />
+	</definition>
+
+	<definition name="adddatabasesystem" extends="baseLayout">
+		<put-attribute name="title" value="dbconfiguration" />
+		<!-- <put-attribute name="header" value="/WEB-INF/jsp/modeler/header.jsp"/> -->
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/admin/adddatabasesystem.jsp" />
+	</definition>
+
+	<definition name="databasesystem" extends="baseLayout">
+		<put-attribute name="title" value="Clear DataBase" />
+		<!-- <put-attribute name="header" value="/WEB-INF/jsp/modeler/header.jsp"/> -->
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/admin/databasesystem.jsp" />
+	</definition>
+
+	<definition name="addsystem" extends="baseLayout">
+		<put-attribute name="title" value="Add System" />
+		<!-- <put-attribute name="header" value="/WEB-INF/jsp/modeler/header.jsp"/> -->
+		<put-attribute name="body" value="/WEB-INF/jsp/admin/addsystem.jsp" />
+	</definition>
+
+
+	<definition name="system" extends="baseLayout">
+		<put-attribute name="title" value=" System" />
+		<!-- <put-attribute name="header" value="/WEB-INF/jsp/modeler/header.jsp"/> -->
+		<put-attribute name="body" value="/WEB-INF/jsp/admin/system.jsp" />
+	</definition>
+
+	<definition name="addsystemtype" extends="baseLayout">
+		<put-attribute name="title" value="Add System" />
+		<!-- <put-attribute name="header" value="/WEB-INF/jsp/modeler/header.jsp"/> -->
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/admin/addsystemtype.jsp" />
+	</definition>
+
+
+	<definition name="viewsystemtable" extends="baseLayout">
+		<put-attribute name="title" value="View System" />
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/admin/viewsystemtable.jsp" />
+	</definition>
+
+	<definition name="systemtype" extends="baseLayout">
+		<put-attribute name="title" value=" System" />
+		<!-- <put-attribute name="header" value="/WEB-INF/jsp/modeler/header.jsp"/> -->
+		<put-attribute name="body" value="/WEB-INF/jsp/admin/systemtype.jsp" />
+	</definition>
+
+
+	<definition name="object" extends="baseLayout">
+		<put-attribute name="title" value="Add Object" />
+		<!-- <put-attribute name="header" value="/WEB-INF/jsp/modeler/header.jsp"/> -->
+		<put-attribute name="body" value="/WEB-INF/jsp/admin/object.jsp" />
+	</definition>
+
+	<definition name="deleteObjectData" extends="baseLayout">
+		<put-attribute name="title" value="Add Object" />
+		<!-- <put-attribute name="header" value="/WEB-INF/jsp/modeler/header.jsp"/> -->
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/admin/deleteobjectdata.jsp" />
+	</definition>
+
+
+	<definition name="addobject" extends="baseLayout">
+		<!-- <put-attribute name="header" value="/WEB-INF/jsp/modeler/header.jsp"/> -->
+		<put-attribute name="title" value="Add Object" />
+		<put-attribute name="body" value="/WEB-INF/jsp/admin/addobject.jsp" />
+	</definition>
+
+	<definition name="dataprivilege" extends="baseLayout">
+		<put-attribute name="title" value="Data Privilege List" />
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/admin/dataprivilege.jsp" />
+	</definition>
+
+	<definition name="addsystemtable" extends="baseLayout">
+		<put-attribute name="title" value="Add System Table" />
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/admin/addsystemtable.jsp" />
+	</definition>
+
+	<definition name="editsystemtable" extends="baseLayout">
+		<put-attribute name="title" value="Add System Table" />
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/admin/editsystemtable.jsp" />
+	</definition>
+
+	<definition name="systemtable" extends="baseLayout">
+		<put-attribute name="title" value="Search System Table" />
+		<!-- <put-attribute name="header" value="/WEB-INF/jsp/modeler/header.jsp"/> -->
+		<put-attribute name="body" value="/WEB-INF/jsp/admin/systemtable.jsp" />
+	</definition>
+	<definition name="registergroup" extends="baseLayout">
+		<put-attribute name="title" value="Add Group" />
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/admin/registergroup.jsp" />
+	</definition>
+	<definition name="groups" extends="baseLayout">
+		<put-attribute name="title" value="Add Group" />
+		<put-attribute name="body" value="/WEB-INF/jsp/admin/groups.jsp" />
+	</definition>
+	<definition name="addusertogroup" extends="baseLayout">
+		<put-attribute name="title" value="Add Group" />
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/admin/addusertogroup.jsp" />
+	</definition>
+</tiles-definitions>

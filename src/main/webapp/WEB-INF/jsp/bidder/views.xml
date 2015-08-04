@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+	<definition name="bidderhome" extends="baseLayout">
+		<put-attribute name="title" value="Bidder Home" />
+		<put-attribute name="body" value="/WEB-INF/jsp/bidder/home.jsp" />
+	</definition>
+	<definition name="biddererror" extends="baseLayout">
+		<put-attribute name="title" value="Help" />
+		<put-attribute name="body" value="/WEB-INF/jsp/user/help.jsp" />
+	</definition>
+	
+	
+</tiles-definitions>
