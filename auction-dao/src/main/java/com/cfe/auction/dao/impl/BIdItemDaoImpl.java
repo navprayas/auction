@@ -11,14 +11,16 @@ import com.cfe.auction.common.CommonBIddItems;
 import com.cfe.auction.dao.BidItemDao;
 import com.cfe.auction.dao.model.persist.AutoBids;
 import com.cfe.auction.dao.model.persist.BidItem;
+import com.cfe.auction.dao.model.persist.BidSequence;
+import com.cfe.auction.dao.model.persist.BidderCategory;
 
 @Service
 public class BIdItemDaoImpl extends DAOImpl<Integer, BidItem> implements
 		BidItemDao {
-	
 
 	@Override
-	public List<BidItem> getBidItemsForCategoryForMarketListForBidder(long categoryId,CommonBIddItems commonVO) {
+	public List<BidItem> getBidItemsForCategoryForMarketListForBidder(
+			long categoryId, CommonBIddItems commonVO) {
 		String queryString = " from BidItem as bidItem left outer join bidItem.autoBids as autoBidsList, BidderCategory as bidderCateg, BidSequence bidSeq  "
 				+ " where bidItem.category.categoryId = :categoryId  and bidderCateg.auction.auctionId = :auctionId "
 				+ " and bidItem.category.categoryId = bidderCateg.bidderCategoryId.category.categoryId and bidderCateg.bidderCategoryId.user.username = :userName "
@@ -42,12 +44,12 @@ public class BIdItemDaoImpl extends DAOImpl<Integer, BidItem> implements
 
 		List<Object[]> objectsList = query.list();
 		List<BidItem> bidItemsList = new ArrayList<BidItem>();
-		//Logger.debug("bidItemList.size()::::" + objectsList.size());
+		// Logger.debug("bidItemList.size()::::" + objectsList.size());
 
 		for (Object[] objects : objectsList) {
 			BidItem bidItem = (BidItem) objects[0];
 			AutoBids autoBids = (AutoBids) objects[1];
-			bidderCategory bidderCategory = (BidderCategory) objects[2];
+			BidderCategory bidderCategory = (BidderCategory) objects[2];
 			BidSequence bidSequence = (BidSequence) objects[3];
 			List<AutoBids> autoBidsList = bidItem.getAutoBids();
 			for (AutoBids autoBid : autoBidsList) {
@@ -55,14 +57,15 @@ public class BIdItemDaoImpl extends DAOImpl<Integer, BidItem> implements
 						&& autoBid.getBidStatus().equalsIgnoreCase("A")) {
 					bidItem.setAutoBidFlag(true);
 					bidItem.setAmountAutoBid(autoBid.getBidAmount());
-					bidItem.setCurrentAutoBidId(autoBid.getAutoBidId());
+					bidItem.setCurrentAutoBidId(Long.parseLong(autoBid.getId()
+							.toString()));
 					break;
 				}
 
 			}
-			logger.debug("BidItem::" + bidItem);
+		/*	logger.debug("BidItem::" + bidItem);
 			logger.debug("autoBids::" + autoBids);
-			logger.debug("BidderCategory::" + bidderCategory);
+			logger.debug("BidderCategory::" + bidderCategory);*/
 			bidItem.setSeqId(bidSequence.getSequenceId());
 			bidItem.setBidSpan(bidSequence.getBidspan());
 			if (!bidItemsList.contains(bidItem))
