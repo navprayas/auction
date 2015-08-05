@@ -14,7 +14,7 @@
 	<tx:annotation-driven />
 
 	<context:component-scan base-package="com.cfe.auction.dao" />
-	<context:component-scan base-package="com.cfe.auction" />
+	<context:component-scan base-package="com.cfe.auction.service" />
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
