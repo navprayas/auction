@@ -20,3 +20,4 @@ auction-web/.project
 *.zip
 *.settings
 *.classpath
+/bin

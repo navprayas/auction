@@ -49,10 +49,11 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-      <!-- <session-config>
+	<welcome-file-list>
+	   <welcome-file>login</welcome-file>
+    </welcome-file-list>
+      <session-config>
         <tracking-mode>COOKIE</tracking-mode>
-    </session-config>  -->
-
-
+    </session-config> 
 
 </web-app>

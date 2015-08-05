@@ -7,12 +7,34 @@
 <tiles-definitions>
 	<definition name="bidderhome" extends="baseLayout">
 		<put-attribute name="title" value="Bidder Home" />
-		<put-attribute name="body" value="/WEB-INF/jsp/bidder/home.jsp" />
+		<put-attribute name="body" value="/WEB-INF/jsp/bidder/marketlist.jsp" />
 	</definition>
+
+
+	<definition name="marketlist" extends="baseLayout">
+		<put-attribute name="title" value="Bidder Home" />
+		<put-attribute name="body" value="/WEB-INF/jsp/bidder/marketlist.jsp" />
+	</definition>
+
+	<definition name="activemarket" extends="baseLayout">
+		<put-attribute name="title" value="Bidder Home" />
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/bidder/activemarket.jsp" />
+	</definition>
+
+	<definition name="closedmarket" extends="baseLayout">
+		<put-attribute name="title" value="Bidder Home" />
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/bidder/closedmarket.jsp" />
+	</definition>
+
+
+
+
 	<definition name="biddererror" extends="baseLayout">
 		<put-attribute name="title" value="Help" />
-		<put-attribute name="body" value="/WEB-INF/jsp/user/help.jsp" />
+		<put-attribute name="body" value="/WEB-INF/jsp/bidder/help.jsp" />
 	</definition>
-	
-	
+
+
 </tiles-definitions>
