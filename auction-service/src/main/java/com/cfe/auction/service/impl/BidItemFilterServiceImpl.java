@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.hamcrest.Matchers;
 
-import com.cfe.auction.dao.model.persist.User;
+import com.cfe.auction.model.persist.User;
 import com.cfe.auction.service.IBidItemFilterService;
 
 /**

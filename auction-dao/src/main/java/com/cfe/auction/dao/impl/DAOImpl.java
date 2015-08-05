@@ -12,7 +12,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.cfe.auction.dao.DAO;
-import com.cfe.auction.dao.model.persist.PO;
+import com.cfe.auction.model.persist.PO;
 
 public abstract class DAOImpl<I extends Serializable, T extends PO<I>> implements DAO<I, T>, InitializingBean {
 

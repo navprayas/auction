@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cfe.auction.dao.RoleDao;
-import com.cfe.auction.dao.model.persist.Role;
+import com.cfe.auction.model.persist.Role;
 import com.cfe.auction.service.RoleService;
 
 @Service

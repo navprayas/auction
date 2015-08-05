@@ -1,4 +1,4 @@
-package com.cfe.auction.dao.model.persist;
+package com.cfe.auction.model.persist;
 
 import java.util.Date;
 
@@ -15,7 +15,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "UserDetails" )
+//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "UserDetails" )
 @Table(name="UserDetails")
 public class UserDetails {
 

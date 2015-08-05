@@ -4,7 +4,7 @@ import org.hibernate.Query;
 import org.springframework.stereotype.Service;
 
 import com.cfe.auction.dao.UserDao;
-import com.cfe.auction.dao.model.persist.User;
+import com.cfe.auction.model.persist.User;
 
 @Service
 public class UserDaoImpl extends DAOImpl<Integer, User> implements UserDao {

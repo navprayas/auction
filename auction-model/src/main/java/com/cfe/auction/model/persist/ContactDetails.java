@@ -1,4 +1,4 @@
-package com.cfe.auction.dao.model.persist;
+package com.cfe.auction.model.persist;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +11,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 
 @Entity
-@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
+//@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 @Table(name="CONTACTDETAILS")
 public class ContactDetails {
 	

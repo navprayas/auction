@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cfe.auction.dao.UserDao;
-import com.cfe.auction.dao.model.persist.User;
+import com.cfe.auction.model.persist.User;
 import com.cfe.auction.service.UserService;
 
 @Service

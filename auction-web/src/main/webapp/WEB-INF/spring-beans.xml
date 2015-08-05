@@ -29,7 +29,7 @@
 				<prop key="hibernate.show_sql">true</prop>
 			</props>
 		</property>
-		<property name="packagesToScan" value="com.cfe.auction.dao.model.persist" />
+		<property name="packagesToScan" value="com.cfe.auction.model" />
 	</bean>
 
 	<bean id="transactionManager"

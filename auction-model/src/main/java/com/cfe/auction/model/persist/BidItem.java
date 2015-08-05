@@ -1,4 +1,4 @@
-package com.cfe.auction.dao.model.persist;
+package com.cfe.auction.model.persist;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,13 +24,11 @@ import com.cfe.auction.common.BidderAmountComparator;
 @Table(name = "BIDITEM")
 public class BidItem extends AbstractPO<Integer> {
 
-	public BidItem() {
-		// TODO Auto-generated constructor stub
-	}
+	private static final long serialVersionUID = -6009206982668458513L;
 
-	public BidItem(int id) {
-		this.id = id;
-	}
+	@Id
+	@Column(name = "BIDITEMID")
+	private Long bidItemId;
 
 	@Column(name = "SERIALNUMBER")
 	private String serialNo;
@@ -95,18 +93,12 @@ public class BidItem extends AbstractPO<Integer> {
 	@Transient
 	private long timeLeft;
 
-	@Override
-	@Id
-	@Column(name = "BIDITEMID")
-	public Integer getId() {
-
-		return this.id;
+	public String getSerialNo() {
+		return serialNo;
 	}
 
-	@Override
-	public void setId(Integer id) {
-		this.id = id;
-
+	public void setSerialNo(String serialNo) {
+		this.serialNo = serialNo;
 	}
 
 	/**
@@ -270,6 +262,14 @@ public class BidItem extends AbstractPO<Integer> {
 		this.auctionId = auctionId;
 	}
 
+	public Long getBidItemId() {
+		return bidItemId;
+	}
+
+	public void setBidItemId(Long bidItemId) {
+		this.bidItemId = bidItemId;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -384,13 +384,9 @@ public class BidItem extends AbstractPO<Integer> {
 
 	@Override
 	public String toString() {
-		return "BidItem [bidItemId=" + getId() + "]";
+		return "BidItem [bidItemId=" + bidItemId + "]";
 	}
 
-	/**
-	 * @param autoBids
-	 *            the autoBids to set
-	 */
 	public void setAutoBids(List<AutoBids> autoBids) {
 		this.autoBids = autoBids;
 	}
@@ -481,6 +477,18 @@ public class BidItem extends AbstractPO<Integer> {
 
 	public Date getCreatedTime() {
 		return createdTime;
+	}
+
+	@Override
+	public Integer getId() {
+
+		return this.id;
+	}
+
+	@Override
+	public void setId(Integer id) {
+		// TODO Auto-generated method stub
+		this.id = id;
 	}
 
 }

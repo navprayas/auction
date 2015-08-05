@@ -1,4 +1,4 @@
-package com.cfe.auction.dao.model.persist;
+package com.cfe.auction.model.persist;
 
 import java.util.Date;
 

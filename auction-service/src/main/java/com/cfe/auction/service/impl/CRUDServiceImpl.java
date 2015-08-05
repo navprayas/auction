@@ -7,7 +7,7 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cfe.auction.dao.DAO;
-import com.cfe.auction.dao.model.persist.PO;
+import com.cfe.auction.model.persist.PO;
 import com.cfe.auction.service.CRUDService;
 
 public class CRUDServiceImpl<I extends Serializable, T extends PO<I>, D extends DAO<I, T>> implements CRUDService<I, T>{

@@ -1,19 +1,13 @@
-package com.cfe.auction.dao.model.persist;
+package com.cfe.auction.model.persist;
 
 import java.io.Serializable;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
 // @Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "BidderCategory"
@@ -44,7 +38,7 @@ public class BidderCategory implements Serializable {
 
 	@Override
 	public String toString() {
-		return "BidderCategory [auction=" + auction.getAuctionId() + "]";
+		return "BidderCategory [auction=" + auction.getId()+ "]";
 	}
 
 	public Integer getCategoryId() {

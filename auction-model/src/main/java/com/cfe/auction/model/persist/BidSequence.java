@@ -1,4 +1,4 @@
-package com.cfe.auction.dao.model.persist;
+package com.cfe.auction.model.persist;
 
 import java.io.Serializable;
 
@@ -16,7 +16,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
-@Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "BidSequence" )
+/*@Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "BidSequence" )*/
 @Table(name="bidsequence")
 public class BidSequence implements Serializable{
 	
@@ -98,7 +98,7 @@ public class BidSequence implements Serializable{
 	@Override
 	public String toString() {
 		return "BidSequence [auction="
-				+ auction.getAuctionId() + ", bidItem=" + ((bidItem != null) ? bidItem.getId() : "null") + ", sequenceId="
+				+ auction.getId() + ", bidItem=" + ((bidItem != null) ? bidItem.getBidItemId() : "null") + ", sequenceId="
 				+ sequenceId + ", bidspan=" + bidspan + "]";
 	}
 	

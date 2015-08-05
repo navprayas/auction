@@ -1,4 +1,4 @@
-package com.cfe.auction.dao.model.persist;
+package com.cfe.auction.model.persist;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,7 +10,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
-@Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "LotsStatus" )
+//@Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "LotsStatus" )
 @Table(name="LOTS_STATUS")
 public class LotsStatus {
 	

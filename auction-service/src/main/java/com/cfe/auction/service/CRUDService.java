@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
-import com.cfe.auction.dao.model.persist.PO;
+import com.cfe.auction.model.persist.PO;
 
 public interface CRUDService <I extends Serializable, T extends PO<I>> {
 	

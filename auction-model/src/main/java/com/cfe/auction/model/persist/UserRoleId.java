@@ -1,4 +1,4 @@
-package com.cfe.auction.dao.model.persist;
+package com.cfe.auction.model.persist;
 
 // Generated Sep 18, 2013 11:58:04 PM by Hibernate Tools 4.0.0
 

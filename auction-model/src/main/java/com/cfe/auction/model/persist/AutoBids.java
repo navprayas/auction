@@ -1,4 +1,4 @@
-package com.cfe.auction.dao.model.persist;
+package com.cfe.auction.model.persist;
 
 import java.util.Date;
 
@@ -27,7 +27,7 @@ public class AutoBids extends AbstractPO<Integer> {
 	private Auction auction;
 
 	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinColumn(name = "bidItemId", referencedColumnName = "bidItemId")
+	@JoinColumn(name = "bidItemId", referencedColumnName = "id")
 	private BidItem bidItemId;
 
 	@Column(name = "BIDAMOUNT")
@@ -38,7 +38,6 @@ public class AutoBids extends AbstractPO<Integer> {
 
 	@Column(name = "BIDTIME")
 	private Date bidTime;
-
 	@Column(name = "BIDSTATUS")
 	private String bidStatus;
 
