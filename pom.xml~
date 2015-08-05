@@ -265,6 +265,7 @@
 	 <module>auction-service</module>
 	 <module>auction-dao</module>
 	 <module>auction-model</module>
-	 <module>auction-web</module>	
+	 <module>auction-web</module>
+	 	
 	</modules>
 </project>
