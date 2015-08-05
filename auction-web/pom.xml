@@ -207,6 +207,7 @@
             <groupId>com.cfe.service</groupId>
             <artifactId>auction-service</artifactId>
         </dependency>
+	
 
     </dependencies>
     <build>
