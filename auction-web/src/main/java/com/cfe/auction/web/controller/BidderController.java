@@ -18,35 +18,37 @@ import com.cfe.auction.service.impl.BidItemFilterServiceImpl;
 @Controller
 @RequestMapping("/bidder/**")
 public class BidderController {
-	
+
 	@Autowired
 	IAuctionService auctionService;
-	
+
 	@Autowired
 	private BidItemService bidItemService;
-	
+
 	@Autowired
 	private BidItemFilterServiceImpl bidItemFilterServiceImpl;
 
 	@RequestMapping(value = "/marketlist", method = RequestMethod.GET)
 	public String getMarketList(ModelMap model) {
-		Authentication auth = SecurityContextHolder.getContext()
-				.getAuthentication();
-		String name = auth.getName();
 		List<BidItem> bidItems = auctionService.getActiveAuctionBidItem();
-		model.put("bidItems" ,bidItemFilterServiceImpl.getBidItemListForcategoryId(bidItems, "1"));
-		return "bidder/bidder_marketlist";
+		model.put("bidItems", bidItemFilterServiceImpl
+				.getBidItemListForcategoryId(bidItems, "2"));
+		return "marketlist";
 	}
 
 	@RequestMapping(value = "/activemarketlist", method = RequestMethod.GET)
-	public String getActiveMarketList() {
-		bidItemService.getBidItemActiveMarket();
+	public String getActiveMarketList(ModelMap model) {
+		List<BidItem> bidItems = auctionService.getActiveAuctionBidItem();
+		model.put("bidItems", bidItemFilterServiceImpl
+				.getBidItemListForActiveMarket(bidItems, "2"));
 		return "activemarket";
 	}
 
 	@RequestMapping(value = "/closedmarketlist", method = RequestMethod.GET)
-	public String getClosedMarket() {
-		bidItemService.getBidItemClosedMarket();
+	public String getClosedMarket(ModelMap model) {
+		List<BidItem> bidItems = auctionService.getActiveAuctionBidItem();
+		model.put("bidItems", bidItemFilterServiceImpl
+				.getBidItemListForClosedMarket(bidItems, "2"));
 		return "closedmarket";
 	}
 

@@ -65,49 +65,33 @@
 						<table class="table table-bordered table-striped text-center">
 							<tr>
 								<th>Sr. No.</th>
-								<th>Lot. No.</th>
-								<th>Description</th>
-								<th><select>
-										<option>All</option>
-										<option>1</option>
-										<option>2</option>
-								</select></th>
-								<th>Material Name</th>
-								<th>Remark</th>
-								<th>Length Range</th>
-								<th>Actual Range (Approx)</th>
-								<th>Quantity</th>
+								<th>Group Id</th>
+								<th>Name</th>
+								<th>Location</th>
+								<th>City</th>
 								<th>Zone</th>
-								<th>Company Name</th>
-								<th>Bid Price</th>
-								<th>Lot's Status<br> <select>
-										<option>All</option>
-										<option>1</option>
-										<option>2</option>
-								</select>
-								</th>
-								<th>Sales Price</th>
-								<th>Total Sales (Qty X Sales Price)</th>
+								<th>MinBidPrice</th>
+								<th>MinBidIncrement</th>
+								<th>Time Left</th>
+								<th>Created Time</th>
 							</tr>
-							
-							
-							<tr>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td>Total</td>
-								<td>0</td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td>&#x20b9; 0.0</td>
-							</tr>
+
+							<c:forEach var="marketlist" items="${bidItems}"
+								varStatus="status">
+								<tr>
+									<td>${status.index+1}</td>
+									<td>${marketlist.bidItemGroupId}</td>
+									<td>${marketlist.name}</td>
+									<td>${marketlist.location}</td>
+									<td>${marketlist.city}</td>
+									<td>${marketlist.zone}</td>
+									<td>${marketlist.minBidPrice}</td>
+									<td>${marketlist.minBidIncrement}</td>
+									<td>${marketlist.timeLeft}</td>
+									<td>${marketlist.createdTime}</td>
+
+								</tr>
+							</c:forEach>
 						</table>
 					</div>
 				</div>
