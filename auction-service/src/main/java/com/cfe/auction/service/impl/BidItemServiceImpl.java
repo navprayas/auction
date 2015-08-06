@@ -24,11 +24,11 @@ public class BidItemServiceImpl extends
 		super(dao);
 		// TODO Auto-generated constructor stub
 	}
-
+	
+	@Transactional
 	@Override
-	public List<BidItem> getBidItems() {
-		// TODO Auto-generated method stub
-		return bidItemDao.getBidItems();
+	public List<BidItem> getBidItemsbyGroupId(Long bidItemGroupId) {
+		return bidItemDao.getBidItems(bidItemGroupId);
 	}
 
 }

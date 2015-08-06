@@ -41,7 +41,7 @@ public class Auction extends AbstractPO<Integer> {
 	@Column(name = "ISAPPROVED")
 	private String isApproved;
 
-	@Column(name = "biditemgroupid")
+	@Column(name = "BIDITEMGROUPID")
 	private Long bidItemGroupId;
 
 	@Id

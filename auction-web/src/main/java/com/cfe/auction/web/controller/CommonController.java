@@ -11,9 +11,9 @@ public class CommonController {
 	@Autowired
 	private BidItemService bidItemService;
 	
-	public void getBidItemCache()
+	/*public void getBidItemCache()
 	{
 		bidItemService.getBidItems();
-	}
+	}*/
 
 }

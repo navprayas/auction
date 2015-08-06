@@ -1,4 +1,9 @@
 package com.cfe.auction.service;
+
+import java.util.List;
+
+import com.cfe.auction.model.persist.BidItem;
+
 /**
  * 
  * @author Vikas Anand
@@ -6,6 +11,7 @@ package com.cfe.auction.service;
  */
 public interface IBidItemFilterService {
 
-	void getBidItemListForcategoryId(String categoryId);
+
+	List<BidItem> getBidItemListForcategoryId(List<BidItem> bidItems, String categoryId);
 
 }

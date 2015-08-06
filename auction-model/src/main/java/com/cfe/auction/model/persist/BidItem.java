@@ -84,9 +84,6 @@ public class BidItem extends AbstractPO<Integer> {
 	@Column(name = "isProcessed")
 	private String isProcessed;
 
-	@Column(name = "BIDDERNAME")
-	private String bidderName;
-
 	@Transient
 	private String status;
 
@@ -138,8 +135,8 @@ public class BidItem extends AbstractPO<Integer> {
 	@JoinColumn(name = "categoryid", referencedColumnName = "categoryid")
 	private Category category;
 
-	@Column(name = "AUCTIONID")
-	private Long auctionId;
+	@Column(name = "BIDITEMGROUPID")
+	private Long biditemgroupid;
 
 	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
 	@JoinColumn(name = "bidItemId", referencedColumnName = "bidItemId")
@@ -245,23 +242,7 @@ public class BidItem extends AbstractPO<Integer> {
 	public void setItemLots(List<ItemLot> itemLots) {
 		this.itemLots = itemLots;
 	}
-
-	public String getBidderName() {
-		return bidderName;
-	}
-
-	public void setBidderName(String bidderName) {
-		this.bidderName = bidderName;
-	}
-
-	public Long getAuctionId() {
-		return auctionId;
-	}
-
-	public void setAuctionId(Long auctionId) {
-		this.auctionId = auctionId;
-	}
-
+	
 	public Long getBidItemId() {
 		return bidItemId;
 	}
