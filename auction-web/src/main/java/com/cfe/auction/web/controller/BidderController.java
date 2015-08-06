@@ -2,6 +2,9 @@ package com.cfe.auction.web.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,9 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.cfe.auction.model.persist.BidItem;
+import com.cfe.auction.model.persist.BidderCategory;
+import com.cfe.auction.model.persist.User;
 import com.cfe.auction.service.BidItemService;
+import com.cfe.auction.service.BidderCategoryService;
 import com.cfe.auction.service.IAuctionService;
 import com.cfe.auction.service.impl.BidItemFilterServiceImpl;
+import com.cfe.auction.web.constants.CommonConstants;
+import com.cfe.auction.web.constants.SessionConstants;
 
 @Controller
 @RequestMapping("/bidder/**")
@@ -28,8 +36,16 @@ public class BidderController {
 	@Autowired
 	private BidItemFilterServiceImpl bidItemFilterServiceImpl;
 
+	@Autowired
+	private BidderCategoryService bidderCategoryService;
+
 	@RequestMapping(value = "/marketlist", method = RequestMethod.GET)
-	public String getMarketList(ModelMap model) {
+	public String getMarketList(ModelMap model, HttpSession session) {
+		User user = (User) session.getAttribute(SessionConstants.USER_INFO);
+		List<BidderCategory> bidderCategoryList = bidderCategoryService
+				.getBidderCategory(user.getId(), 76);
+		System.out.println("Category Id" + bidderCategoryList);
+
 		List<BidItem> bidItems = auctionService.getActiveAuctionBidItem();
 		model.put("bidItems", bidItemFilterServiceImpl
 				.getBidItemListForcategoryId(bidItems, "2"));
