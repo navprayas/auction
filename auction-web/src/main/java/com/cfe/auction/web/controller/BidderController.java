@@ -40,13 +40,13 @@ public class BidderController {
 
 	@RequestMapping(value = "/activemarketlist", method = RequestMethod.GET)
 	public String getActiveMarketList() {
-		bidItemService.getBidItemActiveMarket();
+		//bidItemService.getBidItemActiveMarket();
 		return "activemarket";
 	}
 
 	@RequestMapping(value = "/closedmarketlist", method = RequestMethod.GET)
 	public String getClosedMarket() {
-		bidItemService.getBidItemClosedMarket();
+		//bidItemService.getBidItemClosedMarket();
 		return "closedmarket";
 	}
 
