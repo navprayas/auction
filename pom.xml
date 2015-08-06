@@ -235,15 +235,16 @@
 				<version>3.3.1</version>
 			</dependency>
 			<dependency>
-				<groupId>com.cfe.dao</groupId>
-				<artifactId>auction-dao</artifactId>
-				<version>1.0</version>
-			</dependency>
-			<dependency>
 				<groupId>com.cfe.model</groupId>
 				<artifactId>auction-model</artifactId>
 				<version>1.0</version>
 			</dependency>
+			<dependency>
+				<groupId>com.cfe.dao</groupId>
+				<artifactId>auction-dao</artifactId>
+				<version>1.0</version>
+			</dependency>
+
 			<dependency>
 				<groupId>com.cfe.service</groupId>
 				<artifactId>auction-service</artifactId>
