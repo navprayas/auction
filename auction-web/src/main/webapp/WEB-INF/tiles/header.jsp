@@ -71,7 +71,9 @@
 
 							<li class="active"><a href="marketlist">Forward Market</a></li>
 							<li><a href="#">Reports</a></li>
+							<li><a href="#">Online Users</a></li>
 							<li><a href="#">General Terms &amp; Condition</a></li>
+
 							<li><a href="#">Change Password</a></li>
 						</sec:authorize>
 
