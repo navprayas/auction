@@ -42,5 +42,9 @@ public class AuctionServiceImpl extends
 	  }
 	  return null;
 	}
+	@Override
+	public List<Auction> getAuctionList() {
+		return auctionDao.getAuctionList();
+	}
 
 }

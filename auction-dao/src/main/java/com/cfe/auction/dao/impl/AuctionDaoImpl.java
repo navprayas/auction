@@ -3,6 +3,7 @@ package com.cfe.auction.dao.impl;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -20,9 +21,19 @@ public class AuctionDaoImpl extends DAOImpl<Integer, Auction> implements
 				.createCriteria(Auction.class);
 		criteria = criteria.add(Restrictions.eq("status", "Running"));
 		List<Auction> list = (List<Auction>) criteria.list();
-		if( list != null && list.size() >= 1) {
+		if (list != null && list.size() >= 1) {
 			return list.get(0);
 		}
 		return null;
 	}
+
+	@Override
+	public List<Auction> getAuctionList() {
+		Query query = getSessionFactory()
+				.getCurrentSession()
+				.createQuery(
+						"From Auction auction where auction.status != 'Closed' and auction.status != 'Terminated' order by auction.auctionStartTime desc");
+		return query.list();
+	}
+
 }
