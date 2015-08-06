@@ -31,4 +31,16 @@ public class BidItemServiceImpl extends
 		return bidItemDao.getBidItems(bidItemGroupId);
 	}
 
+	@Override
+	public List<BidItem> getBidItemActiveMarket() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<BidItem> getBidItemClosedMarket() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

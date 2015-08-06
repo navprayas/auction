@@ -170,6 +170,9 @@ public class BidItem extends AbstractPO<Integer> {
 
 	@Transient
 	private long bidSpan;
+	
+	@Column(name = "biditemgroupid")
+	private Long bidItemGroupId;
 
 	public long getBidSpan() {
 		return bidSpan;
@@ -472,4 +475,16 @@ public class BidItem extends AbstractPO<Integer> {
 		this.id = id;
 	}
 
+	public Long getBidItemGroupId() {
+		return bidItemGroupId;
+	}
+
+	public void setBidItemGroupId(Long bidItemGroupId) {
+		this.bidItemGroupId = bidItemGroupId;
+	}
+
+	
+	
+	
+	
 }
