@@ -1,6 +1,6 @@
 package com.cfe.auction.model.persist;
 
-import java.util.Date;
+import java.io.Serializable;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,13 +11,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 @Entity
 //@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "UserDetails" )
 @Table(name="UserDetails")
-public class UserDetails {
+public class UserDetails implements Serializable{
 
 	@Id
 	@Column(name="userDetailsId")

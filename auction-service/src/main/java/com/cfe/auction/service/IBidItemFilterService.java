@@ -14,10 +14,10 @@ public interface IBidItemFilterService {
 	List<BidItem> getBidItemListForcategoryId(List<BidItem> bidItems,
 			String categoryId);
 
-	public List<BidItem> getBidItemListForActiveMarket(List<BidItem> bidItems,
-			final String categoryId);
-
 	public List<BidItem> getBidItemListForClosedMarket(List<BidItem> bidItems,
 			final String categoryId);
+
+	List<BidItem> getBidItemListForActiveMarket(List<BidItem> bidItems,
+			Integer categoryId);
 
 }

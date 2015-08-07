@@ -51,7 +51,7 @@ public class ObserverController {
 	public String getActiveMarketList(ModelMap model) {
 		List<BidItem> bidItems = auctionService.getActiveAuctionBidItem();
 		model.put("bidItems", bidItemFilterServiceImpl
-				.getBidItemListForActiveMarket(bidItems, "2"));
+				.getBidItemListForActiveMarket(bidItems, 2));
 		return "activemarket";
 	}
 

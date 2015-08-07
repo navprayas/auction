@@ -24,16 +24,16 @@ public class BidItemFilterServiceImpl implements IBidItemFilterService {
 	public List<BidItem> getBidItemListForcategoryId(List<BidItem> bidItems,
 			final String categoryId) {
 
-		List<BidItem> bidItemFinal = filter(having(on(BidItem.class).getCategory(),
+		List<BidItem> bidItemFinal = filter(having(on(BidItem.class).getCategory().getId(),
 						Matchers.equalTo(categoryId)), bidItems);
 		return bidItemFinal;
 	}
 
 	@Override
 	public List<BidItem> getBidItemListForActiveMarket(List<BidItem> bidItems,
-			 final String categoryId) {
+			 final Integer categoryId) {
 		List<BidItem> bidItemFinal = filter(
-				having(on(BidItem.class).getCategory(),
+				having(on(BidItem.class).getCategory().getId(),
 						Matchers.equalTo(categoryId)), bidItems);
 		return bidItemFinal;
 	}
@@ -42,7 +42,7 @@ public class BidItemFilterServiceImpl implements IBidItemFilterService {
 	public List<BidItem> getBidItemListForClosedMarket(List<BidItem> bidItems,final
 			String categoryId) {
 		List<BidItem> bidItemFinal = filter(
-				having(on(BidItem.class).getCategory(),
+				having(on(BidItem.class).getCategory().getId(),
 						Matchers.equalTo(categoryId)), bidItems);
 		return bidItemFinal;
 	}

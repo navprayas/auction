@@ -16,4 +16,6 @@ public interface IAuctionService extends CRUDService<Integer, Auction> {
 
 	List<Auction> getAuctionList();
 
+	Auction getActiveAuction();
+
 }
