@@ -26,6 +26,7 @@ public class BidItemFilterServiceImpl implements IBidItemFilterService {
 
 		List<BidItem> bidItemFinal = filter(having(on(BidItem.class).getCategory().getId(),
 						Matchers.equalTo(categoryId)), bidItems);
+
 		return bidItemFinal;
 	}
 
