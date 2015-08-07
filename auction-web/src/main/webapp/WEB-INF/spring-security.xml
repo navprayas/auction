@@ -6,7 +6,7 @@
            http://www.springframework.org/schema/security/spring-security.xsd">
 	<http pattern="/login" security="none" />
 	<http pattern="/loginfailed" security="none" />
-	<http pattern="/files/**" security="none" />
+	<http pattern="/documents/**" security="none" />
 	<http pattern="/fonts/**" security="none" />
 	<http pattern="/css/**" security="none" />
 	<http pattern="/images/**" security="none" />

@@ -6,6 +6,8 @@
 <spring:url value="/css" var="css_url" />
 <spring:url value="/js" var="js_url" />
 <spring:url value="/images" var="images_url" />
+<spring:url value="/documents" var="files_url" />
+
 <link rel="icon" href="${images_url}/favicon.png">
 
 <title>Home</title>
@@ -59,9 +61,8 @@
 							<li><a href="userauctionmap">User Auction Map</a></li>
 							<li><a href="registervendor">Create Vendor</a></li>
 							<li><a href="registeruser">Create User</a></li>
-							<li><a href="#">Reset Password</a></li>
-							<li><a href="#">Change Password</a></li>
-							<li><a href="#">Create Auction</a></li>
+							<li><a href="changepassword">Change Password</a></li>
+							<li><a href="createauction">Create Auction</a></li>
 							<li><a href="#">File Upload</a></li>
 
 						</sec:authorize>
@@ -72,7 +73,8 @@
 							<li class="active"><a href="marketlist">Forward Market</a></li>
 							<li><a href="#">Reports</a></li>
 							<li><a href="#">Online Users</a></li>
-							<li><a href="#">General Terms &amp; Condition</a></li>
+							<li><a href="${files_url}/">General Terms &amp;
+									Condition</a></li>
 
 							<li><a href="#">Change Password</a></li>
 						</sec:authorize>
@@ -83,8 +85,9 @@
 
 							<li class="active"><a href="marketlist">Forward Market</a></li>
 							<li><a href="#">Reports</a></li>
-							<li><a href="#">General Terms &amp; Condition</a></li>
-							<li><a href="#">Change Password</a></li>
+							<li><a href="${files_url}/termandcondition.pdf"
+								target="_blank">General Terms &amp; Condition</a></li>
+							<li><a href="changepassword">Change Password</a></li>
 						</sec:authorize>
 
 
