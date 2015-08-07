@@ -102,11 +102,7 @@ public class HomeController {
 		return "adminhome";
 	}
 
-	@RequestMapping(value = { "/bidder/home", "/bidder/index" }, method = RequestMethod.GET)
-	public String userHome() {
-		return "bidderhome";
-	}
-
+	
 	@RequestMapping(value = { "/observer/home", "/observer/index" }, method = RequestMethod.GET)
 	public String modelerHome() {
 		return "observerhome";

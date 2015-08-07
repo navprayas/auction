@@ -15,16 +15,16 @@
 	</definition>
 	<definition name="loginLayout" template="/WEB-INF/tiles/loginLayout.jsp">
 		<put-attribute name="title" value="Template" />
-<!-- 		<put-attribute name="header" value="/WEB-INF/tiles/loginheader.jsp" />
- -->
+		<!-- <put-attribute name="header" value="/WEB-INF/tiles/loginheader.jsp" 
+			/> -->
 		<put-attribute name="body" value="/WEB-INF/tiles/body.jsp" />
 		<!-- <put-attribute name="footer" value="/WEB-INF/tiles/footer.jsp" /> -->
 
 	</definition>
 	<definition name="login" extends="loginLayout">
 		<put-attribute name="title" value="Login" />
-		<!-- <put-attribute name="header" value="/WEB-INF/tiles/loginheader.jsp" />
-		<put-attribute name="footer" value="/WEB-INF/tiles/loginfooter.jsp" /> -->
+		<!-- <put-attribute name="header" value="/WEB-INF/tiles/loginheader.jsp" 
+			/> <put-attribute name="footer" value="/WEB-INF/tiles/loginfooter.jsp" /> -->
 		<put-attribute name="body" value="/WEB-INF/pages/login.jsp" />
 	</definition>
 
@@ -33,4 +33,14 @@
 		<put-attribute name="body" value="/WEB-INF/tiles/errorbody.jsp" />
 		<!-- <put-attribute name="header" value="/WEB-INF/jsp/loginHeader.jsp"/> -->
 	</definition>
+	<definition name="changepassword" extends="baseLayout">
+		<put-attribute name="title" value="Login" />
+		<put-attribute name="body" value="/WEB-INF/tiles/changepassword.jsp" />
+	</definition>
+
+
+
+
+
+
 </tiles-definitions>

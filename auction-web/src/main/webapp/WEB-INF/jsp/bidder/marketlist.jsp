@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="f" uri="http://www.springframework.org/tags/form"%>
@@ -5,11 +6,40 @@
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<spring:url value="/css" var="css_url" />
+<spring:url value="/js" var="js_url" />
+<link href="${css_url}/jquery.dataTables.css" rel="stylesheet">
+<script type="text/javascript" charset="utf8"
+	src="${js_url}/jquery.min.js"></script>
+<script type="text/javascript" charset="utf8"
+	src="${js_url}/jquery.dataTables.js"></script>
+
 <script>
 	function openUrl(url) {
 		window.location.href = url;
 	}
+	//pagination function started here
+	$(document).ready(function() {
+		$('#marketlist-pagination').dataTable({
+			"aaSorting" : [ [ 0, "asc" ] ]
+		});
+	});
+	//pagination function ended here
+	var marketList = function() {
+		$.ajax({
+			url : 'marketlistajaxcall',
+			method : 'get',
+			success : function(data) {
+				console.log(data);
+			},
+			error : function(err) {
+				alert(err);
+			}
+		});
+	};
+	setInterval(marketList, 5000); // you could choose not to continue on failure...
 </script>
+
 <!-- { middle } -->
 <section class="main">
 	<div class="container">
@@ -62,7 +92,8 @@
 						</div>
 					</div>
 					<div class="table-responsive user-map">
-						<table class="table table-bordered table-striped text-center">
+						<table id="marketlist-pagination"
+							class="table table-bordered table-striped text-center">
 							<tr>
 								<th>Sr. No.</th>
 								<th>Group Id</th>

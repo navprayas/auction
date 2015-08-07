@@ -68,25 +68,4 @@ public class ObserverController {
 		return "closedmarket";
 	}
 
-	@RequestMapping(value = "/changepassword", method = RequestMethod.GET)
-	public String changePassword() {
-		return "observerchangepassword";
-	}
-
-	@RequestMapping(value = "/changepassword", method = RequestMethod.POST)
-	public String changePassword(@RequestParam String oldPassword,
-			@RequestParam String newPassword, ModelMap model,
-			HttpSession session) {
-		String message = "Password Changed Successfully";
-		User user = userService.getUserByUserName(session.getAttribute(
-				CommonConstants.USER_NAME).toString());
-		if (user.getPassword().equals(userService.eccodePassword(oldPassword))) {
-			user.setPassword(userService.eccodePassword(newPassword));
-			userService.update(user);
-		} else {
-			message = "You have entered wrong current password. Please enter correct current password";
-		}
-		model.addAttribute("message", message);
-		return "observerchangepassword";
-	}
 }

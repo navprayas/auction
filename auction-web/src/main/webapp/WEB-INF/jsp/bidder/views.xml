@@ -28,13 +28,6 @@
 			value="/WEB-INF/jsp/bidder/closedmarket.jsp" />
 	</definition>
 
-	<definition name="bidderchangepassword" extends="baseLayout">
-		<put-attribute name="title" value="Change Password" />
-		<put-attribute name="body" value="/WEB-INF/jsp/bidder/changepassword.jsp" />
-	</definition>
-
-
-
 	<definition name="biddererror" extends="baseLayout">
 		<put-attribute name="title" value="Help" />
 		<put-attribute name="body" value="/WEB-INF/jsp/bidder/help.jsp" />

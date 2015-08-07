@@ -93,7 +93,7 @@ public class AdminController {
 		return "userauctionmap";
 	}
 
-	@RequestMapping(value = "/changepassword", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/changepassword", method = RequestMethod.GET)
 	public String changePassword() {
 		return "adminchangepassword";
 	}
@@ -113,7 +113,7 @@ public class AdminController {
 		}
 		model.addAttribute("message", message);
 		return "adminchangepassword";
-	}
+	}*/
 
 	@RequestMapping(value = "/createauction", method = RequestMethod.GET)
 	public String createAuction() {

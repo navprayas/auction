@@ -6,6 +6,7 @@
 <script src="${js_url}/jquery.min.js"></script>
 <script src="${js_url}/bootstrap.min.js"></script>
 <script src="${js_url}/ie10-viewport-bug-workaround.js"></script>
+
 <footer class="footer">
 	<div class="container">
 		<div class="col-xs-12 col-sm-6 copyrgt">

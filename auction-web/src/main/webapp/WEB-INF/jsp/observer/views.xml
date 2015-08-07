@@ -33,9 +33,4 @@
 		<put-attribute name="body" value="/WEB-INF/tiles/errorbody.jsp" />
 	</definition>
 
-	<definition name="observerchangepassword" extends="baseLayout">
-		<put-attribute name="title" value="Change Password" />
-		<put-attribute name="body"
-			value="/WEB-INF/jsp/observer/changepassword.jsp" />
-	</definition>
 </tiles-definitions>
