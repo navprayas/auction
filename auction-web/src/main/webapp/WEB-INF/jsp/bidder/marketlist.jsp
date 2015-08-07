@@ -8,37 +8,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <spring:url value="/css" var="css_url" />
 <spring:url value="/js" var="js_url" />
-<link href="${css_url}/jquery.dataTables.css" rel="stylesheet">
-<script type="text/javascript" charset="utf8"
-	src="${js_url}/jquery.min.js"></script>
-<script type="text/javascript" charset="utf8"
-	src="${js_url}/jquery.dataTables.js"></script>
 
-<script>
-	function openUrl(url) {
-		window.location.href = url;
-	}
-	//pagination function started here
-	$(document).ready(function() {
-		$('#marketlist-pagination').dataTable({
-			"aaSorting" : [ [ 0, "asc" ] ]
-		});
-	});
-	//pagination function ended here
-	var marketList = function() {
-		$.ajax({
-			url : 'marketlistajaxcall',
-			method : 'get',
-			success : function(data) {
-				console.log(data);
-			},
-			error : function(err) {
-				alert(err);
-			}
-		});
-	};
-	setInterval(marketList, 5000); // you could choose not to continue on failure...
-</script>
+
+
 
 <!-- { middle } -->
 <section class="main">
@@ -130,5 +102,57 @@
 		</div>
 	</div>
 	<!-- /container -->
+
+
+
+	<script type="text/javascript">
+		function openUrl(url) {
+			window.location.href = url;
+		}
+		//pagination function started here
+		/* $(document).ready(function() {
+			$('#marketlist-pagination').dataTable({
+				"aaSorting" : [ [ 0, "asc" ] ]
+			});
+		}); */
+		//pagination function ended here
+		var marketList = function() {
+			$
+					.ajax({
+						url : 'marketlistajaxcall',
+						method : 'get',
+						success : function(data) {
+							alert("data updating");
+							$('#marketlist-pagination').empty();
+							var marketlist = jQuery.parseJSON(data);
+							var l = marketlist.length;
+							var tableHeader = "<tr><th>Sr. No.</th><th>Group Id</th><th>Name</th><th>Location</th><th>City</th><th>Zone</th><th>MinBidPrice</th><th>MinBidIncrement</th><th>Time Left</th><th>Created Time</th></tr>";
+							$('#marketlist-pagination').append(tableHeader);
+							var tableData = "";
+
+							for (var i = 0; i < l; i++) {
+								tableData += "<tr><td>" + i + "</td><td>"
+										+ marketlist[i].bidItemGroupId
+										+ "</td><td>" + marketlist[i].name
+										+ "</td><td>" + marketlist[i].location
+										+ "</td><td>" + marketlist[i].city
+										+ "</td><td>" + marketlist[i].zone
+										+ "</td><td>"
+										+ marketlist[i].minBidPrice
+										+ "</td><td>"
+										+ marketlist[i].minBidIncrement
+										+ "</td><td>" + marketlist[i].timeleft
+										+ "</td><td>"
+										+ marketlist[i].createdTime + "</td>";
+							}
+							$('#marketlist-pagination').append(tableData);
+						},
+						error : function(err) {
+							alert(err);
+						}
+					});
+		};
+		setInterval(marketList, 5000); // you could choose not to continue on failure...
+	</script>
 </section>
 

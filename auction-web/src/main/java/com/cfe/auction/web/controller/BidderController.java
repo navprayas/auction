@@ -40,6 +40,25 @@ public class BidderController {
 	@Autowired
 	private UserService userService;
 
+	@RequestMapping(value = { "/home", "/index" }, method = RequestMethod.GET)
+	public String modelerHome(ModelMap model, HttpSession session) {
+		User user = (User) session.getAttribute(SessionConstants.USER_INFO);
+		if (AuctionCacheManager.getActiveAuctionId() != null) {
+			List<BidderCategory> bidderCategoryList = bidderCategoryService
+					.getBidderCategory(user.getId(),
+							AuctionCacheManager.getActiveAuctionId());
+			LOG.debug("Category Id" + bidderCategoryList);
+
+			List<BidItem> bidItems = AuctionCacheManager.getBidItems();
+			System.out.println("BidItems" + bidItems);
+			List<Integer> categoryIds = getCategoryIdList(bidderCategoryList);
+			model.put("bidItems", bidItemFilterService
+					.getBidItemListForActiveMarket(bidItems, categoryIds));
+
+		}
+		return "bidderhome";
+	}
+
 	@RequestMapping(value = "/marketlist", method = RequestMethod.GET)
 	public String getMarketList(ModelMap model, HttpSession session) {
 		User user = (User) session.getAttribute(SessionConstants.USER_INFO);
@@ -50,7 +69,6 @@ public class BidderController {
 			LOG.debug("Category Id" + bidderCategoryList);
 
 			List<BidItem> bidItems = AuctionCacheManager.getBidItems();
-			System.out.println("BidItems" + bidItems);
 			List<Integer> categoryIds = getCategoryIdList(bidderCategoryList);
 			model.put("bidItems", bidItemFilterService
 					.getBidItemListForActiveMarket(bidItems, categoryIds));

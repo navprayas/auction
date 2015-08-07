@@ -2,6 +2,7 @@ package com.cfe.auction.service;
 
 import java.util.List;
 
+import com.cfe.auction.common.BidItemUi;
 import com.cfe.auction.model.persist.BidItem;
 
 /**
@@ -22,5 +23,10 @@ public interface IBidItemFilterService {
 
 	List<BidItem> getBidItemListForActiveMarket(List<BidItem> bidItems,
 			List<Integer> categoryIds);
+	
+	List<BidItemUi> getBidItemListForActiveMarketAjax(List<BidItem> bidItems,
+			Integer categoryId);
+	
+	
 
 }
