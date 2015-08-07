@@ -8,4 +8,8 @@ public interface BidItemDao extends DAO<Integer, BidItem> {
 
 	List<BidItem> getBidItems(Long bidItemGroupId);
 
+	List<BidItem> getBIdItemActiveMarket();
+
+	List<BidItem> getBIdItemClosedMarket();
+
 }
