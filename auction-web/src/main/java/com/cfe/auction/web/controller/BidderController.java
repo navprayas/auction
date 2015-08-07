@@ -44,8 +44,6 @@ public class BidderController {
 		User user = (User) session.getAttribute(SessionConstants.USER_INFO);
 		List<BidderCategory> bidderCategoryList = bidderCategoryService
 				.getBidderCategory(user.getId(), 76);
-		System.out.println("Category Id" + bidderCategoryList);
-
 		List<BidItem> bidItems = auctionService.getActiveAuctionBidItem();
 		model.put("bidItems", bidItemFilterServiceImpl
 				.getBidItemListForcategoryId(bidItems, "2"));
