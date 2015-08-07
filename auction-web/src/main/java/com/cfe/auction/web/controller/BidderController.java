@@ -1,5 +1,6 @@
 package com.cfe.auction.web.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -18,7 +19,6 @@ import com.cfe.auction.model.persist.BidderCategory;
 import com.cfe.auction.model.persist.User;
 import com.cfe.auction.service.BidItemService;
 import com.cfe.auction.service.BidderCategoryService;
-import com.cfe.auction.service.IAuctionService;
 import com.cfe.auction.service.IBidItemFilterService;
 import com.cfe.auction.service.UserService;
 import com.cfe.auction.web.cache.manager.AuctionCacheManager;
@@ -29,10 +29,7 @@ import com.cfe.auction.web.constants.SessionConstants;
 @RequestMapping("/bidder/**")
 public class BidderController {
 	  private static final Logger LOG = LoggerFactory
-	            .getLogger(BidderController.class);
-	@Autowired
-	IAuctionService auctionService;
-	
+	            .getLogger(BidderController.class);	
 	@Autowired
 	private BidItemService bidItemService;
 
@@ -55,16 +52,28 @@ public class BidderController {
 	
 			List<BidItem> bidItems = AuctionCacheManager.getBidItems();
 			System.out.println("BidItems" + bidItems);
-			if(bidderCategoryList != null && bidderCategoryList.size() > 0 ) {
-				model.put("bidItems", bidItemFilterService.getBidItemListForActiveMarket(bidItems,bidderCategoryList.get(0).getCategoryId()));
-			}
+			List<Integer> categoryIds = getCategoryIdList(bidderCategoryList);
+			model.put("bidItems", bidItemFilterService.getBidItemListForActiveMarket(
+					  bidItems,categoryIds));
+			
 		}
 		return "marketlist";
 	}
 
+	private List<Integer> getCategoryIdList(
+			List<BidderCategory> bidderCategoryList) {
+		List<Integer> categoryIds = new ArrayList<Integer>();
+		if(bidderCategoryList != null && !bidderCategoryList.isEmpty() ) {
+			for(BidderCategory category : bidderCategoryList) {
+				categoryIds.add(category.getCategoryId());
+			}
+		}
+		return categoryIds;
+	}
+
 	@RequestMapping(value = "/activemarketlist", method = RequestMethod.GET)
 	public String getActiveMarketList(ModelMap model) {
-		List<BidItem> bidItems = auctionService.getActiveAuctionBidItem();
+		List<BidItem> bidItems = AuctionCacheManager.getBidItems();
 		model.put("bidItems", bidItemFilterService
 				.getBidItemListForActiveMarket(bidItems, 2));
 		return "activemarket";
@@ -72,7 +81,7 @@ public class BidderController {
 
 	@RequestMapping(value = "/closedmarketlist", method = RequestMethod.GET)
 	public String getClosedMarket(ModelMap model) {
-		List<BidItem> bidItems = auctionService.getActiveAuctionBidItem();
+		List<BidItem> bidItems = AuctionCacheManager.getBidItems();
 		model.put("bidItems", bidItemFilterService
 				.getBidItemListForClosedMarket(bidItems, "2"));
 		return "closedmarket";
