@@ -20,4 +20,7 @@ public interface IBidItemFilterService {
 	List<BidItem> getBidItemListForActiveMarket(List<BidItem> bidItems,
 			Integer categoryId);
 
+	List<BidItem> getBidItemListForActiveMarket(List<BidItem> bidItems,
+			List<Integer> categoryIds);
+
 }
