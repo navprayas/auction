@@ -59,8 +59,8 @@
 							<form role="form">
 								<c:forEach var="category" items="${categorylist}">
 									<div class="col-xs-12 col-sm-4 col-md-3 col-lg-2 tetrt">
-										&nbsp;&nbsp;<input type="checkbox" id="${category.id}"
-											name="Categories">${category.categoryName}</input>
+										<input type="checkbox" id="${category.id}"
+											name="Categories"> &nbsp;${category.categoryName}</input>
 									</div>
 								</c:forEach>
 							</form>
