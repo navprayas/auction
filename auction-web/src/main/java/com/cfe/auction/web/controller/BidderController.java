@@ -2,12 +2,11 @@ package com.cfe.auction.web.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,14 +18,15 @@ import com.cfe.auction.model.persist.User;
 import com.cfe.auction.service.BidItemService;
 import com.cfe.auction.service.BidderCategoryService;
 import com.cfe.auction.service.IAuctionService;
-import com.cfe.auction.service.impl.BidItemFilterServiceImpl;
-import com.cfe.auction.web.constants.CommonConstants;
+import com.cfe.auction.service.IBidItemFilterService;
+import com.cfe.auction.web.cache.manager.AuctionCacheManager;
 import com.cfe.auction.web.constants.SessionConstants;
 
 @Controller
 @RequestMapping("/bidder/**")
 public class BidderController {
-	
+	  private static final Logger LOG = LoggerFactory
+	            .getLogger(BidderController.class);
 	@Autowired
 	IAuctionService auctionService;
 	
