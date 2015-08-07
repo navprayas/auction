@@ -368,7 +368,7 @@ public class BidItem extends AbstractPO<Integer> {
 
 	@Override
 	public String toString() {
-		return "BidItem [bidItemId=" + bidItemId + "]";
+		return "BidItem [bidItemId=" + bidItemId + ",categoryId = "+ category.getId() + "]";
 	}
 
 	public void setAutoBids(List<AutoBids> autoBids) {

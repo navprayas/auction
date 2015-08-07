@@ -1,19 +1,12 @@
 package com.cfe.auction.model.persist;
 
-import java.io.Serializable;
-import java.util.Date;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
 /* @Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "ItemLot" ) */
@@ -75,10 +68,10 @@ public class ItemLot extends AbstractPO<Integer> {
 		this.zone = zone;
 	}
 
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	/*@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinColumn(name = "bidItemId", referencedColumnName = "bidItemId")
 	private BidItem biditem;
-
+*/
 	@Id
 	@Column(name = "LOTID")
 	public Integer getId() {
@@ -215,18 +208,18 @@ public class ItemLot extends AbstractPO<Integer> {
 	/**
 	 * @return the biditem
 	 */
-	public BidItem getBiditem() {
+	/*public BidItem getBiditem() {
 		return biditem;
-	}
+	}*/
 
 	/**
 	 * @param biditem
 	 *            the biditem to set
 	 */
-	public void setBiditem(BidItem biditem) {
+	/*public void setBiditem(BidItem biditem) {
 		this.biditem = biditem;
 	}
-
+*/
 	/*
 	 * (non-Javadoc)
 	 * 

@@ -7,9 +7,26 @@
 <tiles-definitions>
 	<definition name="observerhome" extends="baseLayout">
 		<put-attribute name="title" value="Observer Home" />
-		<put-attribute name="body" value="/WEB-INF/jsp/observer/home.jsp" />
+		<put-attribute name="body" value="/WEB-INF/jsp/observer/marketlist.jsp" />
 	</definition>
 
+	<definition name="marketlist" extends="baseLayout">
+		<put-attribute name="title" value="Bidder Home" />
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/observer/marketlist.jsp" />
+	</definition>
+
+	<definition name="activemarket" extends="baseLayout">
+		<put-attribute name="title" value="Bidder Home" />
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/observer/activemarket.jsp" />
+	</definition>
+
+	<definition name="closedmarket" extends="baseLayout">
+		<put-attribute name="title" value="Bidder Home" />
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/observer/closedmarket.jsp" />
+	</definition>
 	<definition name="observererror" extends="baseLayout">
 		<put-attribute name="title" value="Welcome" />
 		<put-attribute name="body" value="/WEB-INF/tiles/errorbody.jsp" />

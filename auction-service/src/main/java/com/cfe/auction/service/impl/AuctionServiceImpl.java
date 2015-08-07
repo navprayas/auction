@@ -42,5 +42,14 @@ public class AuctionServiceImpl extends
 	  }
 	  return null;
 	}
+	@Transactional
+	@Override
+	public Auction getActiveAuction() {
+		return auctionDao.getActiveAuction();
+	}
+	@Override
+	public List<Auction> getAuctionList() {
+		return auctionDao.getAuctionList();
+	}
 
 }

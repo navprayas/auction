@@ -2,19 +2,18 @@ package com.cfe.auction.model.persist;
 
 // Generated Sep 20, 2013 8:03:00 PM by Hibernate Tools 4.0.0
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -32,6 +31,12 @@ public class User extends AbstractPO<Integer> {
 	private boolean enabled;
 	private byte retryCount;
 	private Date lastLoginTime;
+
+	private String email;
+
+	private String passwordQuestion = "Favourite Movie";
+
+	private String passwordAnswer = "Titanic";
 
 	public User() {
 	}
@@ -96,5 +101,36 @@ public class User extends AbstractPO<Integer> {
 	public void setLastLoginTime(Date lastLoginTime) {
 		this.lastLoginTime = lastLoginTime;
 	}
+
+	@Column(name = "email")
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	@Column(name = "passwordQuestion")
+	public String getPasswordQuestion() {
+		return passwordQuestion;
+	}
+
+	public void setPasswordQuestion(String passwordQuestion) {
+		this.passwordQuestion = passwordQuestion;
+	}
+
+	@Column(name = "passwordAnswer")
+	public String getPasswordAnswer() {
+		return passwordAnswer;
+	}
+
+	public void setPasswordAnswer(String passwordAnswer) {
+		this.passwordAnswer = passwordAnswer;
+	}
+
+	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY, mappedBy = "user")
+	@JoinColumn(name = "userDetailsId", referencedColumnName = "userDetailsId")
+	private UserDetails userDetails = new UserDetails();
 
 }

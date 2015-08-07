@@ -16,11 +16,11 @@ public class Category extends AbstractPO<Integer> {
 	@Column(name = "CATEGORYNAME")
 	private String categoryName;
 
-	Category() {
+	public Category() {
 		
 	}
 
-	Category(int id) {
+	public Category(int id) {
 		this.id = id;
 	}
 

@@ -54,12 +54,12 @@
 				<div class="navbar-collapse collapse" id="navbar">
 					<ul class="nav navbar-nav auction-menu">
 						<sec:authorize ifAnyGranted="ROLE_ADMIN">
-							<li class="active"><a href="#">Auction Management</a></li>
-							<li><a href="#">User Auction Map</a></li>
-							<li><a href="#">Create Vendor</a></li>
-							<li><a href="#">Create User</a></li>
+							<li class="active"><a href="auctionmanagement">Auction
+									Management</a></li>
+							<li><a href="userauctionmap">User Auction Map</a></li>
+							<li><a href="registervendor">Create Vendor</a></li>
+							<li><a href="registeruser">Create User</a></li>
 							<li><a href="#">Reset Password</a></li>
-							<li><a href="#">Change Password</a></li>
 							<li><a href="#">Change Password</a></li>
 							<li><a href="#">Create Auction</a></li>
 							<li><a href="#">File Upload</a></li>
@@ -71,7 +71,9 @@
 
 							<li class="active"><a href="marketlist">Forward Market</a></li>
 							<li><a href="#">Reports</a></li>
+							<li><a href="#">Online Users</a></li>
 							<li><a href="#">General Terms &amp; Condition</a></li>
+
 							<li><a href="#">Change Password</a></li>
 						</sec:authorize>
 
