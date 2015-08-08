@@ -24,7 +24,7 @@ import com.cfe.auction.web.cache.manager.AuctionCacheManager;
 import com.cfe.auction.web.constants.SessionConstants;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@RequestMapping("/bidder/**")
+@RequestMapping({ "/bidder/**", "/observer/**" })
 @Controller
 public class RestResponseController {
 	private static final Logger LOG = LoggerFactory
@@ -50,8 +50,8 @@ public class RestResponseController {
 			LOG.debug("Category Id" + bidderCategoryList);
 
 			List<BidItem> bidItems = AuctionCacheManager.getBidItems();
-			
-			System.out.println("Ajax bid items"+bidItems);
+
+			System.out.println("Ajax bid items" + bidItems);
 			if (bidderCategoryList != null && bidderCategoryList.size() > 0) {
 				filteredbidItems = bidItemFilterService
 						.getBidItemListForActiveMarketAjax(bidItems,
@@ -68,4 +68,49 @@ public class RestResponseController {
 		}
 		return result;
 	}
+
+	@RequestMapping(value = "/activemarketlistajaxcall", method = RequestMethod.GET)
+	public @ResponseBody
+	String getActiveMarketListAjax(ModelMap model, HttpSession session) {
+		
+		ObjectMapper mapper = new ObjectMapper();
+		String result = null;
+		System.out.println("Make ajax call");
+		List<BidItemUi> filteredbidItems = new ArrayList<BidItemUi>();
+		List<BidItem> bidItems = AuctionCacheManager.getBidItems();
+		filteredbidItems = bidItemFilterService
+				.getBidItemListForActiveMarketAjax(bidItems, 2);
+		try {
+			result = mapper.writeValueAsString(filteredbidItems);
+			System.out.println("Ajax filtered data got result " + result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			// TODO: handle exception
+		}
+
+		return result;
+	}
+
+	@RequestMapping(value = "/closedmarketlistajaxcall", method = RequestMethod.GET)
+	public @ResponseBody
+	String getClosedMarketListAjax(ModelMap model, HttpSession session) {
+		ObjectMapper mapper = new ObjectMapper();
+		String result = null;
+		System.out.println("Make ajax call");
+		List<BidItemUi> filteredbidItems = new ArrayList<BidItemUi>();
+		List<BidItem> bidItems = AuctionCacheManager.getBidItems();
+		filteredbidItems = bidItemFilterService
+				.getBidItemListForClosedMarketAjax(bidItems, 2);
+
+		try {
+			result = mapper.writeValueAsString(filteredbidItems);
+			System.out.println("Ajax filtered data got result " + result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			// TODO: handle exception
+		}
+
+		return result;
+	}
+
 }

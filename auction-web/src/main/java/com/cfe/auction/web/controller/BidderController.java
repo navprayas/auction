@@ -93,9 +93,6 @@ public class BidderController {
 		List<BidItem> bidItems = AuctionCacheManager.getBidItems();
 		model.put("bidItems",
 				bidItemFilterService.getBidItemListForActiveMarket(bidItems, 2));
-
-		model.put("bidItems",
-				bidItemFilterService.getBidItemListForActiveMarket(bidItems, 2));
 		return "activemarket";
 	}
 

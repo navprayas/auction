@@ -9,6 +9,48 @@
 	function openUrl(url) {
 		window.location.href = url;
 	}
+	
+	var marketList = function() {
+		$
+				.ajax({
+					url : 'activemarketlistajaxcall',
+					method : 'get',
+					success : function(data) {
+						$('#marketlist-pagination').empty();
+						var marketlist = jQuery.parseJSON(data);
+						var l = marketlist.length;
+						var tableHeader = "<tr><th>Sr. No.</th><th>Group Id</th><th>Name</th><th>Location</th><th>City</th><th>Zone</th><th>MinBidPrice</th><th>MinBidIncrement</th><th>Time Left</th><th>Created Time</th></tr>";
+						$('#marketlist-pagination').append(tableHeader);
+						var tableData = "";
+if(l>0){
+						for (var i = 0; i < l; i++) {
+							tableData += "<tr><td>" + i + "</td><td>"
+									+ marketlist[i].bidItemGroupId
+									+ "</td><td>" + marketlist[i].name
+									+ "</td><td>" + marketlist[i].location
+									+ "</td><td>" + marketlist[i].city
+									+ "</td><td>" + marketlist[i].zone
+									+ "</td><td>"
+									+ marketlist[i].minBidPrice
+									+ "</td><td>"
+									+ marketlist[i].minBidIncrement
+									+ "</td><td>" + marketlist[i].timeleft
+									+ "</td><td>"
+									+ marketlist[i].createdTime + "</td></tr>";
+						}}else {
+							tableData +="<tr><td colspan='10'>No Data Found</td></tr>";
+						}
+						$('#marketlist-pagination').append(tableData);
+					},
+					error : function(err) {
+						alert(err);
+					}
+				});
+	};
+	setInterval(marketList, 1000 * 60 * 2); // you could choose not to continue on failure...
+	
+	
+	
 </script>
 <!-- { middle } -->
 <section class="main">

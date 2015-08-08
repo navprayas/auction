@@ -67,12 +67,43 @@ public class BidItemFilterServiceImpl implements IBidItemFilterService {
 	}
 
 	@Override
+	public List<BidItemUi> getBidItemListForcategoryIdAjax(
+			List<BidItem> bidItems, Integer categoryId) {
+		List<BidItemUi> bidItemList = new ArrayList<BidItemUi>();
+		List<BidItem> bidItemsResult = filter(
+				having(on(BidItem.class).getCategory().getId(),
+						Matchers.equalTo(categoryId)), bidItems);
+		bidItemToBidItemUiConverter(bidItemList, bidItemsResult);
+
+		return bidItemList;
+	}
+
+	@Override
 	public List<BidItemUi> getBidItemListForActiveMarketAjax(
 			List<BidItem> bidItems, Integer categoryId) {
 		List<BidItemUi> bidItemList = new ArrayList<BidItemUi>();
 		List<BidItem> bidItemsResult = filter(
 				having(on(BidItem.class).getCategory().getId(),
 						Matchers.equalTo(categoryId)), bidItems);
+		bidItemToBidItemUiConverter(bidItemList, bidItemsResult);
+
+		return bidItemList;
+	}
+
+	@Override
+	public List<BidItemUi> getBidItemListForClosedMarketAjax(
+			List<BidItem> bidItems, Integer categoryId) {
+		List<BidItemUi> bidItemList = new ArrayList<BidItemUi>();
+		List<BidItem> bidItemsResult = filter(
+				having(on(BidItem.class).getCategory().getId(),
+						Matchers.equalTo(categoryId)), bidItems);
+		bidItemToBidItemUiConverter(bidItemList, bidItemsResult);
+
+		return bidItemList;
+	}
+
+	private void bidItemToBidItemUiConverter(List<BidItemUi> bidItemList,
+			List<BidItem> bidItemsResult) {
 		BidItemUi bidItemUi = null;
 		for (BidItem bidItem : bidItemsResult) {
 			bidItemUi = new BidItemUi();
@@ -95,7 +126,5 @@ public class BidItemFilterServiceImpl implements IBidItemFilterService {
 			bidItemList.add(bidItemUi);
 
 		}
-
-		return bidItemList;
 	}
 }

@@ -23,10 +23,14 @@ public interface IBidItemFilterService {
 
 	List<BidItem> getBidItemListForActiveMarket(List<BidItem> bidItems,
 			List<Integer> categoryIds);
-	
+
+	List<BidItemUi> getBidItemListForcategoryIdAjax(List<BidItem> bidItems,
+			Integer categoryId);
+
 	List<BidItemUi> getBidItemListForActiveMarketAjax(List<BidItem> bidItems,
 			Integer categoryId);
-	
-	
+
+	List<BidItemUi> getBidItemListForClosedMarketAjax(List<BidItem> bidItems,
+			Integer categoryId);
 
 }

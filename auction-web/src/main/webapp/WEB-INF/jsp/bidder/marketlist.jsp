@@ -122,28 +122,33 @@
 						url : 'marketlistajaxcall',
 						method : 'get',
 						success : function(data) {
-							alert("data updating");
 							$('#marketlist-pagination').empty();
 							var marketlist = jQuery.parseJSON(data);
 							var l = marketlist.length;
 							var tableHeader = "<tr><th>Sr. No.</th><th>Group Id</th><th>Name</th><th>Location</th><th>City</th><th>Zone</th><th>MinBidPrice</th><th>MinBidIncrement</th><th>Time Left</th><th>Created Time</th></tr>";
 							$('#marketlist-pagination').append(tableHeader);
 							var tableData = "";
-
-							for (var i = 0; i < l; i++) {
-								tableData += "<tr><td>" + i + "</td><td>"
-										+ marketlist[i].bidItemGroupId
-										+ "</td><td>" + marketlist[i].name
-										+ "</td><td>" + marketlist[i].location
-										+ "</td><td>" + marketlist[i].city
-										+ "</td><td>" + marketlist[i].zone
-										+ "</td><td>"
-										+ marketlist[i].minBidPrice
-										+ "</td><td>"
-										+ marketlist[i].minBidIncrement
-										+ "</td><td>" + marketlist[i].timeleft
-										+ "</td><td>"
-										+ marketlist[i].createdTime + "</td>";
+							if (l > 0) {
+								for (var i = 0; i < l; i++) {
+									tableData += "<tr><td>" + i + "</td><td>"
+											+ marketlist[i].bidItemGroupId
+											+ "</td><td>" + marketlist[i].name
+											+ "</td><td>"
+											+ marketlist[i].location
+											+ "</td><td>" + marketlist[i].city
+											+ "</td><td>" + marketlist[i].zone
+											+ "</td>_$ta"
+											+ marketlist[i].minBidPrice
+											+ "_$tag_$ta"
+											+ marketlist[i].minBidIncrement
+											+ "_$tag_$ta"
+											+ marketlist[i].timeleft
+											+ "_$tag_$ta"
+											+ marketlist[i].createdTime
+											+ "_$tag_$tag";
+								}
+							} else {
+								tableData += "_$ta_$tag____________No Data Found_$tag_$tag";
 							}
 							$('#marketlist-pagination').append(tableData);
 						},
@@ -152,7 +157,7 @@
 						}
 					});
 		};
-		setInterval(marketList, 5000); // you could choose not to continue on failure...
+		setInterval(marketList, 1000 * 60 * 2); // you could choose not to continue on failure...
 	</script>
 </section>
 
