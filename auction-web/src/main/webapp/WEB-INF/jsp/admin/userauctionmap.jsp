@@ -7,7 +7,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <spring:url value="/admin/initcache" var="admin_initcache_url" />
 <spring:url value="admin/closeAuction" var="close_auction_url" />
-<script src=""></script>
+<spring:url value="/css" var="css_url" />
+<spring:url value="/js" var="js_url" />
+<script src="${js_url}/jquery.min.js"></script>
 
 <script>
 	function selectAllUser() {
@@ -59,8 +61,8 @@
 							<form role="form">
 								<c:forEach var="category" items="${categorylist}">
 									<div class="col-xs-12 col-sm-4 col-md-3 col-lg-2 tetrt">
-										<input type="checkbox" id="${category.id}"
-											name="Categories"> &nbsp;${category.categoryName}</input>
+										<input type="checkbox" id="${category.id}" name="Categories">
+										&nbsp;${category.categoryName}</input>
 									</div>
 								</c:forEach>
 							</form>
@@ -95,15 +97,15 @@
 
 								<th>Sr. No.</th>
 								<th><input type="checkbox" name="selectAll"
-									onclick="selectAllUser();" class="username">
-									&nbsp;&nbsp;Select All</th>
+									onclick="selectAllUser();"> &nbsp;&nbsp;Select All</th>
 								<th>User Name</th>
 								<th>Email</th>
 							</tr>
 							<c:forEach var="auction" items="${userlist}" varStatus="status">
 								<tr>
 									<td>${status.index+1}</td>
-									<td><input type="checkbox" id="${user.id}" name="users"></td>
+									<td><input type="checkbox" id="${user.id}" name="users"
+										class="username"></td>
 									<td>${auction.username}</td>
 									<td>${auction.email}</td>
 								</tr>

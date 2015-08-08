@@ -6,7 +6,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <spring:url value="/admin/initcache" var="admin_initcache_url" />
-<spring:url value="admin/closeAuction" var="close_auction_url" />
+<spring:url value="/admin/closeauction" var="close_auction_url" />
 <script>
 	function initializeAuction(time) {
 		var auctionId = document.getElementById("auctionId").value;

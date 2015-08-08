@@ -3,8 +3,11 @@
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<spring:url value="/css" var="css_url" />
+<spring:url value="/js" var="js_url" />
+<spring:url value="/css" var="css_url" />
+<spring:url value="/images" var="images_url" />
 <link rel="icon" href="${images_url}/favicon.png">
-<script>
 	function validatePassword() {
 		var newPass = $('#newPassword').val();
 		var cnfPass = $('#cnfrmPassword').val();

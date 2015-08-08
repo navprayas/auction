@@ -16,7 +16,7 @@ import com.cfe.auction.service.IAuctionService;
  * @author Vikas Anand
  *
  */
-@Service
+@Service("auctionServiceImpl")
 @Transactional
 public class AuctionServiceImpl extends
 		CRUDServiceImpl<Integer, Auction, IAuctionDao> implements

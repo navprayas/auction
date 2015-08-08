@@ -1,6 +1,7 @@
 package com.cfe.auction.web.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -58,7 +59,6 @@ public class AdminController {
 	@RequestMapping(value = "/userauctionmap", method = RequestMethod.GET)
 	public String getUserAuctionMap(ModelMap modelMap) {
 		List<Auction> auctionList = iAuctionService.getAuctionList();
-		System.out.println("Auction list" + auctionList);
 		List<Auction> newAuctionList = new ArrayList<Auction>();
 		for (Auction auction : auctionList) {
 			if ("Start".equalsIgnoreCase(auction.getStatus())
@@ -93,28 +93,32 @@ public class AdminController {
 		return "userauctionmap";
 	}
 
-	/*@RequestMapping(value = "/changepassword", method = RequestMethod.GET)
-	public String changePassword() {
-		return "adminchangepassword";
+	@RequestMapping(value = "/closeauction", method = RequestMethod.GET)
+	public String closeRunningAuction(@RequestParam Integer auctionId,
+			ModelMap model) {
+		Auction currentAuction = iAuctionService.read(auctionId);
+		Date date = new Date();
+		currentAuction.setAuctionEndTime(date);
+		currentAuction.setLastUpdateTime(date);
+		List<Auction> auctionList = iAuctionService.getAuctionList();
+		Integer aunctionRunningOrClosedPresent = 0;
+		if (auctionList != null) {
+			for (Auction auction : auctionList) {
+				if ("END".equalsIgnoreCase(auction.getStatus())
+						|| "Running".equalsIgnoreCase(auction.getStatus())) {
+					aunctionRunningOrClosedPresent++;
+					break;
+				}
+			}
+		}
+		model.addAttribute("auctionlist", iAuctionService.getAuctionList());
+		model.addAttribute("aunctionRunningOrClosedPresent",
+				aunctionRunningOrClosedPresent);
+		return "auctionmanagement";
 	}
 
-	@RequestMapping(value = "/changepassword", method = RequestMethod.POST)
-	public String changePassword(@RequestParam String oldPassword,
-			@RequestParam String newPassword, ModelMap model,
-			HttpSession session) {
-		String message = "Password Changed Successfully";
-		User user = userService.getUserByUserName(session.getAttribute(
-				CommonConstants.USER_NAME).toString());
-		if (user.getPassword().equals(userService.eccodePassword(oldPassword))) {
-			user.setPassword(userService.eccodePassword(newPassword));
-			userService.update(user);
-		} else {
-			message = "You have entered wrong current password. Please enter correct current password";
-		}
-		model.addAttribute("message", message);
-		return "adminchangepassword";
-	}*/
-
+	
+	
 	@RequestMapping(value = "/createauction", method = RequestMethod.GET)
 	public String createAuction() {
 		return "createauction";

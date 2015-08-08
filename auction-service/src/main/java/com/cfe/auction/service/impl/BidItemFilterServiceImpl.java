@@ -5,7 +5,6 @@ import static ch.lambdaj.Lambda.having;
 import static ch.lambdaj.Lambda.on;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.hamcrest.Matchers;
