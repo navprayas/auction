@@ -92,7 +92,7 @@
 									<td><c:if test="${auction.status == 'Start'}">
 											<c:if test="${aunctionRunningOrClosedPresent == 0}">
 												<a
-													href="${admin_initcache_url}?auctionId=${auction.auctionId}">Start</a>
+													href="${admin_initcache_url}?auctionId=${auction.id}">Start</a>
 											</c:if>
 											<c:if test="${aunctionRunningOrClosedPresent == 1}">
      					Close Running or Ended Auction First

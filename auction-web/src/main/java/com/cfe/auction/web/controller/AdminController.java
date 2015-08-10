@@ -1,10 +1,13 @@
 package com.cfe.auction.web.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,18 +25,30 @@ import com.cfe.auction.model.persist.User;
 import com.cfe.auction.service.CategoryService;
 import com.cfe.auction.service.IAuctionService;
 import com.cfe.auction.service.UserService;
-import com.cfe.auction.web.constants.CommonConstants;
+import com.cfe.auction.service.cache.IBidItemsCacheService;
+import com.cfe.auction.service.cache.manager.AuctionCacheManager;
+import com.cfe.auction.service.cache.manager.AuctionCacheService;
 
 @Controller
 @RequestMapping("/admin/**")
 public class AdminController {
+
 	Logger logger = LoggerFactory.getLogger(AdminController.class);
+
+	private static final String DD_MM_YYYY_HH_MM_SS = "dd/MM/yyyy HH:mm:ss";
+
 	@Autowired
 	private IAuctionService iAuctionService;
 	@Autowired
 	private UserService userService;
 	@Autowired
 	private CategoryService categoryService;
+
+	@Autowired
+	IBidItemsCacheService bidItemsCacheService;
+
+	@Autowired
+	AuctionCacheManager auctionCacheManager;
 
 	@RequestMapping(value = "/auctionmanagement", method = RequestMethod.GET)
 	public String auctionManegement(ModelMap model) {
@@ -59,6 +74,7 @@ public class AdminController {
 	@RequestMapping(value = "/userauctionmap", method = RequestMethod.GET)
 	public String getUserAuctionMap(ModelMap modelMap) {
 		List<Auction> auctionList = iAuctionService.getAuctionList();
+
 		List<Auction> newAuctionList = new ArrayList<Auction>();
 		for (Auction auction : auctionList) {
 			if ("Start".equalsIgnoreCase(auction.getStatus())
@@ -117,8 +133,6 @@ public class AdminController {
 		return "auctionmanagement";
 	}
 
-	
-	
 	@RequestMapping(value = "/createauction", method = RequestMethod.GET)
 	public String createAuction() {
 		return "createauction";
@@ -139,6 +153,75 @@ public class AdminController {
 	public String registerUser(@ModelAttribute User user, Model model) {
 		userService.addUser(user);
 		return "userregisteration";
+	}
+
+	@RequestMapping(value = "/closeAuction", method = RequestMethod.GET)
+	public String closeAuction(
+			@RequestParam(value = "auctionId", required = true) Integer auctionId,
+			ModelMap modelMap, HttpServletRequest httpServletRequest) {
+		String msg = null;
+		try {
+			iAuctionService.closeAuction(auctionId);
+			msg = "Auction Closed - " + auctionId;
+			httpServletRequest.setAttribute("SuccessMessage", "Auction Closed");
+			AuctionCacheService.flushCache();
+			AuctionCacheManager.flushCache();
+		} catch (Exception e) {
+			e.printStackTrace();
+			msg = "Auction Could not be Closed - " + auctionId;
+		}
+		return "redirect:/admin/superAdmin?Message=" + msg;
+		// }
+
+	}
+
+	@RequestMapping(value = "/initcache", method = RequestMethod.GET)
+	public String initcache(
+			@RequestParam(value = "auctionStartTime", required = false) String auctionStart,
+			@RequestParam(value = "auctionId", required = true) String auctionIdStr,
+			@RequestParam(value = "auctionTimeExt", required = false) String auctionTimeExt,
+			ModelMap modelMap, HttpServletRequest httpServletRequest) {
+		Integer auctionId = null;
+		if (auctionIdStr != null && !auctionIdStr.equals("")) {
+			auctionId = Integer.parseInt(auctionIdStr);
+		}
+		if (auctionId == null || !iAuctionService.isValidAuction(auctionId)) {
+			String msg = "Auction Not Present - " + auctionId;
+			return "redirect:/admin/auctionmanagement?Message=" + msg;
+		}
+
+		AuctionCacheService.flushCache();
+		AuctionCacheManager.flushCache();
+		AuctionCacheManager.setActiveAuctionId(auctionId);
+		auctionCacheManager.refreshAuctionCache();
+		// KilimEngineGenerator.getAuctioneer().restart();
+
+		try {
+			Date actualAuctionStartTime = null;
+			if (auctionStart != null && auctionStart.length() > 0) {
+				SimpleDateFormat sdf = new SimpleDateFormat(DD_MM_YYYY_HH_MM_SS);
+				actualAuctionStartTime = sdf.parse(auctionStart);
+			} else if (auctionTimeExt != null && auctionTimeExt.length() > 0) {
+				Calendar cal = Calendar.getInstance();
+				int time = Integer.parseInt(auctionTimeExt);
+				cal.add(Calendar.MINUTE, time + 3);
+				actualAuctionStartTime = cal.getTime();
+			} else {
+				Calendar cal = Calendar.getInstance();
+				cal.add(Calendar.MINUTE, 3);
+				actualAuctionStartTime = cal.getTime();
+			}
+			bidItemsCacheService.setAuctionStartTime(actualAuctionStartTime);
+			iAuctionService.setActualAuctionStartTime(auctionId,
+					actualAuctionStartTime);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			logger.error(e.getMessage());
+			throw new RuntimeException(e.getMessage());
+		}
+		bidItemsCacheService.initCache();
+		String msg = "Auction Started - " + auctionId;
+		return "redirect:/admin/auctionmanagement?Message=" + msg;
 	}
 
 }

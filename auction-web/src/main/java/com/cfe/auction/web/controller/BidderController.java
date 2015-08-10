@@ -23,6 +23,7 @@ import com.cfe.auction.service.BidItemService;
 import com.cfe.auction.service.BidderCategoryService;
 import com.cfe.auction.service.IBidItemFilterService;
 import com.cfe.auction.service.UserService;
+import com.cfe.auction.service.cache.manager.AuctionCacheService;
 import com.cfe.auction.web.cache.manager.AuctionCacheManager;
 import com.cfe.auction.web.constants.CommonConstants;
 import com.cfe.auction.web.constants.SessionConstants;
@@ -30,8 +31,8 @@ import com.cfe.auction.web.constants.SessionConstants;
 @Controller
 @RequestMapping("/bidder/**")
 public class BidderController {
-	private static final Logger LOG = LoggerFactory
-			.getLogger(BidderController.class);
+	  private static final Logger LOG = LoggerFactory
+	            .getLogger(BidderController.class);	
 	@Autowired
 	private BidItemService bidItemService;
 
@@ -77,6 +78,7 @@ public class BidderController {
 			LOG.debug("Category Id" + bidderCategoryList);
 
 			List<BidItem> bidItems = AuctionCacheManager.getBidItems();
+			System.out.println("BidItems" + bidItems);
 			List<Integer> categoryIds = getCategoryIdList(bidderCategoryList);
 			model.put("bidItems", bidItemFilterService
 					.getBidItemListForActiveMarket(bidItems, categoryIds));
@@ -88,8 +90,8 @@ public class BidderController {
 	private List<Integer> getCategoryIdList(
 			List<BidderCategory> bidderCategoryList) {
 		List<Integer> categoryIds = new ArrayList<Integer>();
-		if (bidderCategoryList != null && !bidderCategoryList.isEmpty()) {
-			for (BidderCategory category : bidderCategoryList) {
+		if(bidderCategoryList != null && !bidderCategoryList.isEmpty() ) {
+			for(BidderCategory category : bidderCategoryList) {
 				categoryIds.add(category.getCategoryId());
 			}
 		}
@@ -98,7 +100,9 @@ public class BidderController {
 
 	@RequestMapping(value = "/activemarketlist", method = RequestMethod.GET)
 	public String getActiveMarketList(ModelMap model) {
-		List<BidItem> bidItems = AuctionCacheManager.getBidItems();
+		BidItem bidItem = AuctionCacheService.getActiveBidItem(AuctionCacheService.getActiveBidItemId());
+		List<BidItem> bidItems = new ArrayList<BidItem>();
+		bidItems.add(bidItem);
 		model.put("bidItems",
 				bidItemFilterService.getBidItemListForActiveMarket(bidItems, 2));
 		return "activemarket";
@@ -138,3 +142,5 @@ public class BidderController {
 	}
 
 }
+
+

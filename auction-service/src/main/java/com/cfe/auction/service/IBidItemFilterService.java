@@ -33,4 +33,7 @@ public interface IBidItemFilterService {
 	List<BidItemUi> getBidItemListForClosedMarketAjax(List<BidItem> bidItems,
 			Integer categoryId);
 
+	List<BidItem> getBidItemListForActiveMarketBySequenceId(
+			List<BidItem> bidItems, Long seqId);
+
 }

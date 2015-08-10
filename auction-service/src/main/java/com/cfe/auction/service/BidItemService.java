@@ -6,5 +6,5 @@ import com.cfe.auction.model.persist.BidItem;
 
 public interface BidItemService extends CRUDService<Integer, BidItem> {
 
-	List<BidItem> getBidItemsbyGroupId(Long bidItemGroupId);
+	List<BidItem> getBidItemsbyAuctionId(Integer auctionId);
 }
