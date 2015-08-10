@@ -20,40 +20,61 @@ public class AuctionCacheManager implements InitializingBean {
 	IAuctionService auctionService;
 	
 	private static Integer activeAuctionId;
+	
 	private static List<BidItem> bidItems;
+	
 	private static Map<Long, BidItem> bidItemsMap = new HashMap<Long, BidItem>();
+	
 	private static Auction auction;
+	
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		System.out.println("Properties Loaded");
-		setActiveAuctionId();
+		setActiveAuction();
 		System.out.println("active Auction id::" + activeAuctionId);
 		setActiveBidItemsList();
 		setBidItemsMap();
 		
 	}
 	public void refreshAuctionCache() {
-		setActiveAuctionId();
+		setActiveAuction();
 		setActiveBidItemsList();
 		setBidItemsMap();
 	}
-	private void setActiveAuctionId() {
-		auction = auctionService.getActiveAuction();
-		if (auction != null) {
-			activeAuctionId = auction.getId();
+	public static void flushCache() {
+		activeAuctionId = null;
+		bidItems = null;
+		bidItemsMap = new HashMap<Long, BidItem>();
+		auction = null;
+	}
+	public static void setActiveAuctionId(Integer auctionId) {
+		activeAuctionId = auctionId;
+	}
+	private void setActiveAuction() {
+		if (activeAuctionId == null) {
+			auction = auctionService.getActiveAuction();
+			if (auction != null) {
+				activeAuctionId = auction.getId();
+			}
+		} else {
+			auction = auctionService.getActiveAuction(activeAuctionId);
 		}
 	}
 	
 	private static void setBidItemsMap() {
 		if(bidItems != null && !bidItems.isEmpty()) {
 			for(BidItem bidItem : bidItems) {
-				bidItemsMap.put(bidItem.getBidItemId(), bidItem);
+				if(bidItem != null && bidItem.getId() != null) {
+					bidItemsMap.put(bidItem.getBidItemId(), bidItem);
+				}
 			}
 		}
 	}
 	
 	private void setActiveBidItemsList() {
-		bidItems = auctionService.getActiveAuctionBidItem();
+		if (activeAuctionId != null) {
+			bidItems = auctionService.getActiveAuctionBidItem(activeAuctionId);
+		}
 	}
 	public static Integer getActiveAuctionId() {
 		return activeAuctionId;
@@ -72,4 +93,5 @@ public class AuctionCacheManager implements InitializingBean {
 	public static BidItem getBidItem(Long bidItemId) {
 		return bidItemsMap.get(bidItemId);
 	}
+
 }

@@ -27,7 +27,7 @@ public class BidSequenceDaoImpl implements IBidSequenceDao {
 	public List<BidSequence> getBidSequenceList(Integer auctionId) {
 		Criteria criteria = sessionFactory.getCurrentSession()
 				.createCriteria(BidSequence.class);
-		criteria = criteria.add(Restrictions.eq("auction.auctionId", auctionId));
+		criteria = criteria.add(Restrictions.eq("auction.id", auctionId));
 		List<BidSequence> list = (List<BidSequence>) criteria.list();
 		return list;
 	}

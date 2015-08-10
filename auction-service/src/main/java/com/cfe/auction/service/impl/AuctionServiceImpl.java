@@ -1,5 +1,6 @@
 package com.cfe.auction.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +35,8 @@ public class AuctionServiceImpl extends
 	}
 	@Transactional
 	@Override
-	public List<BidItem> getActiveAuctionBidItem() { 
-	  Auction auction = auctionDao.getActiveAuction();
+	public List<BidItem> getActiveAuctionBidItem(Integer auctionId) { 
+	  Auction auction = auctionDao.getActiveAuction(auctionId);
 	  if (auction != null) {
 		  List<BidItem> bidItems = bidItemService.getBidItemsbyGroupId(auction.getBidItemGroupId());
 		  return bidItems;
@@ -44,12 +45,36 @@ public class AuctionServiceImpl extends
 	}
 	@Transactional
 	@Override
+	public Auction getActiveAuction(Integer auctionId) {
+		return auctionDao.getActiveAuction(auctionId);
+	}
+	
+	@Transactional
+	@Override
 	public Auction getActiveAuction() {
 		return auctionDao.getActiveAuction();
 	}
+	@Transactional
 	@Override
 	public List<Auction> getAuctionList() {
 		return auctionDao.getAuctionList();
 	}
+	
+	@Transactional
+	@Override
+	public void closeAuction(Integer auctionId) {
+		auctionDao.closeAuction(auctionId);
+	}
 
+	@Transactional
+	@Override
+	public boolean isValidAuction(Integer auctionId) {
+		return auctionDao.isValidAuction(auctionId);
+	}
+	@Override
+	public void setActualAuctionStartTime(Integer auctionId,
+			Date actualAuctionStartTime) {
+		auctionDao.setActualAuctionStartTime(auctionId, actualAuctionStartTime);
+	}
+	
 }

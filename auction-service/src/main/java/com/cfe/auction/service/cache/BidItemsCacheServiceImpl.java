@@ -3,7 +3,6 @@ package com.cfe.auction.service.cache;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,6 +70,7 @@ public class BidItemsCacheServiceImpl implements IBidItemsCacheService {
 	}
 
 	@Transactional
+	@Override
 	public void initCache()
 	{
 		logger.debug("Initializing cache " + new Date());
@@ -103,15 +103,12 @@ public class BidItemsCacheServiceImpl implements IBidItemsCacheService {
 		}
 	}
 
-	public Date getAuctionStartTime() {
-		return auctionStartTime;
-	}
-
+	@Override
 	public void setAuctionStartTime(Date auctionStartTime) {
 		this.auctionStartTime = auctionStartTime;
 	}
 	
-	public void initializeBidItem(BidItem bidItem) {
+	private void initializeBidItem(BidItem bidItem) {
 		Calendar cal = Calendar.getInstance() ;
 		bidItem.setLastUpDateTime(cal.getTime());
 		bidItem.setBidStartTime(cal.getTime());
@@ -127,7 +124,7 @@ public class BidItemsCacheServiceImpl implements IBidItemsCacheService {
 	}
 	
 	@Transactional
-	public BidItem getBidItem()
+	private BidItem getBidItem()
 	{
 		Long activeBidItemId = AuctionCacheService.getActiveBidItemId();
 		BidItem bidItem = AuctionCacheService.getActiveBidItem(activeBidItemId);

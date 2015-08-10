@@ -17,7 +17,7 @@ public class AuctionCacheService {
 	private static Map<Long, BidItem> activeBidItemsMap = new HashMap<Long, BidItem>();
 	
 	private static Long activeBidItemId;
-
+	
 	public static void setBidSequenceQueue(List<BidSequence> bidSequenceList) {
 		
 		for(BidSequence bidSequence : bidSequenceList) {
@@ -45,5 +45,10 @@ public class AuctionCacheService {
 	public static BidSequence getBidSequenceDetails(Long bidItemId){
 		return bidSequenceMap.get(bidItemId);
 	}
-	
+	public static void flushCache() {
+		activeBidItemId = null;
+		bidSequenceMap= null;
+		bidSequenceQueue = null;
+		activeBidItemsMap = null;
+	}
 }
