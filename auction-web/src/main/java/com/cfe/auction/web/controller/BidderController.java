@@ -21,7 +21,7 @@ import com.cfe.auction.service.BidItemService;
 import com.cfe.auction.service.BidderCategoryService;
 import com.cfe.auction.service.IBidItemFilterService;
 import com.cfe.auction.service.UserService;
-import com.cfe.auction.web.cache.manager.AuctionCacheManager;
+import com.cfe.auction.service.cache.manager.AuctionCacheManager;
 import com.cfe.auction.web.constants.CommonConstants;
 import com.cfe.auction.web.constants.SessionConstants;
 

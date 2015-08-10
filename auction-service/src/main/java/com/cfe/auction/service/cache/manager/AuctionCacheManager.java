@@ -1,6 +1,9 @@
-package com.cfe.auction.web.cache.manager;
+package com.cfe.auction.service.cache.manager;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,24 +21,37 @@ public class AuctionCacheManager implements InitializingBean {
 	
 	private static Integer activeAuctionId;
 	private static List<BidItem> bidItems;
+	private static Map<Long, BidItem> bidItemsMap = new HashMap<Long, BidItem>();
+	private static Auction auction;
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		System.out.println("Properties Loaded");
 		setActiveAuctionId();
 		System.out.println("active Auction id::" + activeAuctionId);
 		setActiveBidItemsList();
+		setBidItemsMap();
+		
 	}
 	public void refreshAuctionCache() {
 		setActiveAuctionId();
 		setActiveBidItemsList();
+		setBidItemsMap();
 	}
 	private void setActiveAuctionId() {
-		Auction auction = auctionService.getActiveAuction();
+		auction = auctionService.getActiveAuction();
 		if (auction != null) {
 			activeAuctionId = auction.getId();
 		}
 	}
-
+	
+	private static void setBidItemsMap() {
+		if(bidItems != null && !bidItems.isEmpty()) {
+			for(BidItem bidItem : bidItems) {
+				bidItemsMap.put(bidItem.getBidItemId(), bidItem);
+			}
+		}
+	}
+	
 	private void setActiveBidItemsList() {
 		bidItems = auctionService.getActiveAuctionBidItem();
 	}
@@ -45,5 +61,15 @@ public class AuctionCacheManager implements InitializingBean {
 
 	public static List<BidItem> getBidItems() {
 		return bidItems;
+	}
+	
+	public static Date getAuctionStartTime() {
+		if (auction != null) {
+			return auction.getAuctionStartTime();
+		}
+		return  null;
+	}
+	public static BidItem getBidItem(Long bidItemId) {
+		return bidItemsMap.get(bidItemId);
 	}
 }
