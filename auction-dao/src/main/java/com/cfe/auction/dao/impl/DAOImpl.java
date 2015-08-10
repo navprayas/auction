@@ -53,12 +53,12 @@ public abstract class DAOImpl<I extends Serializable, T extends PO<I>> implement
 		return po;
 	}
 
-	/*@Override
+	@Override
 	public T createOrUpdate(T po) {
 		sessionFactory.getCurrentSession().saveOrUpdate(po);
 		return po;
 	}
-*/
+
 	@Override
 	public T update(T po) {
 		sessionFactory.getCurrentSession().update(po);

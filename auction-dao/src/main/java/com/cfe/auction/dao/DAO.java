@@ -12,7 +12,7 @@ public interface DAO<I extends Serializable, T extends PO<I>> {
 	public <T> List<T> findAll(Class<T> persistentClass);
 	public T create(T po);
 	
-//	public T createOrUpdate(T po);
+	public T createOrUpdate(T po);
 	
 	public T update(T po);
 	

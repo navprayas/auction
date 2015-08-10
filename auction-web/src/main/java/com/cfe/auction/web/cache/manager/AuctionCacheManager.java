@@ -12,12 +12,13 @@ import com.cfe.auction.service.IAuctionService;
 
 @Component
 public class AuctionCacheManager implements InitializingBean {
-	
+
 	@Autowired
 	IAuctionService auctionService;
-	
+
 	private static Integer activeAuctionId;
 	private static List<BidItem> bidItems;
+
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		System.out.println("Properties Loaded");
@@ -25,20 +26,23 @@ public class AuctionCacheManager implements InitializingBean {
 		System.out.println("active Auction id::" + activeAuctionId);
 		setActiveBidItemsList();
 	}
+
 	public void refreshAuctionCache() {
 		setActiveAuctionId();
 		setActiveBidItemsList();
 	}
+
 	private void setActiveAuctionId() {
 		Auction auction = auctionService.getActiveAuction();
 		if (auction != null) {
-			activeAuctionId = auction.getId();
+			activeAuctionId = auction.getAuctionId();
 		}
 	}
 
 	private void setActiveBidItemsList() {
 		bidItems = auctionService.getActiveAuctionBidItem();
 	}
+
 	public static Integer getActiveAuctionId() {
 		return activeAuctionId;
 	}

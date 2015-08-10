@@ -19,12 +19,6 @@
 <!-- Custom styles for this template -->
 <link href="${css_url}/custom.css" rel="stylesheet">
 
-<link href="${css_url}/jquery.dataTables.css" rel="stylesheet">
-<script type="text/javascript" src="${js_url}/jquery.min.js"></script>
-<script type="text/javascript" src="${js_url}/jquery.dataTables.js"></script>
-
-
-
 <header class="header">
 	<div class="container">
 		<div class="col-xs-12 col-sm-3 hdr-lft">

@@ -19,14 +19,12 @@
 						$('#marketlist-pagination').empty();
 						var marketlist = jQuery.parseJSON(data);
 						var l = marketlist.length;
-						var tableHeader = "<tr><th>Sr. No.</th><th>Group Id</th><th>Name</th><th>Location</th><th>City</th><th>Zone</th><th>MinBidPrice</th><th>MinBidIncrement</th><th>Time Left</th><th>Created Time</th></tr>";
+						var tableHeader = "<tr><th>Sr. No.</th><th>Name</th><th>Location</th><th>City</th><th>Zone</th><th>MinBidPrice</th><th>MinBidIncrement</th><th>Time Left</th><th>Created Time</th></tr>";
 						$('#marketlist-pagination').append(tableHeader);
 						var tableData = "";
 if(l>0){
 						for (var i = 0; i < l; i++) {
-							tableData += "<tr><td>" + i + "</td><td>"
-									+ marketlist[i].bidItemGroupId
-									+ "</td><td>" + marketlist[i].name
+							tableData += "<tr><td>" + i + "</td><td>" + marketlist[i].name
 									+ "</td><td>" + marketlist[i].location
 									+ "</td><td>" + marketlist[i].city
 									+ "</td><td>" + marketlist[i].zone
@@ -38,7 +36,7 @@ if(l>0){
 									+ "</td><td>"
 									+ marketlist[i].createdTime + "</td></tr>";
 						}}else {
-							tableData +="<tr><td colspan='10'>No Data Found</td></tr>";
+							tableData +="<tr><td colspan='9'>No Data Found</td></tr>";
 						}
 						$('#marketlist-pagination').append(tableData);
 					},
@@ -107,7 +105,6 @@ if(l>0){
 						<table class="table table-bordered table-striped text-center">
 							<tr>
 								<th>Sr. No.</th>
-								<th>Group Id</th>
 								<th>Name</th>
 								<th>Location</th>
 								<th>City</th>
@@ -122,7 +119,6 @@ if(l>0){
 								varStatus="status">
 								<tr>
 									<td>${status.index+1}</td>
-									<td>${marketlist.bidItemGroupId}</td>
 									<td>${marketlist.name}</td>
 									<td>${marketlist.location}</td>
 									<td>${marketlist.city}</td>

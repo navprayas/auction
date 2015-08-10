@@ -38,7 +38,7 @@ public class BidderCategory implements Serializable {
 
 	@Override
 	public String toString() {
-		return "BidderCategory [auction=" + auction.getId()+ "]";
+		return "BidderCategory [auction=" + auction.getAuctionId() + "]";
 	}
 
 	public Integer getCategoryId() {

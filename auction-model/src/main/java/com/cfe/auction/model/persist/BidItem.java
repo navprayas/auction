@@ -170,7 +170,7 @@ public class BidItem extends AbstractPO<Integer> {
 
 	@Transient
 	private long bidSpan;
-	
+
 	@Column(name = "biditemgroupid")
 	private Long bidItemGroupId;
 
@@ -244,14 +244,6 @@ public class BidItem extends AbstractPO<Integer> {
 
 	public void setItemLots(List<ItemLot> itemLots) {
 		this.itemLots = itemLots;
-	}
-	
-	public Long getBidItemId() {
-		return bidItemId;
-	}
-
-	public void setBidItemId(Long bidItemId) {
-		this.bidItemId = bidItemId;
 	}
 
 	public String getName() {
@@ -368,7 +360,8 @@ public class BidItem extends AbstractPO<Integer> {
 
 	@Override
 	public String toString() {
-		return "BidItem [bidItemId=" + bidItemId + ",categoryId = "+ category.getId() + "]";
+		return "BidItem [bidItemId=" + getId() + ",categoryId = "
+				+ category.getId() + "]";
 	}
 
 	public void setAutoBids(List<AutoBids> autoBids) {
@@ -483,7 +476,22 @@ public class BidItem extends AbstractPO<Integer> {
 		this.bidItemGroupId = bidItemGroupId;
 	}
 
-	
+	public Long getBidItemId() {
+		return bidItemId;
+	}
+
+	public void setBidItemId(Long bidItemId) {
+		this.bidItemId = bidItemId;
+	}
+
+	public Long getBiditemgroupid() {
+		return biditemgroupid;
+	}
+
+	public void setBiditemgroupid(Long biditemgroupid) {
+		this.biditemgroupid = biditemgroupid;
+	}
+
 	
 	
 	

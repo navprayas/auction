@@ -12,15 +12,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.cfe.auction.model.persist.AutoBids;
 import com.cfe.auction.model.persist.BidItem;
 import com.cfe.auction.model.persist.BidderCategory;
 import com.cfe.auction.model.persist.User;
+import com.cfe.auction.service.AutoBidService;
 import com.cfe.auction.service.BidItemService;
 import com.cfe.auction.service.BidderCategoryService;
 import com.cfe.auction.service.IBidItemFilterService;
 import com.cfe.auction.service.UserService;
 import com.cfe.auction.web.cache.manager.AuctionCacheManager;
+import com.cfe.auction.web.constants.CommonConstants;
 import com.cfe.auction.web.constants.SessionConstants;
 
 @Controller
@@ -40,6 +44,9 @@ public class BidderController {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private AutoBidService autoBidService;
+
 	@RequestMapping(value = { "/home", "/index" }, method = RequestMethod.GET)
 	public String modelerHome(ModelMap model, HttpSession session) {
 		User user = (User) session.getAttribute(SessionConstants.USER_INFO);
@@ -54,6 +61,7 @@ public class BidderController {
 			List<Integer> categoryIds = getCategoryIdList(bidderCategoryList);
 			model.put("bidItems", bidItemFilterService
 					.getBidItemListForActiveMarket(bidItems, categoryIds));
+			model.put("timeextention", 3);
 
 		}
 		return "bidderhome";
@@ -72,9 +80,9 @@ public class BidderController {
 			List<Integer> categoryIds = getCategoryIdList(bidderCategoryList);
 			model.put("bidItems", bidItemFilterService
 					.getBidItemListForActiveMarket(bidItems, categoryIds));
-
+			model.put("timeextention", 3);
 		}
-		return "marketlist";
+		return "biddermarketlist";
 	}
 
 	private List<Integer> getCategoryIdList(
@@ -102,6 +110,31 @@ public class BidderController {
 		model.put("bidItems", bidItemFilterService
 				.getBidItemListForClosedMarket(bidItems, "2"));
 		return "closedmarket";
+	}
+
+	@RequestMapping(value = "/saveautobid", method = RequestMethod.POST)
+	public String saveAutoBid(
+			@RequestParam(value = "bidItemId", required = true) Long bidItemId,
+			@RequestParam(value = "autoBidAmount", required = true) Double bidAmount,
+			@RequestParam(value = "categoryId", required = true) Long categoryId,
+			ModelMap modelMap, HttpSession session) {
+		session.getAttribute(CommonConstants.USER_NAME);
+
+		String userName = session.getAttribute(CommonConstants.USER_NAME)
+				.toString();
+		List<BidItem> bidItemsList = null;
+
+		autoBidService.saveAutoBid(userName, categoryId,
+				bidItemId, bidAmount, "No Comments",
+				AuctionCacheManager.getActiveAuctionId());
+		/* bidItemsList = bidderService.saveAutoBid(); */
+		LOG.debug(" For category: BidItems List::" + bidItemsList);
+		modelMap.addAttribute("bidItemsList", bidItemsList);
+		// List<BidderCategory> categoryList = getCategoryIdList(userName);
+		// modelMap.addAttribute("bidderCategoryList", categoryList);
+		// LOG.debug(" For category: bidderCategoryList List::" + categoryList);
+		return "redirect:/bidderhome";
+
 	}
 
 }

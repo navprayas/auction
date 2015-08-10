@@ -40,7 +40,6 @@ public class RestResponseController {
 	String getMarketListAjax(ModelMap model, HttpSession session) {
 		ObjectMapper mapper = new ObjectMapper();
 		String result = null;
-		System.out.println("Make ajax call");
 		List<BidItemUi> filteredbidItems = new ArrayList<BidItemUi>();
 		User user = (User) session.getAttribute(SessionConstants.USER_INFO);
 		if (AuctionCacheManager.getActiveAuctionId() != null) {
@@ -57,10 +56,9 @@ public class RestResponseController {
 						.getBidItemListForActiveMarketAjax(bidItems,
 								bidderCategoryList.get(0).getCategoryId());
 			}
-
+			System.out.println("MArket List Item"+filteredbidItems.get(0).getCreatedTime());
 			try {
 				result = mapper.writeValueAsString(filteredbidItems);
-				System.out.println("Ajax filtered data got result " + result);
 			} catch (Exception e) {
 				e.printStackTrace();
 				// TODO: handle exception
@@ -72,7 +70,7 @@ public class RestResponseController {
 	@RequestMapping(value = "/activemarketlistajaxcall", method = RequestMethod.GET)
 	public @ResponseBody
 	String getActiveMarketListAjax(ModelMap model, HttpSession session) {
-		
+
 		ObjectMapper mapper = new ObjectMapper();
 		String result = null;
 		System.out.println("Make ajax call");

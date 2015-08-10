@@ -104,7 +104,6 @@
 							id="marketlist-pagination">
 							<tr>
 								<th>Sr. No.</th>
-								<th>Group Id</th>
 								<th>Name</th>
 								<th>Location</th>
 								<th>City</th>
@@ -119,7 +118,6 @@
 								varStatus="status">
 								<tr>
 									<td>${status.index+1}</td>
-									<td>${marketlist.bidItemGroupId}</td>
 									<td>${marketlist.name}</td>
 									<td>${marketlist.location}</td>
 									<td>${marketlist.city}</td>

@@ -27,7 +27,7 @@ public class AutoBids extends AbstractPO<Integer> {
 	private Auction auction;
 
 	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinColumn(name = "bidItemId", referencedColumnName = "id")
+	@JoinColumn(name = "bidItemId", referencedColumnName = "bidItemId")
 	private BidItem bidItemId;
 
 	@Column(name = "BIDAMOUNT")
@@ -55,7 +55,6 @@ public class AutoBids extends AbstractPO<Integer> {
 		return this.id;
 	}
 
-	
 	public void setId(Integer id) {
 		this.id = id;
 

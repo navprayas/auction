@@ -98,7 +98,7 @@ public class BidSequence implements Serializable{
 	@Override
 	public String toString() {
 		return "BidSequence [auction="
-				+ auction.getId() + ", bidItem=" + ((bidItem != null) ? bidItem.getBidItemId() : "null") + ", sequenceId="
+				+ auction.getAuctionId()+ ", bidItem=" + ((bidItem != null) ? bidItem.getId() : "null") + ", sequenceId="
 				+ sequenceId + ", bidspan=" + bidspan + "]";
 	}
 	
