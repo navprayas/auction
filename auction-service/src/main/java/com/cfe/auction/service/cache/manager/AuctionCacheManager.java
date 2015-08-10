@@ -12,12 +12,16 @@ import org.springframework.stereotype.Component;
 import com.cfe.auction.model.persist.Auction;
 import com.cfe.auction.model.persist.BidItem;
 import com.cfe.auction.service.IAuctionService;
+import com.cfe.auction.service.cache.IBidItemsCacheService;
 
 @Component
 public class AuctionCacheManager implements InitializingBean {
 	
 	@Autowired
 	IAuctionService auctionService;
+	
+	@Autowired
+	IBidItemsCacheService bidItemsCacheService;
 	
 	private static Integer activeAuctionId;
 	
@@ -34,7 +38,7 @@ public class AuctionCacheManager implements InitializingBean {
 		System.out.println("active Auction id::" + activeAuctionId);
 		setActiveBidItemsList();
 		setBidItemsMap();
-		
+		bidItemsCacheService.initCache();
 	}
 	public void refreshAuctionCache() {
 		setActiveAuction();
@@ -64,7 +68,7 @@ public class AuctionCacheManager implements InitializingBean {
 	private static void setBidItemsMap() {
 		if(bidItems != null && !bidItems.isEmpty()) {
 			for(BidItem bidItem : bidItems) {
-				if(bidItem != null && bidItem.getId() != null) {
+				if(bidItem != null && bidItem.getBidItemId() != null) {
 					bidItemsMap.put(bidItem.getBidItemId(), bidItem);
 				}
 			}

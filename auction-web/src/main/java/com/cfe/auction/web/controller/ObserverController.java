@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cfe.auction.model.persist.BidItem;
 import com.cfe.auction.model.persist.BidderCategory;
@@ -18,8 +17,8 @@ import com.cfe.auction.service.BidItemService;
 import com.cfe.auction.service.BidderCategoryService;
 import com.cfe.auction.service.IAuctionService;
 import com.cfe.auction.service.UserService;
+import com.cfe.auction.service.cache.manager.AuctionCacheManager;
 import com.cfe.auction.service.impl.BidItemFilterServiceImpl;
-import com.cfe.auction.web.constants.CommonConstants;
 import com.cfe.auction.web.constants.SessionConstants;
 
 @Controller
@@ -46,7 +45,7 @@ public class ObserverController {
 				.getBidderCategory(user.getId(), 76);
 		System.out.println("Category Id" + bidderCategoryList);
 
-		List<BidItem> bidItems = auctionService.getActiveAuctionBidItem();
+		List<BidItem> bidItems = auctionService.getActiveAuctionBidItem(AuctionCacheManager.getActiveAuctionId());
 		model.put("bidItems", bidItemFilterServiceImpl
 				.getBidItemListForcategoryId(bidItems, "2"));
 		return "marketlist";
@@ -54,7 +53,7 @@ public class ObserverController {
 
 	@RequestMapping(value = "/activemarketlist", method = RequestMethod.GET)
 	public String getActiveMarketList(ModelMap model) {
-		List<BidItem> bidItems = auctionService.getActiveAuctionBidItem();
+		List<BidItem> bidItems = auctionService.getActiveAuctionBidItem(AuctionCacheManager.getActiveAuctionId());
 		model.put("bidItems", bidItemFilterServiceImpl
 				.getBidItemListForActiveMarket(bidItems, 2));
 		return "activemarket";
@@ -62,7 +61,7 @@ public class ObserverController {
 
 	@RequestMapping(value = "/closedmarketlist", method = RequestMethod.GET)
 	public String getClosedMarket(ModelMap model) {
-		List<BidItem> bidItems = auctionService.getActiveAuctionBidItem();
+		List<BidItem> bidItems = auctionService.getActiveAuctionBidItem(AuctionCacheManager.getActiveAuctionId());
 		model.put("bidItems", bidItemFilterServiceImpl
 				.getBidItemListForClosedMarket(bidItems, "2"));
 		return "closedmarket";

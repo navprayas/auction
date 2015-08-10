@@ -50,6 +50,20 @@ public class BidItemFilterServiceImpl implements IBidItemFilterService {
 	}
 
 	@Override
+	public List<BidItem> getBidItemListForActiveMarketBySequenceId(List<BidItem> bidItems,
+			final Long seqId) {
+		if (seqId != null) {
+			List<BidItem> bidItemFinal = new ArrayList<BidItem>();
+			bidItemFinal.addAll(filter(
+					having(on(BidItem.class).getSeqId(),
+							Matchers.greaterThan(seqId)), bidItems));
+			
+			return bidItemFinal;
+		}
+		return null;
+	}
+	
+	@Override
 	public List<BidItem> getBidItemListForClosedMarket(List<BidItem> bidItems,
 			final String categoryId) {
 		List<BidItem> bidItemFinal = filter(

@@ -22,6 +22,7 @@ import com.cfe.auction.service.BidderCategoryService;
 import com.cfe.auction.service.IBidItemFilterService;
 import com.cfe.auction.service.UserService;
 import com.cfe.auction.service.cache.manager.AuctionCacheManager;
+import com.cfe.auction.service.cache.manager.AuctionCacheService;
 import com.cfe.auction.web.constants.CommonConstants;
 import com.cfe.auction.web.constants.SessionConstants;
 
@@ -93,7 +94,9 @@ public class BidderController {
 
 	@RequestMapping(value = "/activemarketlist", method = RequestMethod.GET)
 	public String getActiveMarketList(ModelMap model) {
-		List<BidItem> bidItems = AuctionCacheManager.getBidItems();
+		BidItem bidItem = AuctionCacheService.getActiveBidItem(AuctionCacheService.getActiveBidItemId());
+		List<BidItem> bidItems = new ArrayList<BidItem>();
+		bidItems.add(bidItem);
 		model.put("bidItems",
 				bidItemFilterService.getBidItemListForActiveMarket(bidItems, 2));
 		return "activemarket";

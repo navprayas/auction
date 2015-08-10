@@ -44,7 +44,7 @@ public class BidItemsCacheServiceImpl implements IBidItemsCacheService {
 			AuctionCacheService.setActiveBidItemId();
 			BidItem bidItem = getBidItem();
 			logger.debug("BidItem from Redis : " + bidItem);
-			return bidItem.getBidSpan();
+			return bidItem != null ? bidItem.getBidSpan() : 0;
 		} 
 		else {
 			logger.debug("In Next of Sequence");
@@ -130,8 +130,10 @@ public class BidItemsCacheServiceImpl implements IBidItemsCacheService {
 		BidItem bidItem = AuctionCacheService.getActiveBidItem(activeBidItemId);
 		if(bidItem == null && activeBidItemId != 0) {
 			bidItem = AuctionCacheManager.getBidItem(activeBidItemId);
-			initializeBidItem(bidItem);
-			AuctionCacheService.setActiveBidItem(activeBidItemId, bidItem); 
+			if (bidItem != null) {
+				initializeBidItem(bidItem);
+				AuctionCacheService.setActiveBidItem(activeBidItemId, bidItem); 
+			}
 		}
 		return bidItem;
 	}

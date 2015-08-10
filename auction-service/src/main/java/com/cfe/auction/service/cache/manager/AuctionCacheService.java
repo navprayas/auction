@@ -47,8 +47,8 @@ public class AuctionCacheService {
 	}
 	public static void flushCache() {
 		activeBidItemId = null;
-		bidSequenceMap= null;
-		bidSequenceQueue = null;
-		activeBidItemsMap = null;
+		bidSequenceMap =  new HashMap<Long, BidSequence>();
+		bidSequenceQueue = new LinkedList<Long>();
+		activeBidItemsMap =  new HashMap<Long, BidItem>();
 	}
 }

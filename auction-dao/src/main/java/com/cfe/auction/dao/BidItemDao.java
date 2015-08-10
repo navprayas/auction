@@ -6,7 +6,7 @@ import com.cfe.auction.model.persist.BidItem;
 
 public interface BidItemDao extends DAO<Integer, BidItem> {
 
-	List<BidItem> getBidItems(Long bidItemGroupId);
+	List<BidItem> getBidItems(Integer auctionId);
 
 	List<BidItem> getBIdItemActiveMarket();
 

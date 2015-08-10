@@ -27,8 +27,8 @@ public class BidItemServiceImpl extends
 
 	@Transactional
 	@Override
-	public List<BidItem> getBidItemsbyGroupId(Long bidItemGroupId) {
-		return bidItemDao.getBidItems(bidItemGroupId);
+	public List<BidItem> getBidItemsbyAuctionId(Integer auctionId) {
+		return bidItemDao.getBidItems(auctionId);
 	}
 
 }

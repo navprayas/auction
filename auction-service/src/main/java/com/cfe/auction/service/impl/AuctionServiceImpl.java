@@ -12,6 +12,7 @@ import com.cfe.auction.model.persist.Auction;
 import com.cfe.auction.model.persist.BidItem;
 import com.cfe.auction.service.BidItemService;
 import com.cfe.auction.service.IAuctionService;
+import com.cfe.auction.service.cache.manager.AuctionCacheManager;
 /**
  * 
  * @author Vikas Anand
@@ -36,9 +37,8 @@ public class AuctionServiceImpl extends
 	@Transactional
 	@Override
 	public List<BidItem> getActiveAuctionBidItem(Integer auctionId) { 
-	  Auction auction = auctionDao.getActiveAuction(auctionId);
-	  if (auction != null) {
-		  List<BidItem> bidItems = bidItemService.getBidItemsbyGroupId(auction.getBidItemGroupId());
+	  if (AuctionCacheManager.getActiveAuctionId() != null) {
+		  List<BidItem> bidItems = bidItemService.getBidItemsbyAuctionId(AuctionCacheManager.getActiveAuctionId());
 		  return bidItems;
 	  }
 	  return null;
