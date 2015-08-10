@@ -20,7 +20,7 @@ import com.cfe.auction.model.persist.BidderCategory;
 import com.cfe.auction.model.persist.User;
 import com.cfe.auction.service.BidderCategoryService;
 import com.cfe.auction.service.IBidItemFilterService;
-import com.cfe.auction.web.cache.manager.AuctionCacheManager;
+import com.cfe.auction.service.cache.manager.AuctionCacheManager;
 import com.cfe.auction.web.constants.SessionConstants;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
