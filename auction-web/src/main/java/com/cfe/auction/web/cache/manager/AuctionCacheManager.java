@@ -40,7 +40,7 @@ public class AuctionCacheManager implements InitializingBean {
 	}
 
 	private void setActiveBidItemsList() {
-		bidItems = auctionService.getActiveAuctionBidItem();
+		bidItems = auctionService.getActiveAuctionBidItem(activeAuctionId);
 	}
 
 	public static Integer getActiveAuctionId() {
