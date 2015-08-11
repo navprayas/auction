@@ -9,7 +9,7 @@
 	function openUrl(url) {
 		window.location.href = url;
 	}
-	
+
 	var marketList = function() {
 		$
 				.ajax({
@@ -22,21 +22,23 @@
 						var tableHeader = "<tr><th>Sr. No.</th><th>Name</th><th>Location</th><th>City</th><th>Zone</th><th>MinBidPrice</th><th>MinBidIncrement</th><th>Time Left</th><th>Created Time</th></tr>";
 						$('#marketlist-pagination').append(tableHeader);
 						var tableData = "";
-if(l>0){
-						for (var i = 0; i < l; i++) {
-							tableData += "<tr><td>" + i + "</td><td>" + marketlist[i].name
-									+ "</td><td>" + marketlist[i].location
-									+ "</td><td>" + marketlist[i].city
-									+ "</td><td>" + marketlist[i].zone
-									+ "</td><td>"
-									+ marketlist[i].minBidPrice
-									+ "</td><td>"
-									+ marketlist[i].minBidIncrement
-									+ "</td><td>" + marketlist[i].timeleft
-									+ "</td><td>"
-									+ marketlist[i].createdTime + "</td></tr>";
-						}}else {
-							tableData +="<tr><td colspan='9'>No Data Found</td></tr>";
+						if (l > 0) {
+							for (var i = 0; i < l; i++) {
+								tableData += "<tr><td>" + i + "</td><td>"
+										+ marketlist[i].name + "</td><td>"
+										+ marketlist[i].location + "</td><td>"
+										+ marketlist[i].city + "</td><td>"
+										+ marketlist[i].zone + "</td><td>"
+										+ marketlist[i].minBidPrice
+										+ "</td><td>"
+										+ marketlist[i].minBidIncrement
+										+ "</td><td>" + marketlist[i].timeleft
+										+ "</td><td>"
+										+ marketlist[i].createdTime
+										+ "</td></tr>";
+							}
+						} else {
+							tableData += "<tr><td colspan='9'>No Data Found</td></tr>";
 						}
 						$('#marketlist-pagination').append(tableData);
 					},
@@ -46,13 +48,14 @@ if(l>0){
 				});
 	};
 	setInterval(marketList, 1000 * 60 * 2); // you could choose not to continue on failure...
-	
-	
-	
 </script>
 <!-- { middle } -->
 <section class="main">
 	<div class="container">
+		<input id="extn" type="hidden" name="extn" value="${timeextention}" />
+		<input id="lLTime" type="hidden" name="lastLoadTime" value="0" /> <input
+			id="lLCount" type="hidden" name="freqCounts" value="0" />
+
 		<div class="table-container">
 			<div class="top-line">
 				<div class="col-xs-12 col-sm-6">
@@ -111,8 +114,11 @@ if(l>0){
 								<th>Zone</th>
 								<th>MinBidPrice</th>
 								<th>MinBidIncrement</th>
-								<th>Time Left</th>
 								<th>Created Time</th>
+								<th>Time Left</th>
+								<th>Next Bid</th>
+
+
 							</tr>
 
 							<c:forEach var="marketlist" items="${bidItems}"
@@ -125,8 +131,29 @@ if(l>0){
 									<td>${marketlist.zone}</td>
 									<td>${marketlist.minBidPrice}</td>
 									<td>${marketlist.minBidIncrement}</td>
-									<td>${marketlist.timeLeft}</td>
 									<td>${marketlist.createdTime}</td>
+									<td><div id="countdown${marketlist.bidItemId}"></div> <script>
+										setTimeLefts(
+												parseInt('${bidItem.timeLeft}'),
+												'${bidItem.bidItemId}');
+									</script>}</td>
+									<td><c:choose>
+											<c:when
+												test='${bidItemWithAutoBidFlag[bidItem.bidItemId] == 2 && bidItemWithRanks[bidItem.bidItemId] == 1} '>
+												<input type="submit" name="button3"
+													id="NextBid${marketlist.bidItemId}" value="Next Bid"
+													onclick="doNextBid('${marketlist.bidItemId}', '${marketlist.minBidIncrement}'); return false;"
+													disabled="disabled" />
+											</c:when>
+											<c:otherwise>
+												<input type="submit" name="button3"
+													id="NextBid${marketlist.bidItemId}" value="Next Bid"
+													onclick="doNextBid('${marketlist.bidItemId}', '${marketlist.minBidIncrement}'); return false;" />
+											</c:otherwise>
+										</c:choose></td>
+
+
+
 
 								</tr>
 							</c:forEach>
@@ -137,5 +164,78 @@ if(l>0){
 		</div>
 	</div>
 	<!-- /container -->
+
+	<script type="text/javascript">
+		function doNextBid(bidItemId, minIncrementAmount) {
+			var curPriceObject = document.getElementById("Item" + bidItemId).innerHTML;
+			var nextBidPrice = parseFloat(curPriceObject)
+					+ parseFloat(minIncrementAmount);
+			var flag;
+			flag = confirm("Are you sure you want to put next bid for amount - "
+					+ nextBidPrice + " , then Press OK");
+			//alert("In doNextBid " + bidItemId + " " + nexBidPrice + " " + minIncrementAmount)
+			if (flag == true) {
+				$.getJSON("bid", {
+					bidItemId : bidItemId,
+					bidType : 1,
+					bidAmount : nextBidPrice,
+					comments : "Next Bid"
+				}, function(data) {
+					//alert("It worked");
+				});
+				setNextBidDisabled('NextBid' + bidItemId);
+			}
+
+		}
+
+		function toHourAndMinuteAndSecond(x) {
+			return Math.floor(x / 3600) + ":" + Math.floor((x % 3600) / 60)
+					+ ":" + x % 60;
+		}
+
+		var timeSpans = new Array();
+		var bidItemIds = new Array();
+
+		function setTimeLefts(remain, bidItemId) {
+			timeSpans.push(remain);
+			bidItemIds.push(bidItemId);
+		}
+
+		function displayTimes() {
+			var extendTime = document.getElementById("extn").value;
+			var count = document.getElementById("lLCount").value;
+			if (count > 5) {
+				return false;
+			}
+			for (var i = 0; i < bidItemIds.length; i++) {
+				ts = timeSpans[i];
+				ex = parseInt(extendTime);
+				diff = 0;
+				if (i == 0 && ex > 0) {
+					diff = ex - ts;
+					if (diff < 0)
+						diff = 0;
+					timeSpans[0] = ex;
+				} else {
+					timeSpans[i] += diff;
+				}
+
+				if (timeSpans[i] <= 0) {
+					refreshPage();
+				} else {
+					alert(bidItemIds[i]);
+					$("#countdown" + bidItemIds[i]).append(
+							"<p>" + toHourAndMinuteAndSecond(timeSpans[i])
+									+ "</p>");
+					timeSpans[i] -= 1;
+				}
+			}
+			document.getElementById("extn").value = 0;
+			setTimeout("displayTimes()", 1000);
+		}
+	</script>
+
+
+
 </section>
 

@@ -8,4 +8,6 @@ public interface BidderCategoryDao {
 	public List<BidderCategory> getBidderCategory(Integer userId,
 			Integer auctionId);
 
+	public Integer saveBIdderCategory(BidderCategory bidderCategory);
+
 }

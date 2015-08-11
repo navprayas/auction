@@ -38,24 +38,25 @@ public class AutoBidServiceImpl extends
 			Double bidAmount, String comment, Integer auctionId) {
 
 		BidItem bidItem = bidItemDao.getBidItem(bidItemId);
-		Auction auction = iAuctionDao.get(auctionId);
+		System.out.println(bidItem.getCurrency());
+
+		// Auction auction = iAuctionDao.get(auctionId);
 		// TODO Auto-generated method stub
 		AutoBids autoBid = new AutoBids();
-		autoBid.setBidItemId(bidItem);
+		autoBid.setBidItemId(bidItemId);
 		autoBid.setBidTime(new Date());
 		autoBid.setCurrency("INR");
 		autoBid.setBidAmount(bidAmount);
 		autoBid.setBidderName(userName);
 		autoBid.setBidStatus("A");
 		autoBid.setComments(comment);
-
-		autoBid.setAuction(auction);
-		bidItem.setAmountAutoBid(bidAmount);
-		bidItem.setAutoBidFlag(true);
-
-		List<AutoBids> autoBids = autoBidDao.listAll();
+		autoBid.setAuctionId(auctionId);
+		System.out.println(autoBid);
+		
+		List<AutoBids> autoBids = autoBidDao.getAutoBids();
 		if (autoBids != null)
 			for (AutoBids autoBidItem : autoBids) {
+				System.out.println("Bid Item"+autoBidItem.getBidItemId());
 				if (autoBidItem.getBidderName().equalsIgnoreCase(userName)) {
 					autoBidItem.setBidStatus("I");
 					autoBidDao.createOrUpdate(autoBidItem);
@@ -65,7 +66,7 @@ public class AutoBidServiceImpl extends
 
 		create(autoBid);
 
-		bidItem.setCurrentAutoBidId(Long.parseLong(autoBid.getId().toString()));
+		bidItem.setCurrentAutoBidId(Long.parseLong(autoBid.getBidItemId().toString()));
 
 		bidItemDao.createOrUpdate(bidItem);
 

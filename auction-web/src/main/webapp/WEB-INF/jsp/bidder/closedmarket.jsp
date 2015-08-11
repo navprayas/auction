@@ -24,9 +24,7 @@
 						var tableData = "";
                          if(l>0){
 						for (var i = 0; i < l; i++) {
-							tableData += "<tr><td>" + i + "</td><td>"
-									+ marketlist[i].bidItemGroupId
-									+ "</td><td>" + marketlist[i].name
+							tableData += "<tr><td>" + i + "</td><td>" + marketlist[i].name
 									+ "</td><td>" + marketlist[i].location
 									+ "</td><td>" + marketlist[i].city
 									+ "</td><td>" + marketlist[i].zone

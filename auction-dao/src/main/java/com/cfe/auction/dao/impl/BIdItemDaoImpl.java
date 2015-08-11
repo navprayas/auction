@@ -33,7 +33,7 @@ public class BIdItemDaoImpl extends DAOImpl<Integer, BidItem> implements
 	public List<BidItem> getBidItems(Integer auctionId) {
 
 		Query query = getSessionFactory().getCurrentSession().createQuery(" from BidItem as bidItem , BidSequence bidSeq "
-				+ "where bidSeq.auction.id = :auctionId and bidSeq.bidItem.bidItemId = bidItem.bidItemId");
+				+ "where bidSeq.auction.auctionId = :auctionId and bidSeq.bidItem.bidItemId = bidItem.bidItemId");
 		query.setInteger("auctionId", auctionId);	
 		List<Object[]> objectsList = query.list();
 		List<BidItem> bidItemsList = new ArrayList<BidItem>();

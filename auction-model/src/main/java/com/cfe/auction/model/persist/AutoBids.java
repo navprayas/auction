@@ -22,13 +22,20 @@ public class AutoBids extends AbstractPO<Integer> {
 		this.id = id;
 	}
 
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinColumn(name = "AUCTIONID", referencedColumnName = "AUCTIONID")
-	private Auction auction;
+	/*
+	 * @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	 * 
+	 * @JoinColumn(name = "AUCTIONID", referencedColumnName = "AUCTIONID")
+	 * private Auction auction;
+	 */
+	@Column(name = "auctionId")
+	private Integer auctionId;
 
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	/*@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinColumn(name = "bidItemId", referencedColumnName = "bidItemId")
-	private BidItem bidItemId;
+	private BidItem bidItemId;*/
+	@Column(name="bidItemId")
+	private Long bidItemId;
 
 	@Column(name = "BIDAMOUNT")
 	private Double bidAmount;
@@ -63,33 +70,30 @@ public class AutoBids extends AbstractPO<Integer> {
 	/**
 	 * @return the auction
 	 */
-	public Auction getAuction() {
-		return auction;
-	}
-
-	/**
+	/*
+	 * public Auction getAuction() { return auction; }
+	 *//**
 	 * @param auctionId
 	 *            the auction to set
 	 */
-	public void setAuction(Auction auction) {
-		this.auction = auction;
-	}
-
+	/*
+	 * public void setAuction(Auction auction) { this.auction = auction; }
+	 */
 	/**
 	 * @return the lotId
 	 */
-	public BidItem getBidItemId() {
+	/*public BidItem getBidItemId() {
 		return bidItemId;
 	}
 
-	/**
+	*//**
 	 * @param lotId
 	 *            the lotId to set
-	 */
+	 *//*
 	public void setBidItemId(BidItem bidItemId) {
 		this.bidItemId = bidItemId;
 	}
-
+*/
 	/**
 	 * @return the bidAmount
 	 */
@@ -190,4 +194,22 @@ public class AutoBids extends AbstractPO<Integer> {
 		return "AutoBids [autoBidId=" + getId() + "]";
 	}
 
+	public Integer getAuctionId() {
+		return auctionId;
+	}
+
+	public void setAuctionId(Integer auctionId) {
+		this.auctionId = auctionId;
+	}
+
+	public Long getBidItemId() {
+		return bidItemId;
+	}
+
+	public void setBidItemId(Long bidItemId) {
+		this.bidItemId = bidItemId;
+	}
+
+	
+	
 }

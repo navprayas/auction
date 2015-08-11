@@ -121,7 +121,7 @@ public class BidItemFilterServiceImpl implements IBidItemFilterService {
 		for (BidItem bidItem : bidItemsResult) {
 			bidItemUi = new BidItemUi();
 
-			bidItemUi.setBidItemId(Long.parseLong(bidItem.getId().toString()));
+			bidItemUi.setBidItemId(Long.parseLong(bidItem.getBidItemId().toString()));
 			bidItemUi.setBidItemGroupId(bidItem.getBidItemGroupId());
 			bidItemUi.setBidEndTime(bidItem.getBidEndTime());
 

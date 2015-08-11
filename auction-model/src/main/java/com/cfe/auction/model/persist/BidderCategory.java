@@ -10,8 +10,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-// @Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "BidderCategory"
-// )
 @Table(name = "BidderCategory")
 public class BidderCategory implements Serializable {
 
@@ -52,5 +50,4 @@ public class BidderCategory implements Serializable {
 	public void setBidderCategoryId(BidderCategoryId bidderCategoryId) {
 		this.bidderCategoryId = bidderCategoryId;
 	}
-
 }

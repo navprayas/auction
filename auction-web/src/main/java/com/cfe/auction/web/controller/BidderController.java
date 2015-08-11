@@ -30,8 +30,8 @@ import com.cfe.auction.web.constants.SessionConstants;
 @Controller
 @RequestMapping("/bidder/**")
 public class BidderController {
-	  private static final Logger LOG = LoggerFactory
-	            .getLogger(BidderController.class);	
+	private static final Logger LOG = LoggerFactory
+			.getLogger(BidderController.class);
 	@Autowired
 	private BidItemService bidItemService;
 
@@ -50,6 +50,9 @@ public class BidderController {
 	@RequestMapping(value = { "/home", "/index" }, method = RequestMethod.GET)
 	public String modelerHome(ModelMap model, HttpSession session) {
 		User user = (User) session.getAttribute(SessionConstants.USER_INFO);
+		System.out.println("Auction Id"
+				+ AuctionCacheManager.getActiveAuctionId());
+
 		if (AuctionCacheManager.getActiveAuctionId() != null) {
 			List<BidderCategory> bidderCategoryList = bidderCategoryService
 					.getBidderCategory(user.getId(),
@@ -89,8 +92,8 @@ public class BidderController {
 	private List<Integer> getCategoryIdList(
 			List<BidderCategory> bidderCategoryList) {
 		List<Integer> categoryIds = new ArrayList<Integer>();
-		if(bidderCategoryList != null && !bidderCategoryList.isEmpty() ) {
-			for(BidderCategory category : bidderCategoryList) {
+		if (bidderCategoryList != null && !bidderCategoryList.isEmpty()) {
+			for (BidderCategory category : bidderCategoryList) {
 				categoryIds.add(category.getCategoryId());
 			}
 		}
@@ -99,7 +102,8 @@ public class BidderController {
 
 	@RequestMapping(value = "/activemarketlist", method = RequestMethod.GET)
 	public String getActiveMarketList(ModelMap model) {
-		BidItem bidItem = AuctionCacheService.getActiveBidItem(AuctionCacheService.getActiveBidItemId());
+		BidItem bidItem = AuctionCacheService
+				.getActiveBidItem(AuctionCacheService.getActiveBidItemId());
 		List<BidItem> bidItems = new ArrayList<BidItem>();
 		bidItems.add(bidItem);
 		model.put("bidItems",
@@ -126,20 +130,22 @@ public class BidderController {
 		String userName = session.getAttribute(CommonConstants.USER_NAME)
 				.toString();
 		List<BidItem> bidItemsList = null;
-
-		autoBidService.saveAutoBid(userName, categoryId,
-				bidItemId, bidAmount, "No Comments",
-				AuctionCacheManager.getActiveAuctionId());
+		System.out.println("bidItemId" + bidItemId);
+		try {
+			autoBidService.saveAutoBid(userName, categoryId, bidItemId,
+					bidAmount, "No Comments",
+					AuctionCacheManager.getActiveAuctionId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		/* bidItemsList = bidderService.saveAutoBid(); */
 		LOG.debug(" For category: BidItems List::" + bidItemsList);
 		modelMap.addAttribute("bidItemsList", bidItemsList);
 		// List<BidderCategory> categoryList = getCategoryIdList(userName);
 		// modelMap.addAttribute("bidderCategoryList", categoryList);
 		// LOG.debug(" For category: bidderCategoryList List::" + categoryList);
-		return "redirect:/bidderhome";
+		return "redirect:/bidder/home";
 
 	}
 
 }
-
-

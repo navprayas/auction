@@ -13,4 +13,7 @@ public interface UserService extends CRUDService<Integer, User> {
 
 	public String eccodePassword(String password);
 
+	public void setAuctionMapping(Long selectedAuctionId,
+			String selectedCategoryIdList, String selectedUserIdList);
+
 }

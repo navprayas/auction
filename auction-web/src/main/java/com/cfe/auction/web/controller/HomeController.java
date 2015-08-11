@@ -97,11 +97,6 @@ public class HomeController {
 		return "login";
 	}
 
-	@RequestMapping(value = { "/admin/home", "/admin/index" }, method = RequestMethod.GET)
-	public String adminHome() {
-		return "adminhome";
-	}
-
 	
 	@RequestMapping(value = { "/observer/home", "/observer/index" }, method = RequestMethod.GET)
 	public String modelerHome() {

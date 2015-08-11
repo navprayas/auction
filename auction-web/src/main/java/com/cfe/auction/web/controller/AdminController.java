@@ -39,10 +39,10 @@ public class AdminController {
 
 	@Autowired
 	private IAuctionService iAuctionService;
-	
+
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private CategoryService categoryService;
 
@@ -51,6 +51,25 @@ public class AdminController {
 
 	@Autowired
 	AuctionCacheManager auctionCacheManager;
+
+	@RequestMapping(value = { "/home", "/index" }, method = RequestMethod.GET)
+	public String adminHome(ModelMap model) {
+		List<Auction> auctionList = iAuctionService.getAuctionList();
+		Integer aunctionRunningOrClosedPresent = 0;
+		if (auctionList != null) {
+			for (Auction auction : auctionList) {
+				if ("END".equalsIgnoreCase(auction.getStatus())
+						|| "Running".equalsIgnoreCase(auction.getStatus())) {
+					aunctionRunningOrClosedPresent++;
+					break;
+				}
+			}
+		}
+		model.addAttribute("auctionlist", iAuctionService.getAuctionList());
+		model.addAttribute("aunctionRunningOrClosedPresent",
+				aunctionRunningOrClosedPresent);
+		return "adminhome";
+	}
 
 	@RequestMapping(value = "/auctionmanagement", method = RequestMethod.GET)
 	public String auctionManegement(ModelMap model) {
@@ -96,19 +115,25 @@ public class AdminController {
 			@RequestParam(value = "selectedCategoryIdList", required = true) String selectedCategoryIdList,
 			@RequestParam(value = "selectedUserIdList", required = true) String selectedUserIdList) {
 		String msg = null;
+		System.out.println(selectedAuctionId + "   " + selectedCategoryIdList
+				+ "   " + selectedUserIdList);
+
 		try {
 			logger.debug("selectedAuctionId: " + selectedAuctionId);
 			logger.debug("selectedCategoryIdList: " + selectedCategoryIdList);
 			logger.debug("selectedUserIdList: " + selectedUserIdList);
-			// commonService.setUserAuctionMap(selectedAuctionId,selectedCategoryIdList,
-			// selectedUserIdList);
+			userService.setAuctionMapping(selectedAuctionId,
+					selectedCategoryIdList, selectedUserIdList);
+
+			userService.setAuctionMapping(selectedAuctionId,
+					selectedCategoryIdList, selectedUserIdList);
 			msg = "All selected Users are now allowed for the auction "
 					+ selectedAuctionId;
 		} catch (Exception e) {
 			e.printStackTrace();
 			msg = "Mapping Not successful";
 		}
-		return "userauctionmap";
+		return "redirect:/admin/userauctionmap?msg=" + msg;
 	}
 
 	@RequestMapping(value = "/closeauction", method = RequestMethod.GET)

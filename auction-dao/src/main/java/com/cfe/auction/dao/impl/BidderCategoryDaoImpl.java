@@ -21,11 +21,16 @@ public class BidderCategoryDaoImpl implements BidderCategoryDao {
 		Query query = sessionFactory
 				.getCurrentSession()
 				.createQuery(
-						"from  BidderCategory bc where bc.auction.id=:auctionId and bc.bidderCategoryId.user.id=:userId ");
+						"from  BidderCategory bc where bc.auction.auctionId=:auctionId and bc.bidderCategoryId.user.id=:userId ");
 		query.setInteger("auctionId", auctionId);
 		query.setInteger("userId", userId);
 		return (List<BidderCategory>) query.list();
 
 	}
 
+	@Override
+	public Integer saveBIdderCategory(BidderCategory bidderCategory) {
+		return (Integer) sessionFactory.getCurrentSession().save(bidderCategory);
+
+	}
 }

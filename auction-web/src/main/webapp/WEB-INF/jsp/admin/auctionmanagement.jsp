@@ -84,7 +84,7 @@
 								varStatus="status">
 								<tr>
 									<td>${status.index+1}</td>
-									<td>${auction.id}</td>
+									<td>${auction.auctionId}</td>
 									<td>${auction.name}</td>
 									<td>${auction.status}</td>
 									<td>${auction.auctionStartTime}</td>
@@ -92,15 +92,15 @@
 									<td><c:if test="${auction.status == 'Start'}">
 											<c:if test="${aunctionRunningOrClosedPresent == 0}">
 												<a
-													href="${admin_initcache_url}?auctionId=${auction.id}">Start</a>
+													href="${admin_initcache_url}?auctionId=${auction.auctionId}">Start</a>
 											</c:if>
 											<c:if test="${aunctionRunningOrClosedPresent == 1}">
      					Close Running or Ended Auction First
      				</c:if>
 										</c:if> <c:if test="${auction.status == 'End'}">
-											<a href="${close_auction_url}?auctionId=${auction.id}">Close</a>
+											<a href="${close_auction_url}?auctionId=${auction.auctionId}">Close</a>
 										</c:if> <c:if test="${auction.status == 'Running'}">
-											<a href="${close_auction_url}?auctionId=${auction.id}">Close</a>
+											<a href="${close_auction_url}?auctionId=${auction.auctionId}">Close</a>
 										</c:if></td>
 
 								</tr>

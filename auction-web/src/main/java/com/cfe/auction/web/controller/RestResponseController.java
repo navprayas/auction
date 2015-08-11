@@ -56,7 +56,7 @@ public class RestResponseController {
 						.getBidItemListForActiveMarketAjax(bidItems,
 								bidderCategoryList.get(0).getCategoryId());
 			}
-			System.out.println("MArket List Item"+filteredbidItems.get(0).getCreatedTime());
+		//	System.out.println("MArket List Item"+filteredbidItems.get(0).getCreatedTime());
 			try {
 				result = mapper.writeValueAsString(filteredbidItems);
 			} catch (Exception e) {

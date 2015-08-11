@@ -51,14 +51,16 @@
 				if (timeSpans[i] <= 0) {
 					refreshPage();
 				} else {
-					$('#countdown' + bidItemIds[i]).html(
+					alert($('#countdown' + bidItemIds[i]));
+					$('#countdown' + bidItemIds[i]).append(
 							"<p>" + toHourAndMinuteAndSecond(timeSpans[i])
 									+ "</p>");
+
 					timeSpans[i] -= 1;
 				}
 			}
 			document.getElementById("extn").value = 0;
-			setTimeout("displayTimes()", 100000);
+			setTimeout("displayTimes()", 1000);
 		}
 
 		function refreshPage() {
@@ -157,24 +159,25 @@
 									<td>${marketlist.zone}</td>
 									<td>${marketlist.minBidPrice}</td>
 									<td>${marketlist.minBidIncrement}</td>
-									<td>${marketlist.timeLeft}</td>
+									<td>${marketlist.timeLeft}
+										<div id="countdown${bidItem.bidItemId}"></div> <script>
+											setTimeLefts(
+													parseInt('${marketlist.timeLeft}'),
+													'${marketlist.bidItemId}');
+										</script>
+									</td>
 									<td>${marketlist.createdTime}</td>
-									<td><div id="countdown${bidItem.bidItemId}"></div> <script>
-										setTimeLefts(
-												parseInt('${marketlist.timeLeft}'),
-												'${marketlist.bidItemId}');
-									</script> <!-- Auto bid dialog -->
+									<td>
+										<!-- Auto bid dialog -->
 
 										<div id="dialog_bids${marketlist.bidItemId}"
 											style="display: none;">
-											<table
-												class="table table-bordered table-striped text-center display">
+											<table class="table table-bordered table-striped text-center">
 												<tr>
 													<td>
 														<form action="saveautobid" method="post"
 															name="saveautobidform1"
-															id="saveAutoBidForm${marketlist.bidItemId}"
-															style="margin: 0px;">
+															id="saveAutoBidForm${marketlist.bidItemId}">
 															<input type="hidden" name="bidItemId"
 																value="${marketlist.bidItemId}" /> <input type="hidden"
 																name="categoryId" id="categoryId${marketlist.bidItemId}"
@@ -191,14 +194,12 @@
 																<tr>
 																	<td>&nbsp; Auto Bid Limit</td>
 																	<td><input type="text" name="autoBidAmount"
-																		id="autoBidLimit${marketlist.bidItemId}"
-																		class="PopupField" /></td>
+																		id="autoBidLimit${marketlist.bidItemId}" /></td>
 																</tr>
 																<tr>
 																	<td>&nbsp;&nbsp;Comments</td>
 																	<td><textarea name="textfield2"
-																			id="comments${marketlist.bidItemId}"
-																			class="PopupFieldComm"></textarea></td>
+																			id="comments${marketlist.bidItemId}"></textarea></td>
 																</tr>
 																<tr>
 																	<td>&nbsp;</td>
@@ -262,13 +263,13 @@
 											+ "</td><td>"
 											+ marketlist[i].timeleft
 											+ "</td><td>"
-											+ getConvertedDate(marketlist[i].createdTime);
-									+"</td><td> <div id='dialog_bids"+marketlist[i].bidItemId+"'></div><input type='submit' value='Auto Bid'  onclick=opneDialogBox(dialog_bids"
+											+ getConvertedDate(marketlist[i].createdTime)
+											+ "</td><td> <div id=dialog_bids"+marketlist[i].bidItemId+"></div><input type='submit' value='Auto Bid'  onclick=opneDialogBox(dialog_bids"
 											+ marketlist[i].bidItemId
 											+ ")/></td></tr>";
 								}
 							} else {
-								tableData += "<tr><td colspan=''>No Data Found</td></tr>";
+								tableData += "<tr><td colspan='10'>No Data Found</td></tr>";
 							}
 							$('#marketlist-pagination').append(tableData);
 						},
@@ -310,7 +311,9 @@
 		}
 
 		function opneDialogBox(divId) {
-			$('#' + divId).dialog();
+			$('#' + divId).dialog({
+				autoResize : true
+			});
 			return false;
 		}
 
@@ -321,37 +324,37 @@
 			var parsedBidAmount = parseFloat(bidAmount);
 
 			if (isNaN(bidAmount)) {
-				alert("Amount provided is not a number: " + bidAmount)
+				alert("Amount provided is not a number: " + bidAmount);
 				return false;
 			}
-			var parsedCurMarketPrice = parseFloat(CurMarketPrice)
-			var parsedMinBidIncrement = parseFloat(minBidIncrement)
+			var parsedCurMarketPrice = parseFloat(CurMarketPrice);
+			var parsedMinBidIncrement = parseFloat(minBidIncrement);
 
-			if (parsedBidAmount < (parsedCurMarketPrice + parsedMinBidIncrement)) {
+			/* if (parsedBidAmount < (parsedCurMarketPrice + parsedMinBidIncrement)) {
 				alert("Amount provided is less than start price plus minimum bid increment amount "
 						+ parsedBidAmount);
 				//$("#dialog_bids" + bidId).dialog('close');
 				return false;
-			}
+			} */
 
 			var calculation = (parsedBidAmount - parsedCurMarketPrice)
 					% parsedMinBidIncrement;
 			//alert("calculation " + calculation)
-			if (calculation != 0) {
+			/* if (calculation != 0) {
 				alert("Not a valid multiple of minimum bid increment "
 						+ parsedBidAmount);
 				//$("#dialog_bids" + bidId).dialog('close');
 				return false;
 			}
-
+			 */
 			categoryField.value = 1;
 			formVal.submit();
 		}
 
 		//pagination function started here
-		$(document).ready(function() {
+		/* $(document).ready(function() {
 			$('#marketlist-pagination').DataTable();
-		});
+		}); */
 		//pagination function ended here
 	</script>
 
