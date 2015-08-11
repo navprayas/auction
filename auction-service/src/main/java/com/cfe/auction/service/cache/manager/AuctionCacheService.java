@@ -19,11 +19,12 @@ public class AuctionCacheService {
 	private static Long activeBidItemId;
 	
 	public static void setBidSequenceQueue(List<BidSequence> bidSequenceList) {
-		
-		for(BidSequence bidSequence : bidSequenceList) {
-			if(bidSequence.getBidItem() != null && bidSequence.getBidItem().getBidItemId() != null) {
-				bidSequenceQueue.add(bidSequence.getBidItem().getBidItemId());
-				bidSequenceMap.put(bidSequence.getBidItem().getBidItemId(), bidSequence);
+		if(bidSequenceList != null && !bidSequenceList.isEmpty()) {
+			for (BidSequence bidSequence : bidSequenceList) {
+				if (bidSequence != null && bidSequence.getBidItem() != null && bidSequence.getBidItem().getBidItemId() != null) {
+					bidSequenceQueue.add(bidSequence.getBidItem().getBidItemId());
+					bidSequenceMap.put(bidSequence.getBidItem().getBidItemId(), bidSequence);
+				}
 			}
 		}
 	}

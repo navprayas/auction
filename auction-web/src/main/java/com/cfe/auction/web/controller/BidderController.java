@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.cfe.auction.model.persist.AutoBids;
 import com.cfe.auction.model.persist.BidItem;
 import com.cfe.auction.model.persist.BidderCategory;
 import com.cfe.auction.model.persist.User;
@@ -23,8 +22,8 @@ import com.cfe.auction.service.BidItemService;
 import com.cfe.auction.service.BidderCategoryService;
 import com.cfe.auction.service.IBidItemFilterService;
 import com.cfe.auction.service.UserService;
+import com.cfe.auction.service.cache.manager.AuctionCacheManager;
 import com.cfe.auction.service.cache.manager.AuctionCacheService;
-import com.cfe.auction.web.cache.manager.AuctionCacheManager;
 import com.cfe.auction.web.constants.CommonConstants;
 import com.cfe.auction.web.constants.SessionConstants;
 

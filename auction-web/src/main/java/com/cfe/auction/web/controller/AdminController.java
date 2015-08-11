@@ -39,8 +39,10 @@ public class AdminController {
 
 	@Autowired
 	private IAuctionService iAuctionService;
+	
 	@Autowired
 	private UserService userService;
+	
 	@Autowired
 	private CategoryService categoryService;
 
