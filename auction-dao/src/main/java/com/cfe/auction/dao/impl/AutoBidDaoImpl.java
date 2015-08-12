@@ -1,6 +1,7 @@
 package com.cfe.auction.dao.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -20,7 +21,7 @@ public class AutoBidDaoImpl extends DAOImpl<Integer, AutoBids> implements
 		Query query = getSessionFactory()
 				.getCurrentSession()
 				.createSQLQuery(
-						"select AUTOBIDID,AUCTIONID, bidAmount,bidStatus,bidderName from autobids");
+						"select AUTOBIDID,AUCTIONID, bidAmount,bidStatus,bidderName,bidItemId,bidTime,comments,currency from autobids");
 
 		List<Object[]> objectsList = query.list();
 		List<AutoBids> autoBids = new ArrayList<>();
@@ -29,11 +30,16 @@ public class AutoBidDaoImpl extends DAOImpl<Integer, AutoBids> implements
 		for (Object[] objects : objectsList) {
 
 			AutoBids autobid = new AutoBids();
+			System.out.println(objects[0].toString());
 			autobid.setId(Integer.parseInt(objects[0].toString()));
 			autobid.setAuctionId(Integer.parseInt(objects[1].toString()));
 			autobid.setBidAmount(Double.parseDouble(objects[2].toString()));
 			autobid.setBidStatus(objects[3].toString());
 			autobid.setBidderName(objects[4].toString());
+			autobid.setBidItemId(Long.parseLong(objects[5].toString()));
+			autobid.setBidTime((Date) objects[6]);
+			autobid.setComments(objects[7].toString());
+			autobid.setCurrency(objects[8].toString());
 			autoBids.add(autobid);
 
 		}

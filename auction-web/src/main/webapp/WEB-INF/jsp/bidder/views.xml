@@ -16,13 +16,13 @@
 		<put-attribute name="body" value="/WEB-INF/jsp/bidder/marketlist.jsp" />
 	</definition>
 
-	<definition name="activemarket" extends="baseLayout">
+	<definition name="bidderactivemarket" extends="baseLayout">
 		<put-attribute name="title" value="Bidder Home" />
 		<put-attribute name="body"
 			value="/WEB-INF/jsp/bidder/activemarket.jsp" />
 	</definition>
 
-	<definition name="closedmarket" extends="baseLayout">
+	<definition name="bidderclosedmarket" extends="baseLayout">
 		<put-attribute name="title" value="Bidder Home" />
 		<put-attribute name="body"
 			value="/WEB-INF/jsp/bidder/closedmarket.jsp" />

@@ -51,7 +51,7 @@
 				if (timeSpans[i] <= 0) {
 					refreshPage();
 				} else {
-					alert($('#countdown' + bidItemIds[i]));
+					$('#countdown' + bidItemIds[i]).empty();
 					$('#countdown' + bidItemIds[i]).append(
 							"<p>" + toHourAndMinuteAndSecond(timeSpans[i])
 									+ "</p>");
@@ -159,8 +159,8 @@
 									<td>${marketlist.zone}</td>
 									<td>${marketlist.minBidPrice}</td>
 									<td>${marketlist.minBidIncrement}</td>
-									<td>${marketlist.timeLeft}
-										<div id="countdown${bidItem.bidItemId}"></div> <script>
+									<td>
+										<div id="countdown${marketlist.bidItemId}">${marketlist.timeLeft}</div> <script>
 											setTimeLefts(
 													parseInt('${marketlist.timeLeft}'),
 													'${marketlist.bidItemId}');
@@ -247,7 +247,7 @@
 							if (l > 0) {
 								for (var i = 0; i < l; i++) {
 									tableData += "<tr><td>"
-											+ i
+											+(i+1)
 											+ "</td><td>"
 											+ marketlist[i].name
 											+ "</td><td>"

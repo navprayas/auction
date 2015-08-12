@@ -49,19 +49,19 @@ public class BidItemFilterServiceImpl implements IBidItemFilterService {
 	}
 
 	@Override
-	public List<BidItem> getBidItemListForActiveMarketBySequenceId(List<BidItem> bidItems,
-			final Long seqId) {
+	public List<BidItem> getBidItemListForActiveMarketBySequenceId(
+			List<BidItem> bidItems, final Long seqId) {
 		if (seqId != null) {
 			List<BidItem> bidItemFinal = new ArrayList<BidItem>();
 			bidItemFinal.addAll(filter(
 					having(on(BidItem.class).getSeqId(),
 							Matchers.greaterThan(seqId)), bidItems));
-			
+
 			return bidItemFinal;
 		}
 		return null;
 	}
-	
+
 	@Override
 	public List<BidItem> getBidItemListForClosedMarket(List<BidItem> bidItems,
 			final String categoryId) {
@@ -99,6 +99,7 @@ public class BidItemFilterServiceImpl implements IBidItemFilterService {
 				having(on(BidItem.class).getCategory().getId(),
 						Matchers.equalTo(categoryId)), bidItems);
 		bidItemToBidItemUiConverter(bidItemList, bidItemsResult);
+		System.out.println("Active Market List" + bidItemList);
 
 		return bidItemList;
 	}
@@ -121,7 +122,8 @@ public class BidItemFilterServiceImpl implements IBidItemFilterService {
 		for (BidItem bidItem : bidItemsResult) {
 			bidItemUi = new BidItemUi();
 
-			bidItemUi.setBidItemId(Long.parseLong(bidItem.getBidItemId().toString()));
+			bidItemUi.setBidItemId(Long.parseLong(bidItem.getBidItemId()
+					.toString()));
 			bidItemUi.setBidItemGroupId(bidItem.getBidItemGroupId());
 			bidItemUi.setBidEndTime(bidItem.getBidEndTime());
 

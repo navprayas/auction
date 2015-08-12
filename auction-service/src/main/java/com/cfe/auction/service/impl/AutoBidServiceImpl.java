@@ -56,7 +56,6 @@ public class AutoBidServiceImpl extends
 		List<AutoBids> autoBids = autoBidDao.getAutoBids();
 		if (autoBids != null)
 			for (AutoBids autoBidItem : autoBids) {
-				System.out.println("Bid Item"+autoBidItem.getBidItemId());
 				if (autoBidItem.getBidderName().equalsIgnoreCase(userName)) {
 					autoBidItem.setBidStatus("I");
 					autoBidDao.createOrUpdate(autoBidItem);

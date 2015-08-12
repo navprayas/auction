@@ -5,7 +5,16 @@
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<spring:url value="/js" var="js_url" />
+<script src="${js_url}/jquery.min.js"></script>
 <script>
+	var timeSpans = new Array();
+	var bidItemIds = new Array();
+	function setTimeLefts(remain, bidItemId) {
+		timeSpans.push(remain);
+		bidItemIds.push(bidItemId);
+		alert(remain + " " + bidItemId);
+	}
 	function openUrl(url) {
 		window.location.href = url;
 	}
@@ -24,21 +33,32 @@
 						var tableData = "";
 						if (l > 0) {
 							for (var i = 0; i < l; i++) {
-								tableData += "<tr><td>" + i + "</td><td>"
-										+ marketlist[i].name + "</td><td>"
-										+ marketlist[i].location + "</td><td>"
-										+ marketlist[i].city + "</td><td>"
-										+ marketlist[i].zone + "</td><td>"
+								tableData += "<tr><td>"
+										+ (i + 1)
+										+ "</td><td>"
+										+ marketlist[i].name
+										+ "</td><td>"
+										+ marketlist[i].location
+										+ "</td><td>"
+										+ marketlist[i].city
+										+ "</td><td>"
+										+ marketlist[i].zone
+										+ "</td><td>"
 										+ marketlist[i].minBidPrice
 										+ "</td><td>"
 										+ marketlist[i].minBidIncrement
-										+ "</td><td>" + marketlist[i].timeleft
 										+ "</td><td>"
 										+ marketlist[i].createdTime
-										+ "</td></tr>";
+										+ "</td><td><div id='countdown"+marketlist[i].bidItemId+"></div> <script>setTimeLefts(parseInt('"
+										+ marketlist[i].timeLeft
+										+ "'),'"
+										+ marketlist[i].bidItemId
+										+ "');"
+										+ marketlist[i].timeleft
+										+ "</td><td><input type='text' value='Next Bid'/></td></tr>";
 							}
 						} else {
-							tableData += "<tr><td colspan='9'>No Data Found</td></tr>";
+							tableData += "<tr><td colspan='10'>No Data Found</td></tr>";
 						}
 						$('#marketlist-pagination').append(tableData);
 					},
@@ -117,8 +137,7 @@
 								<th>Created Time</th>
 								<th>Time Left</th>
 								<th>Next Bid</th>
-
-
+								<th>Other Bids</th>
 							</tr>
 
 							<c:forEach var="marketlist" items="${bidItems}"
@@ -132,11 +151,12 @@
 									<td>${marketlist.minBidPrice}</td>
 									<td>${marketlist.minBidIncrement}</td>
 									<td>${marketlist.createdTime}</td>
-									<td><div id="countdown${marketlist.bidItemId}"></div> <script>
-										setTimeLefts(
-												parseInt('${bidItem.timeLeft}'),
-												'${bidItem.bidItemId}');
-									</script>}</td>
+									<td><div id="countdown${marketlist.bidItemId}">
+											${marketlist.timeLeft}</div> <script>
+												setTimeLefts(
+														parseInt('${marketlist.timeLeft}'),
+														'${marketlist.bidItemId}');
+											</script></td>
 									<td><c:choose>
 											<c:when
 												test='${bidItemWithAutoBidFlag[bidItem.bidItemId] == 2 && bidItemWithRanks[bidItem.bidItemId] == 1} '>
@@ -151,10 +171,12 @@
 													onclick="doNextBid('${marketlist.bidItemId}', '${marketlist.minBidIncrement}'); return false;" />
 											</c:otherwise>
 										</c:choose></td>
-
-
-
-
+										
+										<td>
+										
+										
+										
+										</td>
 								</tr>
 							</c:forEach>
 						</table>
@@ -167,13 +189,13 @@
 
 	<script type="text/javascript">
 		function doNextBid(bidItemId, minIncrementAmount) {
+			alert('bidItemId' + bidItemId + "" + minIncrementAmount);
 			var curPriceObject = document.getElementById("Item" + bidItemId).innerHTML;
 			var nextBidPrice = parseFloat(curPriceObject)
 					+ parseFloat(minIncrementAmount);
 			var flag;
 			flag = confirm("Are you sure you want to put next bid for amount - "
 					+ nextBidPrice + " , then Press OK");
-			//alert("In doNextBid " + bidItemId + " " + nexBidPrice + " " + minIncrementAmount)
 			if (flag == true) {
 				$.getJSON("bid", {
 					bidItemId : bidItemId,
@@ -191,14 +213,6 @@
 		function toHourAndMinuteAndSecond(x) {
 			return Math.floor(x / 3600) + ":" + Math.floor((x % 3600) / 60)
 					+ ":" + x % 60;
-		}
-
-		var timeSpans = new Array();
-		var bidItemIds = new Array();
-
-		function setTimeLefts(remain, bidItemId) {
-			timeSpans.push(remain);
-			bidItemIds.push(bidItemId);
 		}
 
 		function displayTimes() {
@@ -223,8 +237,8 @@
 				if (timeSpans[i] <= 0) {
 					refreshPage();
 				} else {
-					alert(bidItemIds[i]);
-					$("#countdown" + bidItemIds[i]).append(
+					$('#countdown' + bidItemIds[i]).empty();
+					$('#countdown' + bidItemIds[i]).append(
 							"<p>" + toHourAndMinuteAndSecond(timeSpans[i])
 									+ "</p>");
 					timeSpans[i] -= 1;
@@ -232,6 +246,24 @@
 			}
 			document.getElementById("extn").value = 0;
 			setTimeout("displayTimes()", 1000);
+		}
+
+		$(document).ready(function() {
+			displayTimes();
+		});
+
+		function refreshPage() {
+			/* var count = document.getElementById("lLCount").value;
+			var timee = document.getElementById("lLTime").value;
+			var currentTime = new Date();
+			diff = currentTime.getTime() - parseInt(timee);
+			if(diff < 15000) {
+				document.getElementById("lLCount").value = parseInt(count) + 1;
+				document.getElementById("lLTime").value = currentTime.getTime();
+				return false;
+			}
+			document.getElementById("lLTime").value = currentTime.getTime();
+			window.location.reload(true);  */
 		}
 	</script>
 

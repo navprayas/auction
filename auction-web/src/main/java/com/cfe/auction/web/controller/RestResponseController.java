@@ -21,6 +21,7 @@ import com.cfe.auction.model.persist.User;
 import com.cfe.auction.service.BidderCategoryService;
 import com.cfe.auction.service.IBidItemFilterService;
 import com.cfe.auction.service.cache.manager.AuctionCacheManager;
+import com.cfe.auction.service.cache.manager.AuctionCacheService;
 import com.cfe.auction.web.constants.SessionConstants;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -56,7 +57,7 @@ public class RestResponseController {
 						.getBidItemListForActiveMarketAjax(bidItems,
 								bidderCategoryList.get(0).getCategoryId());
 			}
-		//	System.out.println("MArket List Item"+filteredbidItems.get(0).getCreatedTime());
+			// System.out.println("MArket List Item"+filteredbidItems.get(0).getCreatedTime());
 			try {
 				result = mapper.writeValueAsString(filteredbidItems);
 			} catch (Exception e) {
@@ -70,14 +71,23 @@ public class RestResponseController {
 	@RequestMapping(value = "/activemarketlistajaxcall", method = RequestMethod.GET)
 	public @ResponseBody
 	String getActiveMarketListAjax(ModelMap model, HttpSession session) {
+		BidItem bidItem = AuctionCacheService
+				.getActiveBidItem(AuctionCacheService.getActiveBidItemId());
 
 		ObjectMapper mapper = new ObjectMapper();
 		String result = null;
-		System.out.println("Make ajax call");
 		List<BidItemUi> filteredbidItems = new ArrayList<BidItemUi>();
 		List<BidItem> bidItems = AuctionCacheManager.getBidItems();
+		bidItems.add(bidItem);
 		filteredbidItems = bidItemFilterService
 				.getBidItemListForActiveMarketAjax(bidItems, 2);
+		/* List<BidItem> bidItems = new ArrayList<BidItem>(); */
+
+		/*
+		 * model.put("bidItems",
+		 * bidItemFilterService.getBidItemListForActiveMarket(bidItems, 2));
+		 */
+
 		try {
 			result = mapper.writeValueAsString(filteredbidItems);
 			System.out.println("Ajax filtered data got result " + result);

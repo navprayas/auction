@@ -1,7 +1,9 @@
 package com.cfe.auction.web.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -99,16 +101,28 @@ public class BidderController {
 		}
 		return categoryIds;
 	}
-
 	@RequestMapping(value = "/activemarketlist", method = RequestMethod.GET)
 	public String getActiveMarketList(ModelMap model) {
-		BidItem bidItem = AuctionCacheService
-				.getActiveBidItem(AuctionCacheService.getActiveBidItemId());
+		BidItem bidItem = AuctionCacheService.getActiveBidItem(AuctionCacheService.getActiveBidItemId());
 		List<BidItem> bidItems = new ArrayList<BidItem>();
 		bidItems.add(bidItem);
 		model.put("bidItems",
 				bidItemFilterService.getBidItemListForActiveMarket(bidItems, 2));
-		return "activemarket";
+		Map<Long, String> bidItemWithRanks = new HashMap<Long, String>();
+		Map<Long, String> bidItemWithAutoBidFlag = new HashMap<Long, String>();
+		bidItemWithRanks.put(bidItem.getBidItemId(), rank + "");
+		if (bidItem.isAutoBidFlag() && rank > 0
+				&& bidders.get(rank - 1).isAutoBid()) {
+			bidItemWithAutoBidFlag.put(bidItem.getBidItemId(), "2");
+		} else {
+			bidItemWithAutoBidFlag.put(bidItem.getBidItemId(), "1");
+		}
+		modelMap.addAttribute("bidItemWithRanks", bidItemWithRanks);
+		modelMap.addAttribute("bidItemWithAutoBidFlag",
+				bidItemWithAutoBidFlag);
+		
+		
+		return "bidderactivemarket";
 	}
 
 	@RequestMapping(value = "/closedmarketlist", method = RequestMethod.GET)
@@ -116,7 +130,7 @@ public class BidderController {
 		List<BidItem> bidItems = AuctionCacheManager.getBidItems();
 		model.put("bidItems", bidItemFilterService
 				.getBidItemListForClosedMarket(bidItems, "2"));
-		return "closedmarket";
+		return "bidderclosedmarket";
 	}
 
 	@RequestMapping(value = "/saveautobid", method = RequestMethod.POST)
