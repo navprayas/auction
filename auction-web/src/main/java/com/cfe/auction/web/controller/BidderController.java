@@ -15,7 +15,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cfe.auction.common.Bidder;
 import com.cfe.auction.model.persist.BidItem;
 import com.cfe.auction.model.persist.BidderCategory;
 import com.cfe.auction.model.persist.User;
@@ -108,20 +110,6 @@ public class BidderController {
 		bidItems.add(bidItem);
 		model.put("bidItems",
 				bidItemFilterService.getBidItemListForActiveMarket(bidItems, 2));
-		Map<Long, String> bidItemWithRanks = new HashMap<Long, String>();
-		Map<Long, String> bidItemWithAutoBidFlag = new HashMap<Long, String>();
-		bidItemWithRanks.put(bidItem.getBidItemId(), rank + "");
-		if (bidItem.isAutoBidFlag() && rank > 0
-				&& bidders.get(rank - 1).isAutoBid()) {
-			bidItemWithAutoBidFlag.put(bidItem.getBidItemId(), "2");
-		} else {
-			bidItemWithAutoBidFlag.put(bidItem.getBidItemId(), "1");
-		}
-		modelMap.addAttribute("bidItemWithRanks", bidItemWithRanks);
-		modelMap.addAttribute("bidItemWithAutoBidFlag",
-				bidItemWithAutoBidFlag);
-		
-		
 		return "bidderactivemarket";
 	}
 
@@ -162,4 +150,49 @@ public class BidderController {
 
 	}
 
+	@RequestMapping(value = "/bid", method = RequestMethod.GET)
+	public @ResponseBody
+	String doBid(
+			@RequestParam(value = "bidItemId", required = true) Long bidItemId,
+			@RequestParam(value = "bidType", required = true) Integer bidType,
+			@RequestParam(value = "bidAmount", required = true) Double bidAmount,
+			@RequestParam(value = "comments", required = true) String comments,
+			ModelMap model, HttpSession session)
+
+	{
+
+		String userName = session.getAttribute(CommonConstants.USER_NAME)
+				.toString();
+		boolean returnVal = false;//bidderService.doBid(bidItemId.intValue(), bidType,
+				//new Double(bidAmount), userName, comments);
+
+		if (bidType == 2) {
+			BidItem bidItem = null;//bidItemsCacheService.getBidItem(bidItemId);
+
+			Map<Long, String> bidItemWithRanks = new HashMap<Long, String>();
+			Map<Long, String> bidItemWithAutoBidFlag = new HashMap<Long, String>();
+			Bidder tempBidder = new Bidder();
+			tempBidder.setBidderName(userName);
+			List<Bidder> bidders = bidItem.getCurrentBidderList();
+			int rank = bidders.indexOf(tempBidder) + 1;
+			bidItemWithRanks.put(bidItem.getBidItemId(), rank + "");
+			if (bidItem.isAutoBidFlag() && rank > 0
+					&& bidders.get(rank - 1).isAutoBid()) {
+				bidItemWithAutoBidFlag.put(bidItem.getBidItemId(), "2");
+			} else {
+				bidItemWithAutoBidFlag.put(bidItem.getBidItemId(), "1");
+			}
+			model.addAttribute("bidItemWithRanks", bidItemWithRanks);
+			model.addAttribute("bidItemWithAutoBidFlag", bidItemWithAutoBidFlag);
+			return "bidder/bidder_active";
+		}
+
+		LOG.debug("In doBid Method returnVal: " + returnVal);
+		HashMap<String, String> h = new HashMap<String, String>();
+		h.put("returnVal", "" + returnVal);
+		return "Hello World";
+	}
+	
+	
+	
 }

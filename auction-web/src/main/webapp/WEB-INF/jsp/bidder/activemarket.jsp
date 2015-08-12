@@ -49,13 +49,13 @@
 										+ marketlist[i].minBidIncrement
 										+ "</td><td>"
 										+ marketlist[i].createdTime
-										+ "</td><td><div id='countdown"+marketlist[i].bidItemId+"></div> <script>setTimeLefts(parseInt('"
+										+ "</td><td><div id='countdown"+marketlist[i].bidItemId+">"
+										+ marketlist[i].timeleft
+										+ "</div> <script>setTimeLefts(parseInt('"
 										+ marketlist[i].timeLeft
 										+ "'),'"
 										+ marketlist[i].bidItemId
-										+ "');"
-										+ marketlist[i].timeleft
-										+ "</td><td><input type='text' value='Next Bid'/></td></tr>";
+										+ "')</td><td><input type='text' value='Next Bid'/></td></tr>";
 							}
 						} else {
 							tableData += "<tr><td colspan='10'>No Data Found</td></tr>";
@@ -132,8 +132,8 @@
 								<th>Location</th>
 								<th>City</th>
 								<th>Zone</th>
-								<th>MinBidPrice</th>
-								<th>MinBidIncrement</th>
+								<th>Min Bid Price</th>
+								<th>Min Bid Increment</th>
 								<th>Created Time</th>
 								<th>Time Left</th>
 								<th>Next Bid</th>
@@ -150,6 +150,7 @@
 									<td>${marketlist.zone}</td>
 									<td>${marketlist.minBidPrice}</td>
 									<td>${marketlist.minBidIncrement}</td>
+									<td>${marketlist.currentMarketPrice}</td>
 									<td>${marketlist.createdTime}</td>
 									<td><div id="countdown${marketlist.bidItemId}">
 											${marketlist.timeLeft}</div> <script>
@@ -171,12 +172,8 @@
 													onclick="doNextBid('${marketlist.bidItemId}', '${marketlist.minBidIncrement}'); return false;" />
 											</c:otherwise>
 										</c:choose></td>
-										
-										<td>
-										
-										
-										
-										</td>
+
+									<td></td>
 								</tr>
 							</c:forEach>
 						</table>
