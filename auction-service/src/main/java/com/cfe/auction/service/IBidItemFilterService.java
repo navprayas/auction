@@ -21,8 +21,8 @@ public interface IBidItemFilterService {
 	List<BidItem> getBidItemListForActiveMarket(List<BidItem> bidItems,
 			Integer categoryId);
 
-	List<BidItem> getBidItemListForActiveMarket(List<BidItem> bidItems,
-			List<Integer> categoryIds);
+	List<BidItem> getBidItemListForMarketList(List<BidItem> bidItems,
+			List<Integer> categoryIds, Long bidSequenceId);
 
 	List<BidItemUi> getBidItemListForcategoryIdAjax(List<BidItem> bidItems,
 			Integer categoryId);
@@ -32,8 +32,5 @@ public interface IBidItemFilterService {
 
 	List<BidItemUi> getBidItemListForClosedMarketAjax(List<BidItem> bidItems,
 			Integer categoryId);
-
-	List<BidItem> getBidItemListForActiveMarketBySequenceId(
-			List<BidItem> bidItems, Long seqId);
 
 }

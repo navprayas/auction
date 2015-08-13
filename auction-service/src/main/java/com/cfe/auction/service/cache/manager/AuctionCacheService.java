@@ -18,6 +18,8 @@ public class AuctionCacheService {
 	
 	private static Long activeBidItemId;
 	
+	private static Long activeBidSequenceId;
+	
 	public static void setBidSequenceQueue(List<BidSequence> bidSequenceList) {
 		if(bidSequenceList != null && !bidSequenceList.isEmpty()) {
 			for (BidSequence bidSequence : bidSequenceList) {
@@ -52,4 +54,13 @@ public class AuctionCacheService {
 		bidSequenceQueue = new LinkedList<Long>();
 		activeBidItemsMap =  new HashMap<Long, BidItem>();
 	}
+
+	public static Long getActiveBidSequenceId() {
+		if(getActiveBidItem(activeBidItemId) != null) {
+			return getActiveBidItem(activeBidItemId).getSeqId();
+		}
+		return null;
+	}
+	
+	
 }

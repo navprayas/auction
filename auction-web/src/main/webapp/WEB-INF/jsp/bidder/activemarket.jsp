@@ -143,7 +143,7 @@
 							<c:forEach var="marketlist" items="${bidItems}"
 								varStatus="status">
 								<tr>
-									<td>${status.index+1}</td>
+									<td>${marketlist.seqId}</td>
 									<td>${marketlist.name}</td>
 									<td>${marketlist.location}</td>
 									<td>${marketlist.city}</td>

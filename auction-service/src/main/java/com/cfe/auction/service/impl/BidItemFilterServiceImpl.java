@@ -34,30 +34,24 @@ public class BidItemFilterServiceImpl implements IBidItemFilterService {
 	}
 
 	@Override
-	public List<BidItem> getBidItemListForActiveMarket(List<BidItem> bidItems,
-			final List<Integer> categoryIds) {
+	public List<BidItem> getBidItemListForMarketList(List<BidItem> bidItems,
+			final List<Integer> categoryIds, Long bidSeqId) {
 		if (categoryIds != null && !categoryIds.isEmpty()) {
 			List<BidItem> bidItemFinal = new ArrayList<BidItem>();
+			List<BidItem> temp = new ArrayList<BidItem>();
 			for (Integer categoryId : categoryIds) {
-				bidItemFinal.addAll(filter(
+				temp.addAll(filter(
 						having(on(BidItem.class).getCategory().getId(),
 								Matchers.equalTo(categoryId)), bidItems));
 			}
-			return bidItemFinal;
-		}
-		return null;
-	}
-
-	@Override
-	public List<BidItem> getBidItemListForActiveMarketBySequenceId(
-			List<BidItem> bidItems, final Long seqId) {
-		if (seqId != null) {
-			List<BidItem> bidItemFinal = new ArrayList<BidItem>();
-			bidItemFinal.addAll(filter(
-					having(on(BidItem.class).getSeqId(),
-							Matchers.greaterThan(seqId)), bidItems));
-
-			return bidItemFinal;
+			if (bidSeqId != null) {
+				bidItemFinal.addAll(filter(
+						having(on(BidItem.class).getSeqId(),
+								Matchers.greaterThan(bidSeqId)), temp));
+				return bidItemFinal;
+			} else {
+				return temp;
+			}
 		}
 		return null;
 	}

@@ -51,7 +51,7 @@ public class BidderController {
 	@Autowired
 	private AutoBidService autoBidService;
 
-	@RequestMapping(value = { "/home", "/index" }, method = RequestMethod.GET)
+	/*@RequestMapping(value = { }, method = RequestMethod.GET)
 	public String modelerHome(ModelMap model, HttpSession session) {
 		User user = (User) session.getAttribute(SessionConstants.USER_INFO);
 		System.out.println("Auction Id"
@@ -67,14 +67,14 @@ public class BidderController {
 			System.out.println("BidItems" + bidItems);
 			List<Integer> categoryIds = getCategoryIdList(bidderCategoryList);
 			model.put("bidItems", bidItemFilterService
-					.getBidItemListForActiveMarket(bidItems, categoryIds));
+					.getBidItemListForActiveMarket(bidItems, categoryIds,AuctionCacheService.getActiveBidSequenceId()));
 			model.put("timeextention", 3);
 
 		}
 		return "bidderhome";
-	}
+	}*/
 
-	@RequestMapping(value = "/marketlist", method = RequestMethod.GET)
+	@RequestMapping(value = {"/marketlist" ,"/home", "/index"}, method = RequestMethod.GET)
 	public String getMarketList(ModelMap model, HttpSession session) {
 		User user = (User) session.getAttribute(SessionConstants.USER_INFO);
 		if (AuctionCacheManager.getActiveAuctionId() != null) {
@@ -84,11 +84,13 @@ public class BidderController {
 			LOG.debug("Category Id" + bidderCategoryList);
 
 			List<BidItem> bidItems = AuctionCacheManager.getBidItems();
-			System.out.println("BidItems" + bidItems);
-			List<Integer> categoryIds = getCategoryIdList(bidderCategoryList);
-			model.put("bidItems", bidItemFilterService
-					.getBidItemListForActiveMarket(bidItems, categoryIds));
-			model.put("timeextention", 3);
+			if(bidItems != null) {
+				System.out.println("BidItems" + bidItems);
+				List<Integer> categoryIds = getCategoryIdList(bidderCategoryList);
+				model.put("bidItems", bidItemFilterService
+						.getBidItemListForMarketList(bidItems, categoryIds, AuctionCacheService.getActiveBidSequenceId()));
+				model.put("timeextention", 3);
+			}
 		}
 		return "biddermarketlist";
 	}
