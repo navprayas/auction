@@ -3,7 +3,6 @@ package com.cfe.auction.dao.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
@@ -12,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.cfe.auction.dao.BidItemDao;
 import com.cfe.auction.model.persist.BidItem;
 import com.cfe.auction.model.persist.BidSequence;
+import com.cfe.auction.model.persist.CloseBids;
 
 @Repository
 public class BIdItemDaoImpl extends DAOImpl<Integer, BidItem> implements
@@ -71,5 +71,18 @@ public class BIdItemDaoImpl extends DAOImpl<Integer, BidItem> implements
 				"from BidItem where bidItemId=:bidItemId");
 		query.setLong("bidItemId", id);
 		return (BidItem) query.uniqueResult();
+	}
+	@Override
+	public List<BidItem> getWonList(String username) {
+		Query query = getSessionFactory().getCurrentSession().createQuery("From CloseBids closeBids where closeBids.bidderName= :bidderName ");
+		query.setParameter("bidderName", username);
+		List<CloseBids> closebidList = query.list();
+		
+		List<BidItem> listBidItems = new ArrayList<BidItem>();
+		for (CloseBids closebid : closebidList) {
+			BidItem bidItem = closebid.getBidItem();
+			listBidItems.add(bidItem);
+		}
+		return listBidItems ;
 	}
 }

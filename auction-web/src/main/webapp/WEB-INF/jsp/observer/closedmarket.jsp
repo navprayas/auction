@@ -19,13 +19,12 @@
 						$('#marketlist-pagination').empty();
 						var marketlist = jQuery.parseJSON(data);
 						var l = marketlist.length;
-						var tableHeader = "<tr><th>Sr. No.</th><th>Group Id</th><th>Name</th><th>Location</th><th>City</th><th>Zone</th><th>MinBidPrice</th><th>MinBidIncrement</th><th>Time Left</th><th>Created Time</th></tr>";
+						var tableHeader = "<tr><th>Sr. No.</th><th>Name</th><th>Location</th><th>City</th><th>Zone</th><th>MinBidPrice</th><th>MinBidIncrement</th><th>Created Time</th></tr>";
 						$('#marketlist-pagination').append(tableHeader);
 						var tableData = "";
 						if (l > 0) {
 							for (var i = 0; i < l; i++) {
-								tableData += "<tr><td>" + i + "</td><td>"
-										+ marketlist[i].bidItemGroupId
+								tableData += "<tr><td>" + marketlist[i].seqId
 										+ "</td><td>" + marketlist[i].name
 										+ "</td><td>" + marketlist[i].location
 										+ "</td><td>" + marketlist[i].city
@@ -34,18 +33,17 @@
 										+ marketlist[i].minBidPrice
 										+ "</td><td>"
 										+ marketlist[i].minBidIncrement
-										+ "</td><td>" + marketlist[i].timeleft
 										+ "</td><td>"
-										+ marketlist[i].createdTime
+										+ getConvertedDate(marketlist[i].createdTime)
 										+ "</td></tr>";
 							}
 						} else {
-							tableData += "<tr><td colspan='10'>No Data Found</td></tr>";
+							tableData += "<tr><td colspan=''>No Data Found</td></tr>";
 						}
 						$('#marketlist-pagination').append(tableData);
 					},
 					error : function(err) {
-						console.log(err);
+						alert(err);
 					}
 				});
 	};
@@ -107,29 +105,25 @@
 							id="marketlist-pagination">
 							<tr>
 								<th>Sr. No.</th>
-								<th>Group Id</th>
 								<th>Name</th>
 								<th>Location</th>
 								<th>City</th>
 								<th>Zone</th>
-								<th>MinBidPrice</th>
-								<th>MinBidIncrement</th>
-								<th>Time Left</th>
+								<th>Min Bid Price</th>
+								<th>Min Bid Increment</th>
 								<th>Created Time</th>
 							</tr>
 
 							<c:forEach var="marketlist" items="${bidItems}"
 								varStatus="status">
 								<tr>
-									<td>${status.index+1}</td>
-									<td>${marketlist.bidItemGroupId}</td>
+									<td>${marketlist.seqId}</td>
 									<td>${marketlist.name}</td>
 									<td>${marketlist.location}</td>
 									<td>${marketlist.city}</td>
 									<td>${marketlist.zone}</td>
 									<td>${marketlist.minBidPrice}</td>
 									<td>${marketlist.minBidIncrement}</td>
-									<td>${marketlist.timeLeft}</td>
 									<td>${marketlist.createdTime}</td>
 								</tr>
 							</c:forEach>
@@ -140,5 +134,37 @@
 		</div>
 	</div>
 	<!-- /container -->
+	<script>
+		function getConvertedDate(time) {
+			var date = new Date(time);
+			var dd = date.getDate();
+			if (dd < 10)
+				dd = '0' + dd;
+
+			var mm = date.getMonth() + 1;
+
+			if (mm < 10)
+				mm = '0' + mm;
+
+			var yy = date.getFullYear() % 100
+
+			if (yy < 10)
+				yy = '0' + yy;
+
+			var hh = date.getHours();
+			if (hh < 10)
+				hh = '0' + hh;
+
+			var min = date.getMinutes();
+			if (min < 10)
+				min = '0' + min;
+
+			var sec = date.getSeconds();
+			if (sec < 10)
+				sec = '0' + sec;
+			return dd + '-' + mm + '-' + yy + ' ' + hh + ':' + mm + ':' + sec;
+
+		}
+	</script>
 </section>
 

@@ -31,4 +31,9 @@ public class BidItemServiceImpl extends
 		return bidItemDao.getBidItems(auctionId);
 	}
 
+	@Override
+	public List<BidItem> getWonList(String username) {
+		return bidItemDao.getWonList(username);
+	}
+
 }

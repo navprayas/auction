@@ -19,7 +19,7 @@
 						$('#marketlist-pagination').empty();
 						var marketlist = jQuery.parseJSON(data);
 						var l = marketlist.length;
-						var tableHeader = "<tr><th>Sr. No.</th><th>Name</th><th>Location</th><th>City</th><th>Zone</th><th>MinBidPrice</th><th>MinBidIncrement</th><th>Created Time</th></tr>";
+						var tableHeader = "<tr><th>Sr. No.</th><th>Name</th><th>Location</th><th>City</th><th>Zone</th><th>Minimum Bid Price</th><th>Minimum Bid Increment</th><th>Created Time</th></tr>";
 						$('#marketlist-pagination').append(tableHeader);
 						var tableData = "";
 						if (l > 0) {
@@ -33,7 +33,7 @@
 										+ "</td><td>"
 										+ marketlist[i].minBidIncrement
 										+ "</td><td>"
-										+ marketlist[i].createdTime
+										+ getConvertedDate(marketlist[i].createdTime)
 										+ "</td></tr>";
 							}
 						} else {
@@ -133,5 +133,39 @@
 		</div>
 	</div>
 	<!-- /container -->
+	<script>
+	function getConvertedDate(time) {
+		var date = new Date(time);
+		var dd = date.getDate();
+		if (dd < 10)
+			dd = '0' + dd;
+
+		var mm = date.getMonth() + 1;
+
+		if (mm < 10)
+			mm = '0' + mm;
+
+		var yy = date.getFullYear() % 100
+
+		if (yy < 10)
+			yy = '0' + yy;
+
+		var hh = date.getHours();
+		if (hh < 10)
+			hh = '0' + hh;
+
+		var min = date.getMinutes();
+		if (min < 10)
+			min = '0' + min;
+
+		var sec = date.getSeconds();
+		if (sec < 10)
+			sec = '0' + sec;
+		return dd + '-' + mm + '-' + yy + ' ' + hh + ':' + mm + ':' + sec;
+
+	}
+	
+	
+	</script>
 </section>
 

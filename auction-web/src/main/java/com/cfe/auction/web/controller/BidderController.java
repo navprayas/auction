@@ -215,4 +215,20 @@ public class BidderController {
 		return "success";
 	}
 
+	@RequestMapping(value = "/bidderreport", method = RequestMethod.GET)
+	public String getwonLists(ModelMap modelMap, HttpSession session)
+			throws Exception {
+
+		User user = (User) session.getAttribute(SessionConstants.USER_INFO);
+		LOG.debug("UserName" + user.getUsername());
+		List<BidItem> wonList = bidItemService.getWonList(user.getUsername());
+		LOG.debug("closedbids List::" + wonList);
+		modelMap.addAttribute("wonList", wonList);
+		List<BidderCategory> categoryList = bidderCategoryService
+				.getAllCategory(AuctionCacheManager.getActiveAuctionId());
+		modelMap.addAttribute("bidderCategoryList", categoryList);
+		LOG.debug(" For category: bidderCategoryList List::" + categoryList);
+		return "bidderreport";
+	}
+
 }

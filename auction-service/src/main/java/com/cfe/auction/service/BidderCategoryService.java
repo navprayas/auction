@@ -7,5 +7,7 @@ import com.cfe.auction.model.persist.BidderCategory;
 public interface BidderCategoryService {
 	public List<BidderCategory> getBidderCategory(Integer userId,
 			Integer auctionId);
+	
+	public List<BidderCategory> getAllCategory(Integer auctionId);
 
 }

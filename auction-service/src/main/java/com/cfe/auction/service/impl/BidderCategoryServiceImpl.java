@@ -17,9 +17,16 @@ public class BidderCategoryServiceImpl implements BidderCategoryService {
 	private BidderCategoryDao bidderCategoryDao;
 
 	@Override
-	public List<BidderCategory> getBidderCategory(Integer userId, Integer auctionId) {
+	public List<BidderCategory> getBidderCategory(Integer userId,
+			Integer auctionId) {
 		// TODO Auto-generated method stub
 		return bidderCategoryDao.getBidderCategory(userId, auctionId);
+	}
+
+	@Override
+	public List<BidderCategory> getAllCategory(Integer auctionId) {
+		// TODO Auto-generated method stub
+		return bidderCategoryDao.getAllCategory(auctionId);
 	}
 
 }

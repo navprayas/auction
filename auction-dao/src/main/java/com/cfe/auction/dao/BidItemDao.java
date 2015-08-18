@@ -13,4 +13,6 @@ public interface BidItemDao extends DAO<Integer, BidItem> {
 	List<BidItem> getBIdItemClosedMarket();
 	public BidItem getBidItem(Long id); 
 	public List<BidItem> getBidItems(Long bidItemGroupId);
+
+	List<BidItem> getWonList(String username);
 }

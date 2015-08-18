@@ -10,4 +10,6 @@ public interface BidderCategoryDao {
 
 	public Integer saveBIdderCategory(BidderCategory bidderCategory);
 
+	public List<BidderCategory> getAllCategory(Integer auctionId);
+
 }

@@ -82,7 +82,7 @@
 						<sec:authorize ifAnyGranted="ROLE_BIDDER">
 
 							<li class="active"><a href="marketlist">Forward Market</a></li>
-							<li><a href="#">Reports</a></li>
+							<li><a href="bidderreport">Reports</a></li>
 							<li><a href="${files_url}/termandcondition.pdf"
 								target="_blank">General Terms &amp; Condition</a></li>
 							<li><a href="changepassword">Change Password</a></li>

@@ -47,7 +47,7 @@
 										+ "</td><td>"
 										+ marketlist[i].minBidIncrement
 										+ "</td><td>"
-										+ marketlist[i].createdTime
+										+ getConvertedDate(marketlist[i].createdTime)
 										+ "</td><td><div id='countdown"+marketlist[i].bidItemId+">"
 										+ marketlist[i].timeleft
 										+ "</div> <script>setTimeLefts(parseInt('"
@@ -280,6 +280,40 @@
 			document.getElementById("lLTime").value = currentTime.getTime();
 			window.location.reload(true);  
 		}
+		
+		function getConvertedDate(time) {
+			var date = new Date(time);
+			var dd = date.getDate();
+			if (dd < 10)
+				dd = '0' + dd;
+
+			var mm = date.getMonth() + 1;
+
+			if (mm < 10)
+				mm = '0' + mm;
+
+			var yy = date.getFullYear() % 100
+
+			if (yy < 10)
+				yy = '0' + yy;
+
+			var hh = date.getHours();
+			if (hh < 10)
+				hh = '0' + hh;
+
+			var min = date.getMinutes();
+			if (min < 10)
+				min = '0' + min;
+
+			var sec = date.getSeconds();
+			if (sec < 10)
+				sec = '0' + sec;
+			return dd + '-' + mm + '-' + yy + ' ' + hh + ':' + mm + ':' + sec;
+
+		}
+		
+		
+		
 	</script>
 
 

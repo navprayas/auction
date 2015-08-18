@@ -97,12 +97,6 @@ public class HomeController {
 		return "login";
 	}
 
-	
-	@RequestMapping(value = { "/observer/home", "/observer/index" }, method = RequestMethod.GET)
-	public String modelerHome() {
-		return "observerhome";
-	}
-
 	@RequestMapping(value = "/loginfailed", method = RequestMethod.GET)
 	public String loginerror(ModelMap model) {
 		model.addAttribute("loginerror", "loginerror");

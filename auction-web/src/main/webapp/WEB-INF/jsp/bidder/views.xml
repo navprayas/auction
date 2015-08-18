@@ -5,11 +5,6 @@
        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 
 <tiles-definitions>
-	<definition name="bidderhome" extends="baseLayout">
-		<put-attribute name="title" value="Bidder Home" />
-		<put-attribute name="body" value="/WEB-INF/jsp/bidder/marketlist.jsp" />
-	</definition>
-
 
 	<definition name="biddermarketlist" extends="baseLayout">
 		<put-attribute name="title" value="Bidder Home" />
@@ -26,6 +21,13 @@
 		<put-attribute name="title" value="Bidder Home" />
 		<put-attribute name="body"
 			value="/WEB-INF/jsp/bidder/closedmarket.jsp" />
+	</definition>
+
+
+<definition name="bidderreport" extends="baseLayout">
+		<put-attribute name="title" value="Bidder Report" />
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/bidder/bidderreport.jsp" />
 	</definition>
 
 	<definition name="biddererror" extends="baseLayout">

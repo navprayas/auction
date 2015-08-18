@@ -30,7 +30,18 @@ public class BidderCategoryDaoImpl implements BidderCategoryDao {
 
 	@Override
 	public Integer saveBIdderCategory(BidderCategory bidderCategory) {
-		return (Integer) sessionFactory.getCurrentSession().save(bidderCategory);
+		return (Integer) sessionFactory.getCurrentSession()
+				.save(bidderCategory);
 
+	}
+
+	@Override
+	public List<BidderCategory> getAllCategory(Integer auctionId) {
+		Query query = sessionFactory
+				.getCurrentSession()
+				.createQuery(
+						"from  BidderCategory bc where bc.auction.auctionId=:auctionId");
+		query.setInteger("auctionId", auctionId);
+		return (List<BidderCategory>) query.list();
 	}
 }
