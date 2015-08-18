@@ -19,23 +19,25 @@
 						$('#marketlist-pagination').empty();
 						var marketlist = jQuery.parseJSON(data);
 						var l = marketlist.length;
-						var tableHeader = "<tr><th>Sr. No.</th><th>Name</th><th>Location</th><th>City</th><th>Zone</th><th>MinBidPrice</th><th>MinBidIncrement</th><th>Time Left</th><th>Created Time</th></tr>";
+						var tableHeader = "<tr><th>Sr. No.</th><th>Name</th><th>Location</th><th>City</th><th>Zone</th><th>MinBidPrice</th><th>MinBidIncrement</th><th>Created Time</th></tr>";
 						$('#marketlist-pagination').append(tableHeader);
 						var tableData = "";
-                         if(l>0){
-						for (var i = 0; i < l; i++) {
-							tableData += "<tr><td>" + i + "</td><td>" + marketlist[i].name
-									+ "</td><td>" + marketlist[i].location
-									+ "</td><td>" + marketlist[i].city
-									+ "</td><td>" + marketlist[i].zone
-									+ "</td><td>" + marketlist[i].minBidPrice
-									+ "</td><td>"
-									+ marketlist[i].minBidIncrement
-									+ "</td><td>" + marketlist[i].timeleft
-									+ "</td><td>" + marketlist[i].createdTime
-									+ "</td></tr>";
-						}}else {
-							tableData +="<tr><td colspan='10'>No Data Found</td></tr>";
+						if (l > 0) {
+							for (var i = 0; i < l; i++) {
+								tableData += "<tr><td>" + marketlist[i].seqId + "</td><td>"
+										+ marketlist[i].name + "</td><td>"
+										+ marketlist[i].location + "</td><td>"
+										+ marketlist[i].city + "</td><td>"
+										+ marketlist[i].zone + "</td><td>"
+										+ marketlist[i].minBidPrice
+										+ "</td><td>"
+										+ marketlist[i].minBidIncrement
+										+ "</td><td>"
+										+ marketlist[i].createdTime
+										+ "</td></tr>";
+							}
+						} else {
+							tableData += "<tr><td colspan=''>No Data Found</td></tr>";
 						}
 						$('#marketlist-pagination').append(tableData);
 					},
@@ -106,25 +108,22 @@
 								<th>Location</th>
 								<th>City</th>
 								<th>Zone</th>
-								<th>MinBidPrice</th>
-								<th>MinBidIncrement</th>
-								<th>Time Left</th>
+								<th>Min Bid Price</th>
+								<th>Min Bid Increment</th>
 								<th>Created Time</th>
 							</tr>
 
 							<c:forEach var="marketlist" items="${bidItems}"
 								varStatus="status">
 								<tr>
-									<td>${status.index+1}</td>
+									<td>${marketlist.seqId}</td>
 									<td>${marketlist.name}</td>
 									<td>${marketlist.location}</td>
 									<td>${marketlist.city}</td>
 									<td>${marketlist.zone}</td>
 									<td>${marketlist.minBidPrice}</td>
 									<td>${marketlist.minBidIncrement}</td>
-									<td>${marketlist.timeLeft}</td>
 									<td>${marketlist.createdTime}</td>
-
 								</tr>
 							</c:forEach>
 						</table>

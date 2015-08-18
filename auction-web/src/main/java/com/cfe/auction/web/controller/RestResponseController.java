@@ -53,9 +53,10 @@ public class RestResponseController {
 
 			System.out.println("Ajax bid items" + bidItems);
 			if (bidderCategoryList != null && bidderCategoryList.size() > 0) {
+				List<Integer> categoryIds = getCategoryIdList(bidderCategoryList);
 				filteredbidItems = bidItemFilterService
-						.getBidItemListForActiveMarketAjax(bidItems,
-								bidderCategoryList.get(0).getCategoryId());
+						.getBidItemListForMarketListAjax(bidItems, categoryIds,
+								AuctionCacheService.getActiveBidSequenceId());
 			}
 			// System.out.println("MArket List Item"+filteredbidItems.get(0).getCreatedTime());
 			try {
@@ -73,21 +74,19 @@ public class RestResponseController {
 	String getActiveMarketListAjax(ModelMap model, HttpSession session) {
 		BidItem bidItem = AuctionCacheService
 				.getActiveBidItem(AuctionCacheService.getActiveBidItemId());
-
+		User user = (User) session.getAttribute(SessionConstants.USER_INFO);
 		ObjectMapper mapper = new ObjectMapper();
 		String result = null;
 		List<BidItemUi> filteredbidItems = new ArrayList<BidItemUi>();
 		List<BidItem> bidItems = AuctionCacheManager.getBidItems();
+		List<BidderCategory> bidderCategoryList = bidderCategoryService
+				.getBidderCategory(user.getId(),
+						AuctionCacheManager.getActiveAuctionId());
 		bidItems.add(bidItem);
+		List<Integer> categoryIds = getCategoryIdList(bidderCategoryList);
 		filteredbidItems = bidItemFilterService
-				.getBidItemListForActiveMarketAjax(bidItems, 2);
-		/* List<BidItem> bidItems = new ArrayList<BidItem>(); */
-
-		/*
-		 * model.put("bidItems",
-		 * bidItemFilterService.getBidItemListForActiveMarket(bidItems, 2));
-		 */
-
+				.getBidItemListForActiveMarketAjax(bidItems, categoryIds,
+						AuctionCacheService.getActiveBidSequenceId());
 		try {
 			result = mapper.writeValueAsString(filteredbidItems);
 			System.out.println("Ajax filtered data got result " + result);
@@ -103,12 +102,18 @@ public class RestResponseController {
 	public @ResponseBody
 	String getClosedMarketListAjax(ModelMap model, HttpSession session) {
 		ObjectMapper mapper = new ObjectMapper();
+		User user = (User) session.getAttribute(SessionConstants.USER_INFO);
 		String result = null;
 		System.out.println("Make ajax call");
 		List<BidItemUi> filteredbidItems = new ArrayList<BidItemUi>();
 		List<BidItem> bidItems = AuctionCacheManager.getBidItems();
+		List<BidderCategory> bidderCategoryList = bidderCategoryService
+				.getBidderCategory(user.getId(),
+						AuctionCacheManager.getActiveAuctionId());
+		List<Integer> categoryIds = getCategoryIdList(bidderCategoryList);
 		filteredbidItems = bidItemFilterService
-				.getBidItemListForClosedMarketAjax(bidItems, 2);
+				.getBidItemListForClosedMarketAjax(bidItems, categoryIds,
+						AuctionCacheService.getActiveBidSequenceId());
 
 		try {
 			result = mapper.writeValueAsString(filteredbidItems);
@@ -121,4 +126,14 @@ public class RestResponseController {
 		return result;
 	}
 
+	private List<Integer> getCategoryIdList(
+			List<BidderCategory> bidderCategoryList) {
+		List<Integer> categoryIds = new ArrayList<Integer>();
+		if (bidderCategoryList != null && !bidderCategoryList.isEmpty()) {
+			for (BidderCategory category : bidderCategoryList) {
+				categoryIds.add(category.getCategoryId());
+			}
+		}
+		return categoryIds;
+	}
 }

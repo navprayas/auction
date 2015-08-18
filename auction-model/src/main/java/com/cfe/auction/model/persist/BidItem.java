@@ -360,7 +360,7 @@ public class BidItem extends AbstractPO<Integer> {
 
 	@Override
 	public String toString() {
-		return "BidItem [bidItemId=" + getId() + ",categoryId = "
+		return "BidItem [bidItemId=" + getBidItemId() + ",categoryId = "
 				+ category.getId() + "]";
 	}
 
@@ -492,7 +492,4 @@ public class BidItem extends AbstractPO<Integer> {
 		this.biditemgroupid = biditemgroupid;
 	}
 
-	
-	
-	
 }

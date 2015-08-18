@@ -10,7 +10,7 @@ import com.cfe.auction.dao.BidderCategoryDao;
 import com.cfe.auction.model.persist.BidderCategory;
 import com.cfe.auction.service.BidderCategoryService;
 
-@Service
+@Service("bidderCategoryServiceImpl")
 @Transactional
 public class BidderCategoryServiceImpl implements BidderCategoryService {
 	@Autowired

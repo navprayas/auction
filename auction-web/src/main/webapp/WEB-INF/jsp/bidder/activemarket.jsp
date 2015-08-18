@@ -13,7 +13,6 @@
 	function setTimeLefts(remain, bidItemId) {
 		timeSpans.push(remain);
 		bidItemIds.push(bidItemId);
-		alert(remain + " " + bidItemId);
 	}
 	function openUrl(url) {
 		window.location.href = url;
@@ -34,7 +33,7 @@
 						if (l > 0) {
 							for (var i = 0; i < l; i++) {
 								tableData += "<tr><td>"
-										+ (i + 1)
+										+ marketlist[i].seqId
 										+ "</td><td>"
 										+ marketlist[i].name
 										+ "</td><td>"
@@ -134,10 +133,10 @@
 								<th>Zone</th>
 								<th>Min Bid Price</th>
 								<th>Min Bid Increment</th>
+								<th>Current Market</th>
 								<th>Created Time</th>
 								<th>Time Left</th>
 								<th>Next Bid</th>
-								<th>Other Bids</th>
 							</tr>
 
 							<c:forEach var="marketlist" items="${bidItems}"
@@ -150,7 +149,9 @@
 									<td>${marketlist.zone}</td>
 									<td>${marketlist.minBidPrice}</td>
 									<td>${marketlist.minBidIncrement}</td>
-									<td>${marketlist.currentMarketPrice}</td>
+									<td><input type='hidden' name="currentPriceHidden"
+										id="itemPrice${marketlist.bidItemId}"
+										value="${marketlist.currentMarketPrice}"><div id="currentPriceDiv">${marketlist.currentMarketPrice}</div></td>
 									<td>${marketlist.createdTime}</td>
 									<td><div id="countdown${marketlist.bidItemId}">
 											${marketlist.timeLeft}</div> <script>
@@ -173,7 +174,6 @@
 											</c:otherwise>
 										</c:choose></td>
 
-									<td></td>
 								</tr>
 							</c:forEach>
 						</table>
@@ -186,25 +186,43 @@
 
 	<script type="text/javascript">
 		function doNextBid(bidItemId, minIncrementAmount) {
-			alert('bidItemId' + bidItemId + "" + minIncrementAmount);
-			var curPriceObject = document.getElementById("Item" + bidItemId).innerHTML;
+			var curPriceObject = $('#itemPriceHidden' + bidItemId).val();
 			var nextBidPrice = parseFloat(curPriceObject)
 					+ parseFloat(minIncrementAmount);
 			var flag;
 			flag = confirm("Are you sure you want to put next bid for amount - "
 					+ nextBidPrice + " , then Press OK");
 			if (flag == true) {
-				$.getJSON("bid", {
-					bidItemId : bidItemId,
-					bidType : 1,
-					bidAmount : nextBidPrice,
-					comments : "Next Bid"
-				}, function(data) {
-					//alert("It worked");
+
+				$.ajax({
+					url : 'bid',
+					method : 'get',
+					data : {
+						bidItemId : bidItemId,
+						bidType : 1,
+						bidAmount : nextBidPrice,
+						comments : "Next Bid"
+					},
+					success : function(data, status) {
+						if (status == 'success') {
+							$('#itemPrice' + bidItemId).val(nextBidPrice);
+							$('#currentPriceDiv' + bidItemId).append(nextBidPrice);
+							setNextBidDisabled('NextBid' + bidItemId);
+						}
+
+					}
 				});
-				setNextBidDisabled('NextBid' + bidItemId);
+				
 			}
 
+		}
+
+		function setNextBidDisabled(nextBidButton)
+		{
+			if(document.getElementById(nextBidButton))
+				{
+				document.getElementById(nextBidButton).disabled = true;
+				}
 		}
 
 		function toHourAndMinuteAndSecond(x) {
@@ -250,7 +268,7 @@
 		});
 
 		function refreshPage() {
-			/* var count = document.getElementById("lLCount").value;
+			 var count = document.getElementById("lLCount").value;
 			var timee = document.getElementById("lLTime").value;
 			var currentTime = new Date();
 			diff = currentTime.getTime() - parseInt(timee);
@@ -260,7 +278,7 @@
 				return false;
 			}
 			document.getElementById("lLTime").value = currentTime.getTime();
-			window.location.reload(true);  */
+			window.location.reload(true);  
 		}
 	</script>
 

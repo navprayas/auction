@@ -18,7 +18,7 @@ import com.cfe.auction.model.persist.BidderCategoryId;
 import com.cfe.auction.model.persist.User;
 import com.cfe.auction.service.UserService;
 
-@Service
+@Service("userServiceImpl")
 public class UserServiceImpl extends CRUDServiceImpl<Integer, User, UserDao>
 		implements UserService {
 

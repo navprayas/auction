@@ -1,22 +1,29 @@
 package com.cfe.auction.web;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.cfe.auction.service.BidItemService;
+import com.cfe.auction.service.cache.manager.AuctionCacheManager;
+
 import junit.framework.TestCase;
 
-public class BidItemTestCase extends TestCase{
+public class BidItemTestCase extends TestCase {
+	ApplicationContext context;
+
 	public void setUp() {
-		/*//context = new ClassPathXmlApplicationContext();
-		context=new FileSystemXmlApplicationContext("/webapp/WEB-INF/spring-beans.xml");
+
+		context = new ClassPathXmlApplicationContext("spring-beans.xml");
 		System.out.println(context);
-*/
+
 	}
+
 	public void testBIdItemTestCase() {
 
-		/*IAuctionService iAuctionService = (IAuctionService) context
-				.getBean("auctionServiceImpl");
-
-		List<Auction> auctions = iAuctionService.findAll(Auction.class);
-		for (Auction auction : auctions) {
-			System.out.println(auction.getName());
-		}*/
+		BidItemService bidItemService = (BidItemService) context
+				.getBean("bidItemServiceImpl");
+		System.out.println(bidItemService
+				.getBidItemsbyAuctionId(AuctionCacheManager
+						.getActiveAuctionId()));
 	}
 }

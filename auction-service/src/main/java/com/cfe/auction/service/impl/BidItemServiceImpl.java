@@ -12,7 +12,7 @@ import com.cfe.auction.service.BidItemService;
 
 ;
 
-@Service
+@Service("bidItemServiceImpl")
 @Transactional
 public class BidItemServiceImpl extends
 		CRUDServiceImpl<Integer, BidItem, BidItemDao> implements BidItemService {

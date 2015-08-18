@@ -144,7 +144,7 @@
 								<th>Zone</th>
 								<th>Start Price</th>
 								<th>Min Bid Increment</th>
-								<th>Time Left</th>
+								<th>Time Left ${timeextention}</th>
 								<th>Time To Start</th>
 								<th>Auto Bid</th>
 							</tr>
@@ -160,9 +160,10 @@
 									<td>${marketlist.minBidPrice}</td>
 									<td>${marketlist.minBidIncrement}</td>
 									<td>
-										<div id="countdown${marketlist.bidItemId}">${marketlist.timeLeft}</div> <script>
+										<div id="countdown${marketlist.bidItemId}">${marketlist.timeLeft}</div>
+										<script>
 											setTimeLefts(
-													parseInt('${marketlist.timeLeft}'),
+													parseInt('${timeextention+(status.index+1)}'),
 													'${marketlist.bidItemId}');
 										</script>
 									</td>
@@ -247,7 +248,7 @@
 							if (l > 0) {
 								for (var i = 0; i < l; i++) {
 									tableData += "<tr><td>"
-											+(i+1)
+											+ (i + 1)
 											+ "</td><td>"
 											+ marketlist[i].name
 											+ "</td><td>"

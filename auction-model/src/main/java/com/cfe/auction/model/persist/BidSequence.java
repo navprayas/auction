@@ -16,24 +16,24 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
-/*@Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "BidSequence" )*/
-@Table(name="bidsequence")
-public class BidSequence implements Serializable{
-	
-	@ManyToOne( cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
-    @JoinColumn(name="auctionId", referencedColumnName = "auctionId")
+/* @Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "BidSequence" ) */
+@Table(name = "bidsequence")
+public class BidSequence implements Serializable {
+
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinColumn(name = "auctionId", referencedColumnName = "auctionId")
 	private Auction auction;
-	
-	@ManyToOne( cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch=FetchType.EAGER)
-    @JoinColumn(name="bidItemId", referencedColumnName = "bidItemId")
+
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
+	@JoinColumn(name = "bidItemId", referencedColumnName = "bidItemId")
 	private BidItem bidItem;
-	
+
 	@Id
-	@Column(name="SEQUENCEID")
+	@Column(name = "SEQUENCEID")
 	@GeneratedValue
 	private Long sequenceId;
-	
-	@Column(name="BIDSPAN")
+
+	@Column(name = "BIDSPAN")
 	private Long bidspan;
 
 	/**
@@ -44,7 +44,8 @@ public class BidSequence implements Serializable{
 	}
 
 	/**
-	 * @param auction the auction to set
+	 * @param auction
+	 *            the auction to set
 	 */
 	public void setAuction(Auction auction) {
 		this.auction = auction;
@@ -58,7 +59,8 @@ public class BidSequence implements Serializable{
 	}
 
 	/**
-	 * @param bidItem the bidItem to set
+	 * @param bidItem
+	 *            the bidItem to set
 	 */
 	public void setBidItem(BidItem bidItem) {
 		this.bidItem = bidItem;
@@ -72,7 +74,8 @@ public class BidSequence implements Serializable{
 	}
 
 	/**
-	 * @param sequenceId the sequenceId to set
+	 * @param sequenceId
+	 *            the sequenceId to set
 	 */
 	public void setSequenceId(Long sequenceId) {
 		this.sequenceId = sequenceId;
@@ -86,20 +89,23 @@ public class BidSequence implements Serializable{
 	}
 
 	/**
-	 * @param bidspan the bidspan to set
+	 * @param bidspan
+	 *            the bidspan to set
 	 */
 	public void setBidspan(Long bidspan) {
 		this.bidspan = bidspan;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "BidSequence [auction="
-				+ auction.getAuctionId()+ ", bidItem=" + ((bidItem != null) ? bidItem.getId() : "null") + ", sequenceId="
-				+ sequenceId + ", bidspan=" + bidspan + "]";
+		return "BidSequence [auction=" + auction.getAuctionId() + ", bidItem="
+				+ ((bidItem != null) ? bidItem.getBidItemId() : "null")
+				+ ", sequenceId=" + sequenceId + ", bidspan=" + bidspan + "]";
 	}
-	
+
 }

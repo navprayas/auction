@@ -51,30 +51,30 @@ public class BidderController {
 	@Autowired
 	private AutoBidService autoBidService;
 
-	/*@RequestMapping(value = { }, method = RequestMethod.GET)
-	public String modelerHome(ModelMap model, HttpSession session) {
-		User user = (User) session.getAttribute(SessionConstants.USER_INFO);
-		System.out.println("Auction Id"
-				+ AuctionCacheManager.getActiveAuctionId());
+	/*
+	 * @RequestMapping(value = { }, method = RequestMethod.GET) public String
+	 * modelerHome(ModelMap model, HttpSession session) { User user = (User)
+	 * session.getAttribute(SessionConstants.USER_INFO);
+	 * System.out.println("Auction Id" +
+	 * AuctionCacheManager.getActiveAuctionId());
+	 * 
+	 * if (AuctionCacheManager.getActiveAuctionId() != null) {
+	 * List<BidderCategory> bidderCategoryList = bidderCategoryService
+	 * .getBidderCategory(user.getId(),
+	 * AuctionCacheManager.getActiveAuctionId()); LOG.debug("Category Id" +
+	 * bidderCategoryList);
+	 * 
+	 * List<BidItem> bidItems = AuctionCacheManager.getBidItems();
+	 * System.out.println("BidItems" + bidItems); List<Integer> categoryIds =
+	 * getCategoryIdList(bidderCategoryList); model.put("bidItems",
+	 * bidItemFilterService .getBidItemListForActiveMarket(bidItems,
+	 * categoryIds,AuctionCacheService.getActiveBidSequenceId()));
+	 * model.put("timeextention", 3);
+	 * 
+	 * } return "bidderhome"; }
+	 */
 
-		if (AuctionCacheManager.getActiveAuctionId() != null) {
-			List<BidderCategory> bidderCategoryList = bidderCategoryService
-					.getBidderCategory(user.getId(),
-							AuctionCacheManager.getActiveAuctionId());
-			LOG.debug("Category Id" + bidderCategoryList);
-
-			List<BidItem> bidItems = AuctionCacheManager.getBidItems();
-			System.out.println("BidItems" + bidItems);
-			List<Integer> categoryIds = getCategoryIdList(bidderCategoryList);
-			model.put("bidItems", bidItemFilterService
-					.getBidItemListForActiveMarket(bidItems, categoryIds,AuctionCacheService.getActiveBidSequenceId()));
-			model.put("timeextention", 3);
-
-		}
-		return "bidderhome";
-	}*/
-
-	@RequestMapping(value = {"/marketlist" ,"/home", "/index"}, method = RequestMethod.GET)
+	@RequestMapping(value = { "/marketlist", "/home", "/index" }, method = RequestMethod.GET)
 	public String getMarketList(ModelMap model, HttpSession session) {
 		User user = (User) session.getAttribute(SessionConstants.USER_INFO);
 		if (AuctionCacheManager.getActiveAuctionId() != null) {
@@ -84,12 +84,13 @@ public class BidderController {
 			LOG.debug("Category Id" + bidderCategoryList);
 
 			List<BidItem> bidItems = AuctionCacheManager.getBidItems();
-			if(bidItems != null) {
+			if (bidItems != null) {
 				System.out.println("BidItems" + bidItems);
 				List<Integer> categoryIds = getCategoryIdList(bidderCategoryList);
 				model.put("bidItems", bidItemFilterService
-						.getBidItemListForMarketList(bidItems, categoryIds, AuctionCacheService.getActiveBidSequenceId()));
-				model.put("timeextention", 3);
+						.getBidItemListForMarketList(bidItems, categoryIds,
+								AuctionCacheService.getActiveBidSequenceId()));
+				model.put("timeextention", 180);
 			}
 		}
 		return "biddermarketlist";
@@ -105,21 +106,37 @@ public class BidderController {
 		}
 		return categoryIds;
 	}
+
 	@RequestMapping(value = "/activemarketlist", method = RequestMethod.GET)
-	public String getActiveMarketList(ModelMap model) {
-		BidItem bidItem = AuctionCacheService.getActiveBidItem(AuctionCacheService.getActiveBidItemId());
+	public String getActiveMarketList(ModelMap model, HttpSession session) {
+		User user = (User) session.getAttribute(SessionConstants.USER_INFO);
+		List<BidderCategory> bidderCategoryList = bidderCategoryService
+				.getBidderCategory(user.getId(),
+						AuctionCacheManager.getActiveAuctionId());
+		BidItem bidItem = AuctionCacheService
+				.getActiveBidItem(AuctionCacheService.getActiveBidItemId());
 		List<BidItem> bidItems = new ArrayList<BidItem>();
 		bidItems.add(bidItem);
-		model.put("bidItems",
-				bidItemFilterService.getBidItemListForActiveMarket(bidItems, 2));
+
+		List<Integer> categoryIds = getCategoryIdList(bidderCategoryList);
+		model.put("bidItems", bidItemFilterService
+				.getBidItemListForActiveMarketList(bidItems, categoryIds,
+						AuctionCacheService.getActiveBidSequenceId()));
+
 		return "bidderactivemarket";
 	}
 
 	@RequestMapping(value = "/closedmarketlist", method = RequestMethod.GET)
-	public String getClosedMarket(ModelMap model) {
+	public String getClosedMarket(ModelMap model, HttpSession session) {
+		User user = (User) session.getAttribute(SessionConstants.USER_INFO);
+		List<BidderCategory> bidderCategoryList = bidderCategoryService
+				.getBidderCategory(user.getId(),
+						AuctionCacheManager.getActiveAuctionId());
 		List<BidItem> bidItems = AuctionCacheManager.getBidItems();
+		List<Integer> categoryIds = getCategoryIdList(bidderCategoryList);
 		model.put("bidItems", bidItemFilterService
-				.getBidItemListForClosedMarket(bidItems, "2"));
+				.getBidItemListForClosedMarketList(bidItems, categoryIds,
+						AuctionCacheService.getActiveBidSequenceId()));
 		return "bidderclosedmarket";
 	}
 
@@ -162,14 +179,17 @@ public class BidderController {
 			ModelMap model, HttpSession session)
 
 	{
-
+		System.out.println(bidItemId + " " + bidType + " " + bidAmount + ""
+				+ comments);
 		String userName = session.getAttribute(CommonConstants.USER_NAME)
 				.toString();
-		boolean returnVal = false;//bidderService.doBid(bidItemId.intValue(), bidType,
-				//new Double(bidAmount), userName, comments);
+		System.out.println(userName);
+		boolean returnVal = false;// bidderService.doBid(bidItemId.intValue(),
+									// bidType,
+		// new Double(bidAmount), userName, comments);
 
 		if (bidType == 2) {
-			BidItem bidItem = null;//bidItemsCacheService.getBidItem(bidItemId);
+			BidItem bidItem = null;// bidItemsCacheService.getBidItem(bidItemId);
 
 			Map<Long, String> bidItemWithRanks = new HashMap<Long, String>();
 			Map<Long, String> bidItemWithAutoBidFlag = new HashMap<Long, String>();
@@ -186,15 +206,13 @@ public class BidderController {
 			}
 			model.addAttribute("bidItemWithRanks", bidItemWithRanks);
 			model.addAttribute("bidItemWithAutoBidFlag", bidItemWithAutoBidFlag);
-			return "bidder/bidder_active";
+			return "success";
 		}
 
 		LOG.debug("In doBid Method returnVal: " + returnVal);
 		HashMap<String, String> h = new HashMap<String, String>();
 		h.put("returnVal", "" + returnVal);
-		return "Hello World";
+		return "success";
 	}
-	
-	
-	
+
 }
