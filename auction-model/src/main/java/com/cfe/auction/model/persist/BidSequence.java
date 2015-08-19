@@ -1,7 +1,5 @@
 package com.cfe.auction.model.persist;
 
-import java.io.Serializable;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,13 +10,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 @Entity
 /*@Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "BidSequence" )*/
 @Table(name="bidsequence")
-public class BidSequence implements Serializable{
+public class BidSequence extends AbstractPO<Integer> {
+	
+	private static final long serialVersionUID = -600920698458513L;
 	
 	@ManyToOne( cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
     @JoinColumn(name="auctionId", referencedColumnName = "auctionId")
@@ -100,6 +97,15 @@ public class BidSequence implements Serializable{
 		return "BidSequence [auction="
 				+ auction.getAuctionId()+ ", bidItem=" + ((bidItem != null) ? bidItem.getId() : "null") + ", sequenceId="
 				+ sequenceId + ", bidspan=" + bidspan + "]";
+	}
+
+	@Override
+	public Integer getId() {
+		return null;
+	}
+
+	@Override
+	public void setId(Integer id) {
 	}
 	
 }

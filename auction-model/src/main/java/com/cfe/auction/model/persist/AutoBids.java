@@ -2,32 +2,16 @@ package com.cfe.auction.model.persist;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "AUTOBIDS")
 public class AutoBids extends AbstractPO<Integer> {
-	public AutoBids() {
-		// TODO Auto-generated constructor stub
-	}
 
-	public AutoBids(int id) {
-		this.id = id;
-	}
-
-	/*
-	 * @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	 * 
-	 * @JoinColumn(name = "AUCTIONID", referencedColumnName = "AUCTIONID")
-	 * private Auction auction;
-	 */
 	@Column(name = "auctionId")
 	private Integer auctionId;
 
@@ -67,33 +51,6 @@ public class AutoBids extends AbstractPO<Integer> {
 
 	}
 
-	/**
-	 * @return the auction
-	 */
-	/*
-	 * public Auction getAuction() { return auction; }
-	 *//**
-	 * @param auctionId
-	 *            the auction to set
-	 */
-	/*
-	 * public void setAuction(Auction auction) { this.auction = auction; }
-	 */
-	/**
-	 * @return the lotId
-	 */
-	/*public BidItem getBidItemId() {
-		return bidItemId;
-	}
-
-	*//**
-	 * @param lotId
-	 *            the lotId to set
-	 *//*
-	public void setBidItemId(BidItem bidItemId) {
-		this.bidItemId = bidItemId;
-	}
-*/
 	/**
 	 * @return the bidAmount
 	 */
@@ -184,11 +141,6 @@ public class AutoBids extends AbstractPO<Integer> {
 		this.comments = comments;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return "AutoBids [autoBidId=" + getId() + "]";
@@ -209,7 +161,5 @@ public class AutoBids extends AbstractPO<Integer> {
 	public void setBidItemId(Long bidItemId) {
 		this.bidItemId = bidItemId;
 	}
-
-	
 	
 }

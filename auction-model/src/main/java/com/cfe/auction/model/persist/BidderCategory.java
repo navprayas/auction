@@ -1,7 +1,5 @@
 package com.cfe.auction.model.persist;
 
-import java.io.Serializable;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -11,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "BidderCategory")
-public class BidderCategory implements Serializable {
+public class BidderCategory extends AbstractPO<Integer> {
 
 	private static final long serialVersionUID = -6312688222365987584L;
 
@@ -49,5 +47,14 @@ public class BidderCategory implements Serializable {
 
 	public void setBidderCategoryId(BidderCategoryId bidderCategoryId) {
 		this.bidderCategoryId = bidderCategoryId;
+	}
+
+	@Override
+	public Integer getId() {
+		return null;
+	}
+
+	@Override
+	public void setId(Integer id) {
 	}
 }

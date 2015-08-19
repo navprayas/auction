@@ -3,9 +3,9 @@ package com.cfe.auction.dao.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Query;
 
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -24,18 +24,16 @@ public class BIdItemDaoImpl extends DAOImpl<Integer, BidItem> implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<BidItem> getBidItems(Long bidItemGroupId) {
-		Criteria criteria = getSessionFactory().getCurrentSession()
-				.createCriteria(BidItem.class);
-		criteria = criteria.add(Restrictions.eq("bidItemGroupId",
-				bidItemGroupId));
-		return  (List<BidItem>)criteria.list();
+		Query query = getEntityManager().createQuery(" from BidItem as bidItem where bidItemGroupId = :bidItemGroupId");
+		query.setParameter("bidItemGroupId", bidItemGroupId);
+		return  (List<BidItem>)query.getResultList();
 	}
 	public List<BidItem> getBidItems(Integer auctionId) {
 
-		Query query = getSessionFactory().getCurrentSession().createQuery(" from BidItem as bidItem , BidSequence bidSeq "
+		Query query = getEntityManager().createQuery(" from BidItem as bidItem , BidSequence bidSeq "
 				+ "where bidSeq.auction.auctionId = :auctionId and bidSeq.bidItem.bidItemId = bidItem.bidItemId");
-		query.setInteger("auctionId", auctionId);	
-		List<Object[]> objectsList = query.list();
+		query.setParameter("auctionId", auctionId);	
+		List<Object[]> objectsList = query.getResultList();
 		List<BidItem> bidItemsList = new ArrayList<BidItem>();
 
 		for (Object[] objects : objectsList) {
@@ -67,9 +65,9 @@ public class BIdItemDaoImpl extends DAOImpl<Integer, BidItem> implements
 	@Override
 	public BidItem getBidItem(Long id) {
 
-		Query query = getSessionFactory().getCurrentSession().createQuery(
-				"from BidItem where bidItemId=:bidItemId");
-		query.setLong("bidItemId", id);
-		return (BidItem) query.uniqueResult();
+		Query query = getEntityManager().createQuery(
+				"from BidItem where bidItemId = :bidItemId");
+		query.setParameter("bidItemId", id);
+		return (BidItem) query.getSingleResult();
 	}
 }

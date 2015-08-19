@@ -5,136 +5,154 @@ import java.lang.reflect.ParameterizedType;
 import java.util.Collection;
 import java.util.List;
 
-import org.hibernate.Criteria;
-import org.hibernate.Query;
-import org.hibernate.SessionFactory;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.cfe.auction.dao.DAO;
 import com.cfe.auction.model.persist.PO;
 
-public abstract class DAOImpl<I extends Serializable, T extends PO<I>> implements DAO<I, T>, InitializingBean {
+public abstract class DAOImpl<I extends Serializable, T extends PO<I>>
+		implements DAO<I, T>, InitializingBean {
 
-	@Autowired
-	private SessionFactory sessionFactory;
+	@PersistenceContext(unitName = "PersistenceUnitA")
+	private EntityManager entityManagerA;
+	
+	@PersistenceContext(unitName = "PersistenceUnitB")
+	private EntityManager entityManagerB;
+	
+	/*@Autowired
+	@Qualifier("sessionFactoryZin")
+	private SessionFactory sessionFactory1;*/
 	private Class<T> poClass;
 	private String entityName;
-	
-	
-	
+
 	@Override
 	public T get(I id) {
-		return (T)sessionFactory.getCurrentSession().get(poClass, id);
+		return (T) getEntityManager().find(poClass, id);
 	}
-	
+
 	@Override
-	 @SuppressWarnings("unchecked")
-	    public <T> List<T> findAll(Class<T> persistentClass) {
-	        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(persistentClass);
-	       
-	        List<T> res = criteria.list();
-	        return res;
-	    }
-	
-	
-	/*@Override
-	 @SuppressWarnings("unchecked")
-	    public <T> List<T> findAllById(Class<T> persistentClass,I id) {
-	        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(persistentClass,id);
-	       
-	        List<T> res = criteria.list();
-	        return res;
-	    }*/
+	@SuppressWarnings("unchecked")
+	public <T> List<T> findAll(Class<T> persistentClass) {
+		/*Criteria criteria = getEntityManager().createQuery();
+
+		List<T> res = criteria.list();
+		return res;*/
+		return null;
+	}
+
+	/*
+	 * @Override
+	 * 
+	 * @SuppressWarnings("unchecked") public <T> List<T> findAllById(Class<T>
+	 * persistentClass,I id) { Criteria criteria =
+	 * sessionFactory1.getCurrentSession().createCriteria(persistentClass,id);
+	 * 
+	 * List<T> res = criteria.list(); return res; }
+	 */
 
 	@Override
 	public T create(T po) {
-		sessionFactory.getCurrentSession().save(po);
+		getEntityManager().persist(po);
 		return po;
 	}
 
 	@Override
 	public T createOrUpdate(T po) {
-		sessionFactory.getCurrentSession().saveOrUpdate(po);
+		getEntityManager().merge(po);
 		return po;
 	}
 
 	@Override
 	public T update(T po) {
-		sessionFactory.getCurrentSession().update(po);
+		getEntityManager().merge(po);
 		return po;
 	}
 
 	@Override
 	public void delete(T po) {
-		sessionFactory.getCurrentSession().delete(po);
-		
+		getEntityManager().remove(po);
+
 	}
 
 	@Override
 	public int deleteById(I id) {
-		Query query = sessionFactory.getCurrentSession().createQuery("delete "+entityName+" where id = :id");
+		Query query = getEntityManager().createQuery(
+				"delete " + entityName + " where id = :id");
 		query.setParameter("id", id);
 		return query.executeUpdate();
-		
+
 	}
-	
+
 	@Override
-	public int countbyobject(I id,String fieldName) {
-		Query query = sessionFactory.getCurrentSession().createQuery("select count(*)from "+entityName+" as ob where ob."+fieldName+"  = :id");
+	public int countbyobject(I id, String fieldName) {
+		Query query = getEntityManager().createQuery(
+				"select count(*)from " + entityName + " as ob where ob."
+						+ fieldName + "  = :id");
 		query.setParameter("id", id);
-		return ((Number) query.uniqueResult()).intValue();
-		
+		return ((Number) query.getSingleResult()).intValue();
+
 	}
 
 	@Override
 	public <C extends Collection<T>> C create(C pos) {
-		for(T po: pos)
+		for (T po : pos)
 			create(po);
 		return pos;
 	}
-	
-	
 
 	@Override
-public <C extends Collection<T>> C createOrUpdate(C pos) {
-		for(T po: pos)
-			sessionFactory.getCurrentSession().saveOrUpdate(po);
+	public <C extends Collection<T>> C createOrUpdate(C pos) {
+		for (T po : pos)
+			getEntityManager().merge(po);
 		return pos;
 	}
 
 	@Override
 	public <C extends Collection<T>> C update(C pos) {
-		for(T po: pos)
+		for (T po : pos)
 			update(po);
 		return pos;
 	}
 
 	@Override
 	public <C extends Collection<T>> void delete(C pos) {
-		for(T po: pos)
+		for (T po : pos)
 			delete(po);
 	}
 
 	@Override
 	public <C extends Collection<I>> void deleteByIds(C ids) {
-		for(I id: ids)
+		for (I id : ids)
 			deleteById(id);
 	}
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		poClass = (Class<T>)((ParameterizedType)getClass().getGenericSuperclass()).getActualTypeArguments()[1];
+		poClass = (Class<T>) ((ParameterizedType) getClass()
+				.getGenericSuperclass()).getActualTypeArguments()[1];
 		entityName = poClass.getSimpleName();
 	}
+
+	/*protected SessionFactory getSessionFactory() {
+		return sessionFactory1;
+	}*/
 	
-	protected SessionFactory getSessionFactory(){
-		return sessionFactory;
+	protected EntityManager getEntityManager() {
+		return entityManagerB;
+	}
+
+	protected EntityManager getMasterEntityManager() {
+		return entityManagerA;
 	}
 	
-	public List<T> listAll(){
-		Query query = sessionFactory.getCurrentSession().createQuery("from "+entityName);
-		return (List<T>)query.list();
+	public List<T> listAll() {
+		Query query = getEntityManager().createQuery(
+				"from " + entityName);
+		return (List<T>) query.getResultList();
 	}
 
 }

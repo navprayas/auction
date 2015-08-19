@@ -138,26 +138,15 @@ public class AdminController {
 
 	@RequestMapping(value = "/closeauction", method = RequestMethod.GET)
 	public String closeRunningAuction(@RequestParam Integer auctionId,
-			ModelMap model) {
-		Auction currentAuction = iAuctionService.read(auctionId);
-		Date date = new Date();
-		currentAuction.setAuctionEndTime(date);
-		currentAuction.setLastUpdateTime(date);
-		List<Auction> auctionList = iAuctionService.getAuctionList();
-		Integer aunctionRunningOrClosedPresent = 0;
-		if (auctionList != null) {
-			for (Auction auction : auctionList) {
-				if ("END".equalsIgnoreCase(auction.getStatus())
-						|| "Running".equalsIgnoreCase(auction.getStatus())) {
-					aunctionRunningOrClosedPresent++;
-					break;
-				}
-			}
+			ModelMap model, HttpServletRequest httpServletRequest) {
+		String msg = null;
+		try {
+			msg = closeAuction(auctionId, httpServletRequest);
+		} catch (Exception e) {
+			e.printStackTrace();
+			msg = "Auction Could not be Closed - " + auctionId;
 		}
-		model.addAttribute("auctionlist", iAuctionService.getAuctionList());
-		model.addAttribute("aunctionRunningOrClosedPresent",
-				aunctionRunningOrClosedPresent);
-		return "auctionmanagement";
+		return "redirect:/admin/auctionmanagement?Message=" + msg;
 	}
 
 	@RequestMapping(value = "/createauction", method = RequestMethod.GET)
@@ -188,18 +177,22 @@ public class AdminController {
 			ModelMap modelMap, HttpServletRequest httpServletRequest) {
 		String msg = null;
 		try {
-			iAuctionService.closeAuction(auctionId);
-			msg = "Auction Closed - " + auctionId;
-			httpServletRequest.setAttribute("SuccessMessage", "Auction Closed");
-			AuctionCacheService.flushCache();
-			AuctionCacheManager.flushCache();
+			msg = closeAuction(auctionId, httpServletRequest);
 		} catch (Exception e) {
 			e.printStackTrace();
 			msg = "Auction Could not be Closed - " + auctionId;
 		}
-		return "redirect:/admin/superAdmin?Message=" + msg;
-		// }
+		return "redirect:/admin/auctionmanagement?Message=" + msg;
+	}
 
+	private String closeAuction(Integer auctionId,
+			HttpServletRequest httpServletRequest) {		
+		iAuctionService.closeAuction(auctionId);
+		String msg = "Auction Closed - " + auctionId;
+		httpServletRequest.setAttribute("SuccessMessage", "Auction Closed");
+		AuctionCacheService.flushCache();
+		AuctionCacheManager.flushCache();
+		return msg;
 	}
 
 	@RequestMapping(value = "/initcache", method = RequestMethod.GET)

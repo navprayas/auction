@@ -492,7 +492,4 @@ public class BidItem extends AbstractPO<Integer> {
 		this.biditemgroupid = biditemgroupid;
 	}
 
-	
-	
-	
 }

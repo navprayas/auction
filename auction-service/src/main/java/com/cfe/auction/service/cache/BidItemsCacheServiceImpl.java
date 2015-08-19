@@ -69,7 +69,6 @@ public class BidItemsCacheServiceImpl implements IBidItemsCacheService {
 		}
 	}
 
-	@Transactional
 	@Override
 	public void initCache()
 	{
