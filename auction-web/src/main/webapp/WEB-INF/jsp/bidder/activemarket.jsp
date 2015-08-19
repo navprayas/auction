@@ -19,6 +19,7 @@
 	}
 
 	var marketList = function() {
+		alert("marketlist");
 		$
 				.ajax({
 					url : 'activemarketlistajaxcall',
@@ -27,7 +28,7 @@
 						$('#marketlist-pagination').empty();
 						var marketlist = jQuery.parseJSON(data);
 						var l = marketlist.length;
-						var tableHeader = "<tr><th>Sr. No.</th><th>Name</th><th>Location</th><th>City</th><th>Zone</th><th>MinBidPrice</th><th>MinBidIncrement</th><th>Time Left</th><th>Created Time</th></tr>";
+						var tableHeader = "<tr><th>Sr. No.</th><th>Name</th><th>Location</th><th>City</th><th>Zone</th><th>Min Bid Price</th><th>Min Bid Increment</th><th>Min Bid Increment</th><th>Time Left</th><th>Created Time</th></tr>";
 						$('#marketlist-pagination').append(tableHeader);
 						var tableData = "";
 						if (l > 0) {
@@ -46,7 +47,9 @@
 										+ marketlist[i].minBidPrice
 										+ "</td><td>"
 										+ marketlist[i].minBidIncrement
-										+ "</td><td>"
+										+ "</td><td>  <input type='hidden' name='currentPriceHidden' id='itemPrice"+marketlist[i].bidItemId+" value="+marketlist[i].currentMarketPrice+"> <div id='currentPriceDiv'>"
+										+ marketlist[i].currentMarketPrice
+										+ " </div></td><td>"
 										+ getConvertedDate(marketlist[i].createdTime)
 										+ "</td><td><div id='countdown"+marketlist[i].bidItemId+">"
 										+ marketlist[i].timeleft
@@ -151,7 +154,8 @@
 									<td>${marketlist.minBidIncrement}</td>
 									<td><input type='hidden' name="currentPriceHidden"
 										id="itemPrice${marketlist.bidItemId}"
-										value="${marketlist.currentMarketPrice}"><div id="currentPriceDiv">${marketlist.currentMarketPrice}</div></td>
+										value='${marketlist.currentMarketPrice}'>
+									<div id="currentPriceDiv">${marketlist.currentMarketPrice}</div></td>
 									<td>${marketlist.createdTime}</td>
 									<td><div id="countdown${marketlist.bidItemId}">
 											${marketlist.timeLeft}</div> <script>
@@ -159,7 +163,8 @@
 														parseInt('${marketlist.timeLeft}'),
 														'${marketlist.bidItemId}');
 											</script></td>
-									<td><c:choose>
+									<td>
+									<c:choose>
 											<c:when
 												test='${bidItemWithAutoBidFlag[bidItem.bidItemId] == 2 && bidItemWithRanks[bidItem.bidItemId] == 1} '>
 												<input type="submit" name="button3"
@@ -186,9 +191,13 @@
 
 	<script type="text/javascript">
 		function doNextBid(bidItemId, minIncrementAmount) {
-			var curPriceObject = $('#itemPriceHidden' + bidItemId).val();
+			var curPriceObject = $('#itemPrice' + bidItemId).val();
 			var nextBidPrice = parseFloat(curPriceObject)
 					+ parseFloat(minIncrementAmount);
+			if (isNaN(nextBidPrice)) {
+				return false;
+			}
+
 			var flag;
 			flag = confirm("Are you sure you want to put next bid for amount - "
 					+ nextBidPrice + " , then Press OK");
@@ -206,23 +215,22 @@
 					success : function(data, status) {
 						if (status == 'success') {
 							$('#itemPrice' + bidItemId).val(nextBidPrice);
-							$('#currentPriceDiv' + bidItemId).append(nextBidPrice);
+							$('#currentPriceDiv' + bidItemId).append(
+									nextBidPrice);
 							setNextBidDisabled('NextBid' + bidItemId);
 						}
 
 					}
 				});
-				
+
 			}
 
 		}
 
-		function setNextBidDisabled(nextBidButton)
-		{
-			if(document.getElementById(nextBidButton))
-				{
+		function setNextBidDisabled(nextBidButton) {
+			if (document.getElementById(nextBidButton)) {
 				document.getElementById(nextBidButton).disabled = true;
-				}
+			}
 		}
 
 		function toHourAndMinuteAndSecond(x) {
@@ -268,19 +276,19 @@
 		});
 
 		function refreshPage() {
-			 var count = document.getElementById("lLCount").value;
+			var count = document.getElementById("lLCount").value;
 			var timee = document.getElementById("lLTime").value;
 			var currentTime = new Date();
 			diff = currentTime.getTime() - parseInt(timee);
-			if(diff < 15000) {
+			if (diff < 15000) {
 				document.getElementById("lLCount").value = parseInt(count) + 1;
 				document.getElementById("lLTime").value = currentTime.getTime();
 				return false;
 			}
 			document.getElementById("lLTime").value = currentTime.getTime();
-			window.location.reload(true);  
+			window.location.reload(true);
 		}
-		
+
 		function getConvertedDate(time) {
 			var date = new Date(time);
 			var dd = date.getDate();
@@ -311,9 +319,6 @@
 			return dd + '-' + mm + '-' + yy + ' ' + hh + ':' + mm + ':' + sec;
 
 		}
-		
-		
-		
 	</script>
 
 

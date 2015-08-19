@@ -54,6 +54,9 @@ public class AdminController {
 
 	@RequestMapping(value = { "/home", "/index" }, method = RequestMethod.GET)
 	public String adminHome(ModelMap model) {
+		
+		
+		
 		List<Auction> auctionList = iAuctionService.getAuctionList();
 		Integer aunctionRunningOrClosedPresent = 0;
 		if (auctionList != null) {

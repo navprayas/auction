@@ -8,6 +8,7 @@
 		transaction-type="JTA">
 		<class>com.cfe.auction.model.persist.User</class>
 		<class>com.cfe.auction.model.persist.UserRole</class>
+		<class>com.cfe.auction.model.persist.ClientDetails</class>
 		<properties>
 			<property name="hibernate.transaction.manager_lookup_class"
 				value="com.atomikos.icatch.jta.hibernate3.TransactionManagerLookup" />
@@ -20,11 +21,15 @@
 		transaction-type="JTA">
 		<class>com.cfe.auction.model.persist.Auction</class>
 		<class>com.cfe.auction.model.persist.BidItem</class>
-        <class>com.cfe.auction.model.persist.BidSequence</class>
-        <class>com.cfe.auction.model.persist.Category</class>
-        <class>com.cfe.auction.model.persist.ItemLot</class>
-        <class>com.cfe.auction.model.persist.AutoBids</class>
-        <class>com.cfe.auction.model.persist.CloseBids</class>
+		<class>com.cfe.auction.model.persist.BidSequence</class>
+		<class>com.cfe.auction.model.persist.Category</class>
+		<class>com.cfe.auction.model.persist.ItemLot</class>
+		<class>com.cfe.auction.model.persist.AutoBids</class>
+		<class>com.cfe.auction.model.persist.CloseBids</class>
+		<!-- <class>com.cfe.auction.model.persist.BidderCategory</class>
+		<class>com.cfe.auction.model.persist.BidderCategoryId</class> -->
+
+
 		<properties>
 			<property name="hibernate.transaction.manager_lookup_class"
 				value="com.atomikos.icatch.jta.hibernate3.TransactionManagerLookup" />

@@ -18,11 +18,12 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.cfe.auction.model.persist.ClientDetails;
 import com.cfe.auction.model.persist.User;
+import com.cfe.auction.service.ClientDetailsService;
 import com.cfe.auction.service.UserService;
 import com.cfe.auction.web.constants.CommonConstants;
 import com.cfe.auction.web.constants.SessionConstants;
-
 
 @Controller
 /* @RequestMapping({"/","/admin/**","/business/**","/user/**","/modeler/**"}) */
@@ -31,6 +32,9 @@ public class HomeController {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private ClientDetailsService clientDetailsService;
 
 	@RequestMapping(value = { "/home", "/index" }, method = RequestMethod.GET)
 	public String login(ModelMap model, HttpServletRequest httpServletRequest,
@@ -49,12 +53,17 @@ public class HomeController {
 		session.setAttribute(CommonConstants.USER_NAME, name);
 		session.setAttribute("category", category);
 		User user = (User) session.getAttribute(SessionConstants.USER_INFO);
+		ClientDetails clientDetails = (ClientDetails) session
+				.getAttribute(SessionConstants.CLIENT_INFO);
 		if (user == null) {
 			String userName = principal.getName();
 			logger.info("Login attempt failed for user: " + userName
 					+ ". Loading user info in session");
 			user = userService.getUserByUserName(userName);
+			clientDetails = clientDetailsService.getClientByClintId(user
+					.getClientId());
 			session.setAttribute(SessionConstants.USER_INFO, user);
+			session.setAttribute(SessionConstants.CLIENT_INFO, clientDetails);
 			user.setLastLoginTime(new Date());
 			userService.update(user);
 		}

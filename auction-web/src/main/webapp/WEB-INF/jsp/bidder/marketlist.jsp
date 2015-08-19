@@ -144,7 +144,7 @@
 								<th>Zone</th>
 								<th>Start Price</th>
 								<th>Min Bid Increment</th>
-								<th>Time Left ${timeextention}</th>
+								<th>Time Left</th>
 								<th>Time To Start</th>
 								<th>Auto Bid</th>
 							</tr>

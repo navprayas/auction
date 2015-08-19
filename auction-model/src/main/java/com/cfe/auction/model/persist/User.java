@@ -25,7 +25,7 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(name = "USERS", uniqueConstraints = @UniqueConstraint(columnNames = "USERNAME"))
-public class User extends AbstractPO<Integer>{
+public class User extends AbstractPO<Integer> {
 
 	private String username;
 	private String password;
@@ -38,6 +38,7 @@ public class User extends AbstractPO<Integer>{
 	private String passwordQuestion = "Favourite Movie";
 
 	private String passwordAnswer = "Titanic";
+	private Integer clientId;
 
 	public User() {
 	}
@@ -133,5 +134,14 @@ public class User extends AbstractPO<Integer>{
 	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY, mappedBy = "user")
 	@JoinColumn(name = "userDetailsId", referencedColumnName = "userDetailsId")
 	private UserDetails userDetails = new UserDetails();
+
+	@Column(name = "clientId")
+	public Integer getClientId() {
+		return clientId;
+	}
+
+	public void setClientId(Integer clientId) {
+		this.clientId = clientId;
+	}
 
 }

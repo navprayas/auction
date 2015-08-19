@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.cfe.auction.common.Bidder;
 import com.cfe.auction.model.persist.BidItem;
 import com.cfe.auction.model.persist.BidderCategory;
+import com.cfe.auction.model.persist.ClientDetails;
 import com.cfe.auction.model.persist.User;
 import com.cfe.auction.service.AutoBidService;
 import com.cfe.auction.service.BidItemService;
@@ -77,6 +78,9 @@ public class BidderController {
 	@RequestMapping(value = { "/marketlist", "/home", "/index" }, method = RequestMethod.GET)
 	public String getMarketList(ModelMap model, HttpSession session) {
 		User user = (User) session.getAttribute(SessionConstants.USER_INFO);
+		ClientDetails clientDetails = (ClientDetails) session
+				.getAttribute(SessionConstants.CLIENT_INFO);
+		System.out.println("clientDetails" + clientDetails.getId());
 		if (AuctionCacheManager.getActiveAuctionId() != null) {
 			List<BidderCategory> bidderCategoryList = bidderCategoryService
 					.getBidderCategory(user.getId(),
@@ -176,9 +180,7 @@ public class BidderController {
 			@RequestParam(value = "bidType", required = true) Integer bidType,
 			@RequestParam(value = "bidAmount", required = true) Double bidAmount,
 			@RequestParam(value = "comments", required = true) String comments,
-			ModelMap model, HttpSession session)
-
-	{
+			ModelMap model, HttpSession session) {
 		System.out.println(bidItemId + " " + bidType + " " + bidAmount + ""
 				+ comments);
 		String userName = session.getAttribute(CommonConstants.USER_NAME)
