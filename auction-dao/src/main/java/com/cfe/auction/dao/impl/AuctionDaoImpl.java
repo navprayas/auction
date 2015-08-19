@@ -19,7 +19,7 @@ public class AuctionDaoImpl extends DAOImpl<Integer, Auction> implements
 	public Auction getActiveAuction(Integer auctionId) {
 		
 		Query query = getEntityManager().createQuery(
-				"From Auction auction auction where auction.auctionId = :auctionId");
+				"From Auction auction where auction.auctionId = :auctionId");
 		query.setParameter("auctionId", auctionId);
 		List<Auction> list = query.getResultList();
 		if (list != null && list.size() >= 1) {
