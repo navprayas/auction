@@ -33,7 +33,12 @@ public class UserServiceImpl extends CRUDServiceImpl<Integer, User, UserDao>
 	public UserServiceImpl(UserDao dao) {
 		super(dao);
 	}
-
+	
+	@Override @Transactional
+	public User update(User po) {
+		return dao.update(po);
+	}
+	
 	@Override
 	@Transactional
 	public User getUserByUserName(String userName) {

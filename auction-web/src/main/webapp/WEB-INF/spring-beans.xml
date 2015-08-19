@@ -9,33 +9,127 @@
     http://www.springframework.org/schema/tx 
     http://www.springframework.org/schema/tx/spring-tx.xsd">
 	<tx:annotation-driven />
+    <tx:jta-transaction-manager />
 	<context:component-scan base-package="com.cfe.auction.dao" />
 	<context:component-scan base-package="com.cfe.auction.service" />
 
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
-		destroy-method="close">
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/auction_db" />
-		<property name="username" value="root" />
-		<property name="password" value="root" />
-	</bean>
-
-	<bean id="sessionFactory"
-		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-		<property name="dataSource" ref="dataSource"></property>
-		<property name="hibernateProperties">
+	<!-- <bean id="masterdataSource" class="org.apache.commons.dbcp.BasicDataSource" 
+		destroy-method="close"> <property name="driverClassName" value="com.mysql.jdbc.Driver" 
+		/> <property name="url" value="jdbc:mysql://localhost:3306/auction_db" /> 
+		<property name="username" value="root" /> <property name="password" value="root" 
+		/> </bean> -->
+	<bean id="masterdataSource" class="com.atomikos.jdbc.AtomikosDataSourceBean"
+		init-method="init" destroy-method="close">
+		<property name="uniqueResourceName">
+			<value>MasterdataSource</value>
+		</property>
+		<property name="xaDataSourceClassName">
+			<value>com.mysql.jdbc.jdbc2.optional.MysqlXADataSource</value>
+		</property>
+		<property name="xaProperties">
 			<props>
-				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
-				<prop key="hibernate.show_sql">true</prop>
+				<prop key="databaseName">auction_master</prop>
+				<prop key="pinGlobalTxToPhysicalConnection">true</prop>
+				<prop key="serverName">localhost</prop>
+				<prop key="port">3306</prop>
+				<prop key="user">root</prop>
+				<prop key="password">root</prop>
+				<prop key="url">jdbc:mysql://localhost:3306/auction_master</prop>
 			</props>
 		</property>
-		<property name="packagesToScan" value="com.cfe.auction.model" />
+		<property name="minPoolSize">
+			<value>1</value>
+		</property>
+	</bean>
+
+	<bean id="dataSourceZindal" class="com.atomikos.jdbc.AtomikosDataSourceBean"
+		init-method="init" destroy-method="close">
+		<property name="uniqueResourceName">
+			<value>DataSourceZindal</value>
+		</property>
+		<property name="xaDataSourceClassName">
+			<value>com.mysql.jdbc.jdbc2.optional.MysqlXADataSource</value>
+		</property>
+		
+		<property name="xaProperties">
+			<props>
+		        <prop key="pinGlobalTxToPhysicalConnection">true</prop>
+				<prop key="databaseName">auction_db</prop>
+				<prop key="serverName">localhost</prop>
+				<prop key="port">3306</prop>
+				<prop key="user">root</prop>
+				<prop key="password">root</prop>
+				<prop key="url">jdbc:mysql://localhost:3306/auction_db</prop>
+			</props>
+		</property>
+		<property name="minPoolSize">
+			<value>1</value>
+		</property>
+	</bean>
+
+	<!-- <bean id="dataSourceZin" class="org.apache.commons.dbcp.BasicDataSource" 
+		destroy-method="close"> <property name="driverClassName" value="com.mysql.jdbc.Driver" 
+		/> <property name="url" value="jdbc:mysql://localhost:3306/auction_db" /> 
+		<property name="username" value="root" /> <property name="password" value="root" 
+		/> </bean> -->
+
+	<!-- <bean id="masterSessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"> 
+		<property name="dataSource" ref="masterdataSource"></property> <property 
+		name="hibernateProperties"> <props> <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop> 
+		<prop key="hibernate.show_sql">true</prop> </props> </property> <property 
+		name="packagesToScan" value="com.cfe.auction.model" /> </bean> <bean id="sessionFactoryZin" 
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"> <property 
+		name="dataSource" ref="dataSourceZin"></property> <property name="hibernateProperties"> 
+		<props> <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop> 
+		<prop key="hibernate.show_sql">true</prop> </props> </property> <property 
+		name="packagesToScan" value="com.cfe.auction.model" /> </bean> <bean id="transactionManager" 
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager" p:sessionFactory-ref="masterSessionFactory"> 
+		</bean> -->
+
+	<bean id="entityManagerFactoryA"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceXmlLocation">
+			<value>classpath*:persistence.xml</value>
+		</property>
+		<property name="persistenceUnitName" value="PersistenceUnitA" />
+		<property name="dataSource" ref="masterdataSource" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="showSql" value="true" />
+				<property name="databasePlatform" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="entityManagerFactoryB"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceXmlLocation">
+			<value>classpath*:persistence.xml</value>
+		</property>
+		<property name="persistenceUnitName" value="PersistenceUnitB" />
+		<property name="dataSource" ref="dataSourceZindal" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="showSql" value="true" />
+				<property name="databasePlatform" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="atomikosTransactionManager" class="com.atomikos.icatch.jta.UserTransactionManager"
+		init-method="init" destroy-method="close">
+		<property name="forceShutdown" value="false" />
+	</bean>
+
+	<bean id="atomikosUserTransaction" class="com.atomikos.icatch.jta.J2eeUserTransaction">
+		<property name="transactionTimeout" value="300" />
 	</bean>
 
 	<bean id="transactionManager"
-		class="org.springframework.orm.hibernate4.HibernateTransactionManager"
-		p:sessionFactory-ref="sessionFactory">
+		class="org.springframework.transaction.jta.JtaTransactionManager"
+		depends-on="atomikosTransactionManager,atomikosUserTransaction">
+		<property name="transactionManager" ref="atomikosTransactionManager" />
+		<property name="userTransaction" ref="atomikosUserTransaction" />
+		<property name="allowCustomIsolationLevels" value="true" />
 	</bean>
-
 
 </beans>

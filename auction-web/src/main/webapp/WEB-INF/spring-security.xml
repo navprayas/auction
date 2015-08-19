@@ -22,8 +22,8 @@
 	<authentication-manager>
 		<authentication-provider>
 			<password-encoder ref="passwordEncoder" />
-			<jdbc-user-service data-source-ref="dataSource"
-				users-by-username-query="select USERNAME, PASSWORD, ENABLED from USERS where USERNAME= ?"
+			<jdbc-user-service data-source-ref="masterdataSource"
+				users-by-username-query="select USERNAME, PASSWORD, ENABLED, CLIENTID from USERS where USERNAME= ?"
 				authorities-by-username-query="select u.USERNAME, r.ROLE from USERS u, ROLES r, USERROLES ur where u.USERNAME = ? and u.USERID = ur.USERID and ur.ROLEID = r.ROLEID" />
 		</authentication-provider>
 	</authentication-manager>

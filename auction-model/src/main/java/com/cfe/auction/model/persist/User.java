@@ -4,6 +4,7 @@ package com.cfe.auction.model.persist;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.nio.file.attribute.UserDefinedFileAttributeView;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -24,7 +25,7 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(name = "USERS", uniqueConstraints = @UniqueConstraint(columnNames = "USERNAME"))
-public class User extends AbstractPO<Integer> {
+public class User extends AbstractPO<Integer>{
 
 	private String username;
 	private String password;

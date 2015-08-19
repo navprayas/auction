@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.hibernate.Query;
+import javax.persistence.Query;
+
 import org.springframework.stereotype.Service;
 
 import com.cfe.auction.dao.AutoBidDao;
-import com.cfe.auction.model.persist.Auction;
 import com.cfe.auction.model.persist.AutoBids;
 
 @Service
@@ -18,12 +18,10 @@ public class AutoBidDaoImpl extends DAOImpl<Integer, AutoBids> implements
 	@Override
 	public List<AutoBids> getAutoBids() {
 
-		Query query = getSessionFactory()
-				.getCurrentSession()
-				.createSQLQuery(
-						"select AUTOBIDID,AUCTIONID, bidAmount,bidStatus,bidderName,bidItemId,bidTime,comments,currency from autobids");
+		Query query = getEntityManager().createNativeQuery(
+				"select AUTOBIDID,AUCTIONID, bidAmount,bidStatus,bidderName,bidItemId,bidTime,comments,currency from autobids");
 
-		List<Object[]> objectsList = query.list();
+		List<Object[]> objectsList = query.getResultList();
 		List<AutoBids> autoBids = new ArrayList<>();
 
 		System.out.println("" + objectsList);
