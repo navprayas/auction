@@ -10,44 +10,44 @@ import javax.persistence.ManyToOne;
 @Embeddable
 public class BidderCategoryId implements Serializable {
 
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	/*@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinColumn(name = "categoryid", referencedColumnName = "categoryid")
 	private Category category;
 
 	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinColumn(name = "userId", referencedColumnName = "userId")
 	private Integer userId;
-	/**
+	*//**
 	 * @return the category
-	 */
+	 *//*
 	public Category getCategory() {
 		return category;
 	}
 
-	/**
+	*//**
 	 * @param category
 	 *            the category to set
-	 */
+	 *//*
 	public void setCategory(Category category) {
 		this.category = category;
 	}
 
-	/**
+	*//**
 	 * @return the user
-	 */
-	/*public User getUser() {
+	 *//*
+	public User getUser() {
 		return user;
-	}*/
+	}
 
-	/**
+	*//**
 	 * @param user
 	 *            the user to set
-	 */
-	/*public void setUser(User user) {
+	 *//*
+	public void setUser(User user) {
 		this.user = user;
 	}
-*/
-	/*@Override
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -56,8 +56,8 @@ public class BidderCategoryId implements Serializable {
 		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
-*/
-	/*@Override
+
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -77,6 +77,6 @@ public class BidderCategoryId implements Serializable {
 		} else if (!user.equals(other.user))
 			return false;
 		return true;
-	}*/
-
+	}
+*/
 }
