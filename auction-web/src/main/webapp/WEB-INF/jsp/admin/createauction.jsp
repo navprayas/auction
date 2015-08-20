@@ -10,7 +10,7 @@
 			<h1>
 				<i class="fa fa-user"></i> E-Create Auction
 			</h1>
-			<form role="form">
+			<form role="form" action="createauction" method="post">
 
 
 				<c:if test="${not empty auctionDetails.auctionId}">

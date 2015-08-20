@@ -37,11 +37,21 @@
 										<c:out value="${auction.name}" />
 									</option>
 								</c:forEach>
-						</select></li>
+						</select>
+
+
+
+						</li>
+						
+
 						<li><a aria-controls="home" role="tab" data-toggle="tab"
 							href="activemarketlist" onclick="openUrl(this.href)"></a></li>
 						<li><a aria-controls="home" role="tab" data-toggle="tab"
 							href="closedmarketlist" onclick="openUrl(this.href)"></a></li>
+							<li><c:if test="${ not empty message }">
+						${ message}
+						
+						</c:if></li>
 					</ul>
 				</div>
 				<div class="col-xs-12 col-sm-6">
@@ -119,55 +129,53 @@
 	</div>
 	<!-- /container -->
 	<script>
-	
-	function setValuesAndSubmit() {
-		var auctionId = document.getElementById("auction").value;
-		document.getElementById("selectedAuctionId").value = auctionId;
+		function setValuesAndSubmit() {
+			var auctionId = document.getElementById("auction").value;
+			document.getElementById("selectedAuctionId").value = auctionId;
 
-		var catList = getValues("Categories");
-		console.log(catList);
-		document.getElementById("selectedCategoryIdList").value = catList;
+			var catList = getValues("Categories");
+			console.log(catList);
+			document.getElementById("selectedCategoryIdList").value = catList;
 
-		var userList = getValues("users");
-		console.log(userList);
-		document.getElementById("selectedUserIdList").value = userList;
-		if (!auctionId) {
-			alert("auction needs to be Selected");
-			return false;
-		}
-		if (catList.length == 0) {
-			alert("categories need to be Selected");
-			return false;
-		}
-		if (userList.length == 0) {
-			alert("users need to be Selected");
-			return false;
-		}
-
-		document.forms["auctionmapform"].submit();
-	}
-
-	function getValues(objName) {
-		var results = "";
-		var arr = new Array();
-		arr = document.getElementsByName(objName);
-
-		for (var i = 0; i < arr.length; i++) {
-			var obj = document.getElementsByName(objName).item(i);
-
-			if (i > 0 && obj.checked && results.length > 0) {
-				results += "$";
+			var userList = getValues("users");
+			console.log(userList);
+			document.getElementById("selectedUserIdList").value = userList;
+			if (!auctionId) {
+				alert("auction needs to be Selected");
+				return false;
 			}
-			if (obj.checked) {
-				results += obj.getAttribute("id");
+			if (catList.length == 0) {
+				alert("categories need to be Selected");
+				return false;
 			}
+			if (userList.length == 0) {
+				alert("users need to be Selected");
+				return false;
+			}
+
+			document.forms["auctionmapform"].submit();
 		}
-		return results;
-	}
-	
+
+		function getValues(objName) {
+			var results = "";
+			var arr = new Array();
+			arr = document.getElementsByName(objName);
+
+			for (var i = 0; i < arr.length; i++) {
+				var obj = document.getElementsByName(objName).item(i);
+
+				if (i > 0 && obj.checked && results.length > 0) {
+					results += "$";
+				}
+				if (obj.checked) {
+					results += obj.getAttribute("id");
+				}
+			}
+			return results;
+		}
 	</script>
-	
-	
-	
+
+
+
 </section>
 

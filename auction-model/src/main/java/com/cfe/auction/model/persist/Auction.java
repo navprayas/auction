@@ -1,29 +1,42 @@
 package com.cfe.auction.model.persist;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 import java.util.Date;
 
+import javax.annotation.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "AUCTION")
 public class Auction extends AbstractPO<Integer> {
 
-	@Id
-	@Column(name = "AUCTIONID")
-	private Integer auctionId;
+	public Auction() {
+		// TODO Auto-generated constructor stub
+	}
 
+	public Auction(int id) {
+		// TODO Auto-generated constructor stub
+		this.id = id;
+	}
+
+	private Integer auctionId;
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "LASTUPDATETIME")
 	private Date lastUpdateTime;
-
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "CREATEDTIME")
 	private Date createdTime;
-
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "AUCTIONSTARTTIME")
 	private Date auctionStartTime;
-
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "AUCTIONENDTIME")
 	private Date auctionEndTime;
 
@@ -42,8 +55,9 @@ public class Auction extends AbstractPO<Integer> {
 	/**
 	 * @return the auctionId
 	 */
+
 	public Integer getAuctionId() {
-		return auctionId;
+		return id;
 	}
 
 	/**
@@ -51,7 +65,7 @@ public class Auction extends AbstractPO<Integer> {
 	 *            the auctionId to set
 	 */
 	public void setAuctionId(Integer auctionId) {
-		this.auctionId = auctionId;
+		this.id = auctionId;
 	}
 
 	/**
@@ -123,37 +137,24 @@ public class Auction extends AbstractPO<Integer> {
 	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((auctionId == null) ? 0 : auctionId.hashCode());
-		return result;
-	}
+	/*
+	 * @Override public int hashCode() { final int prime = 31; int result = 1;
+	 * result = prime * result + ((auctionId == null) ? 0 :
+	 * auctionId.hashCode()); return result; }
+	 */
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Auction other = (Auction) obj;
-		if (auctionId == null) {
-			if (other.auctionId != null)
-				return false;
-		} else if (!auctionId.equals(other.auctionId))
-			return false;
-		return true;
-	}
-
+	/*
+	 * @Override public boolean equals(Object obj) { if (this == obj) return
+	 * true; if (obj == null) return false; if (getClass() != obj.getClass())
+	 * return false; Auction other = (Auction) obj; if (auctionId == null) { if
+	 * (other.auctionId != null) return false; } else if
+	 * (!auctionId.equals(other.auctionId)) return false; return true; }
+	 */
 	public Date getAuctionStartTime() {
 		return auctionStartTime;
 	}
@@ -179,6 +180,9 @@ public class Auction extends AbstractPO<Integer> {
 	}
 
 	@Override
+	@Id
+	@Column(name = "AUCTIONID")
+	@GeneratedValue(strategy = IDENTITY)
 	public Integer getId() {
 		// TODO Auto-generated method stub
 		return this.id;

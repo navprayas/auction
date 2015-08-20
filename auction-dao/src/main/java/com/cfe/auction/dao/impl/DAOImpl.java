@@ -19,13 +19,15 @@ public abstract class DAOImpl<I extends Serializable, T extends PO<I>>
 
 	@PersistenceContext(unitName = "PersistenceUnitA")
 	private EntityManager entityManagerA;
-	
+
 	@PersistenceContext(unitName = "PersistenceUnitB")
 	private EntityManager entityManagerB;
-	
-	/*@Autowired
-	@Qualifier("sessionFactoryZin")
-	private SessionFactory sessionFactory1;*/
+
+	/*
+	 * @Autowired
+	 * 
+	 * @Qualifier("sessionFactoryZin") private SessionFactory sessionFactory1;
+	 */
 	private Class<T> poClass;
 	private String entityName;
 
@@ -37,11 +39,9 @@ public abstract class DAOImpl<I extends Serializable, T extends PO<I>>
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> List<T> findAll(Class<T> persistentClass) {
-		/*Criteria criteria = getEntityManager().createQuery();
-
-		List<T> res = criteria.list();
-		return res;*/
-		return null;
+		Query query = getMasterEntityManager()
+				.createQuery("from " + entityName);
+		return (List<T>) query.getResultList();
 	}
 
 	/*
@@ -137,10 +137,10 @@ public abstract class DAOImpl<I extends Serializable, T extends PO<I>>
 		entityName = poClass.getSimpleName();
 	}
 
-	/*protected SessionFactory getSessionFactory() {
-		return sessionFactory1;
-	}*/
-	
+	/*
+	 * protected SessionFactory getSessionFactory() { return sessionFactory1; }
+	 */
+
 	protected EntityManager getEntityManager() {
 		return entityManagerB;
 	}
@@ -148,10 +148,9 @@ public abstract class DAOImpl<I extends Serializable, T extends PO<I>>
 	protected EntityManager getMasterEntityManager() {
 		return entityManagerA;
 	}
-	
+
 	public List<T> listAll() {
-		Query query = getEntityManager().createQuery(
-				"from " + entityName);
+		Query query = getEntityManager().createQuery("from " + entityName);
 		return (List<T>) query.getResultList();
 	}
 

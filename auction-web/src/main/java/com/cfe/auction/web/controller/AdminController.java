@@ -96,7 +96,9 @@ public class AdminController {
 	 */
 
 	@RequestMapping(value = "/userauctionmap", method = RequestMethod.GET)
-	public String getUserAuctionMap(ModelMap modelMap) {
+	public String getUserAuctionMap(ModelMap modelMap,
+			@RequestParam(required = false) String msg) {
+		System.out.println("Message" + msg);
 		List<Auction> auctionList = iAuctionService.getAuctionList();
 
 		List<Auction> newAuctionList = new ArrayList<Auction>();
@@ -107,8 +109,9 @@ public class AdminController {
 			}
 		}
 		modelMap.addAttribute("auctionlist", newAuctionList);
-		modelMap.addAttribute("userlist", userService.listAll());
+		modelMap.addAttribute("userlist", userService.findAll(User.class));
 		modelMap.addAttribute("categorylist", categoryService.listAll());
+		modelMap.addAttribute("message", msg);
 		return "userauctionmap";
 	}
 
@@ -159,6 +162,11 @@ public class AdminController {
 
 	@RequestMapping(value = "/createauction", method = RequestMethod.POST)
 	public String createAuction(@ModelAttribute Auction auction, Model model) {
+		System.out.println("Auction Name" + auction.getName());
+		System.out.println(auction.getStatus());
+		System.out.println(auction.getAuctionId());
+		System.out.println(auction.getIsApproved());
+
 		iAuctionService.create(auction);
 		return "createauction";
 	}
