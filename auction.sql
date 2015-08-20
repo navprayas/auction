@@ -18,7 +18,8 @@
 --
 -- Table structure for table `address`
 --
-
+create database auction_db;
+use auction_db;
 DROP TABLE IF EXISTS `address`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -57,13 +58,13 @@ CREATE TABLE `auction` (
   `status` varchar(10) DEFAULT 'Start',
   `isApproved` varchar(10) DEFAULT '0',
   `name` varchar(100) DEFAULT NULL,
-  `createdTime` datetime NOT NULL,
-  `lastupDateTime` datetime DEFAULT NULL,
-  `auctionStartTime` datetime DEFAULT NULL,
-  `auctionEndTime` datetime DEFAULT NULL,
+  `createdTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `lastupDateTime` timestamp NULL DEFAULT NULL,
+  `auctionStartTime` timestamp NULL DEFAULT NULL,
+  `auctionEndTime` timestamp NULL DEFAULT NULL,
   `biditemgroupid` bigint(11) DEFAULT NULL,
   PRIMARY KEY (`auctionId`)
-) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -72,32 +73,8 @@ CREATE TABLE `auction` (
 
 LOCK TABLES `auction` WRITE;
 /*!40000 ALTER TABLE `auction` DISABLE KEYS */;
-INSERT INTO `auction` VALUES (67,'Closed','1','Auction - 67','2012-03-19 12:55:30','2012-05-13 00:00:00','2012-05-13 21:29:01','2012-05-13 00:00:00',NULL),(68,'Closed','1','AUCTION - 68','2012-03-19 13:01:19','2012-05-13 00:00:00','2012-05-13 13:39:27','2012-05-13 00:00:00',NULL),(69,'Closed','1','AUCTION - 69','2012-03-20 03:22:26','2012-05-13 00:00:00','2012-05-13 12:54:35','2012-05-13 00:00:00',NULL),(70,'Terminated','1','TEST AUCTION - 70','2012-04-30 01:11:47','2012-05-13 00:00:00',NULL,'2012-05-13 00:00:00',NULL),(71,'Closed','1','TEST AUCTION - 71','2012-04-30 01:12:56','2012-05-13 00:00:00',NULL,'2012-05-13 00:00:00',NULL),(72,'Closed','1','TEST AUCTION - 72','2012-04-30 01:22:35','2012-05-13 00:00:00','2012-05-13 13:47:52','2012-05-13 00:00:00',NULL),(73,'Closed','1','TEST AUCTION - 73','2012-05-13 23:23:55','2012-05-13 00:00:00','2012-05-13 23:29:01','2012-05-13 00:00:00',NULL),(74,'Closed','1','TEST AUCTION - 74','2012-05-13 23:44:21','2012-05-14 00:00:00','2012-05-13 23:50:33','2012-05-14 00:00:00',NULL),(75,'Closed','1','TEST AUCTION - 75','2012-05-14 00:21:59','2012-05-14 00:00:00','2012-05-14 00:25:05','2012-05-14 00:00:00',NULL),(76,'Closed','1','TEST AUCTION - 76','2012-05-14 21:38:11','2015-07-30 00:00:00','2012-05-14 21:41:16','2015-07-30 00:00:00',NULL),(77,'Closed','1','TEST AUCTION - 77','2015-07-29 18:28:34','2015-07-30 00:00:00','2015-07-30 11:41:04','2015-07-30 00:00:00',NULL),(78,'Running','1','Ashish','2015-07-30 15:45:38','2015-07-30 15:51:23','2015-07-30 15:54:23',NULL,68),(79,'Start','1','Ashish','2015-07-30 15:50:47',NULL,NULL,NULL,NULL),(80,'Start','0','Ashish','2015-07-30 15:46:44',NULL,NULL,NULL,NULL),(81,'Start','1','Ashish','2015-07-30 15:48:30',NULL,NULL,NULL,NULL),(82,'Start','1','Test Auction','2015-07-31 10:40:08',NULL,NULL,NULL,NULL),(83,'Start','1','Test Auction','2015-07-31 10:41:09',NULL,NULL,NULL,NULL),(84,'0','-1','','2015-07-31 12:34:32',NULL,NULL,NULL,NULL);
+INSERT INTO `auction` VALUES (67,'Closed','1','Auction - 67','2012-03-19 07:25:30','2012-05-12 18:30:00','2012-05-13 15:59:01','2012-05-12 18:30:00',NULL),(68,'Closed','1','AUCTION - 68','2012-03-19 07:31:19','2012-05-12 18:30:00','2012-05-13 08:09:27','2012-05-12 18:30:00',NULL),(69,'Closed','1','AUCTION - 69','2012-03-19 21:52:26','2012-05-12 18:30:00','2012-05-13 07:24:35','2012-05-12 18:30:00',NULL),(70,'Terminated','1','TEST AUCTION - 70','2012-04-29 19:41:47','2012-05-12 18:30:00',NULL,'2012-05-12 18:30:00',NULL),(71,'Closed','1','TEST AUCTION - 71','2012-04-29 19:42:56','2012-05-12 18:30:00',NULL,'2012-05-12 18:30:00',NULL),(72,'Closed','1','TEST AUCTION - 72','2012-04-29 19:52:35','2012-05-12 18:30:00','2012-05-13 08:17:52','2012-05-12 18:30:00',NULL),(73,'Closed','1','TEST AUCTION - 73','2012-05-13 17:53:55','2012-05-12 18:30:00','2012-05-13 17:59:01','2012-05-12 18:30:00',NULL),(74,'Closed','1','TEST AUCTION - 74','2012-05-13 18:14:21','2012-05-13 18:30:00','2012-05-13 18:20:33','2012-05-13 18:30:00',NULL),(75,'Closed','1','TEST AUCTION - 75','2012-05-13 18:51:59','2012-05-13 18:30:00','2012-05-13 18:55:05','2012-05-13 18:30:00',NULL),(76,'Closed','1','TEST AUCTION - 76','2012-05-14 16:08:11','2015-07-29 18:30:00','2012-05-14 16:11:16','2015-07-29 18:30:00',NULL),(77,'Closed','1','TEST AUCTION - 77','2015-07-29 12:58:34','2015-07-29 18:30:00','2015-07-30 06:11:04','2015-07-29 18:30:00',NULL),(78,'Closed','1','Ashish','2015-07-30 10:15:38','2015-08-19 14:10:57','2015-07-30 10:24:23','2015-08-19 14:10:57',68),(79,'Running','1','Ashish','2015-07-30 10:20:47','2015-08-19 14:15:19','2015-08-19 14:18:19',NULL,NULL),(80,'Start','0','Ashish','2015-07-30 10:16:44',NULL,NULL,NULL,NULL),(81,'Start','1','Ashish','2015-07-30 10:18:30',NULL,NULL,NULL,NULL),(82,'Start','1','Test Auction','2015-07-31 05:10:08',NULL,NULL,NULL,NULL),(83,'Start','1','Test Auction','2015-07-31 05:11:09',NULL,NULL,NULL,NULL),(84,'0','-1','','2015-07-31 07:04:32',NULL,NULL,NULL,NULL),(85,'Start','1','Sk','2015-08-20 08:00:39',NULL,NULL,NULL,NULL),(86,'Start','1','sk new','2015-08-20 08:03:37',NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `auction` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `authorities`
---
-
-DROP TABLE IF EXISTS `authorities`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `authorities` (
-  `username` varchar(50) NOT NULL,
-  `authority` varchar(50) NOT NULL,
-  UNIQUE KEY `ix_auth_username` (`username`,`authority`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `authorities`
---
-
-LOCK TABLES `authorities` WRITE;
-/*!40000 ALTER TABLE `authorities` DISABLE KEYS */;
-INSERT INTO `authorities` VALUES ('abhi','ROLE_ADMIN'),('admin1','ROLE_ADMIN'),('akgupta','ROLE_OBSERVER'),('anshikasteel','ROLE_BIDDER'),('asiasteel','ROLE_BIDDER'),('bidder1','ROLE_BIDDER'),('bidder2','ROLE_BIDDER'),('delhisteel','ROLE_BIDDER'),('goelsales','ROLE_BIDDER'),('observer1','ROLE_OBSERVER'),('pdsharma','ROLE_OBSERVER'),('pdsharma1','ROLE_BIDDER'),('rsgupta','ROLE_OBSERVER'),('shivkumar','ROLE_OBSERVER'),('shriganesh','ROLE_BIDDER'),('superadmin','ROLE_SUPER_ADMIN');
-/*!40000 ALTER TABLE `authorities` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -121,7 +98,6 @@ CREATE TABLE `autobids` (
   KEY `FK_autobids_auction` (`auctionId`),
   KEY `FK_autobids_biditem` (`biditemId`),
   KEY `FK_autobids_user` (`biddername`),
-  CONSTRAINT `FK_autobids_auction` FOREIGN KEY (`auctionId`) REFERENCES `auction` (`auctionId`),
   CONSTRAINT `FK_autobids_biditem` FOREIGN KEY (`biditemId`) REFERENCES `biditem` (`bidItemId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -147,13 +123,15 @@ CREATE TABLE `biddercategory` (
   `auctionId` bigint(20) NOT NULL,
   `categoryid` bigint(20) NOT NULL,
   `userId` bigint(20) NOT NULL,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`),
   UNIQUE KEY `auctionId` (`auctionId`,`categoryid`,`userId`),
   KEY `FK_biddercategory_auction` (`auctionId`),
   KEY `FK_biddercategory_cat` (`categoryid`),
   KEY `FK_biddercategory_user` (`userId`),
   CONSTRAINT `FK_biddercategory_auction` FOREIGN KEY (`auctionId`) REFERENCES `auction` (`auctionId`),
   CONSTRAINT `FK_biddercategory_cat` FOREIGN KEY (`categoryid`) REFERENCES `category` (`categoryId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=157 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -162,7 +140,7 @@ CREATE TABLE `biddercategory` (
 
 LOCK TABLES `biddercategory` WRITE;
 /*!40000 ALTER TABLE `biddercategory` DISABLE KEYS */;
-INSERT INTO `biddercategory` VALUES (67,1,1),(67,1,8),(67,1,12),(67,1,13),(67,1,16),(67,2,1),(67,2,12),(67,2,16),(68,2,2),(68,2,3),(68,2,4),(68,2,6),(68,2,7),(68,2,8),(68,2,9),(68,2,10),(68,2,11),(68,2,12),(68,2,13),(68,2,14),(68,2,15),(68,2,16),(69,2,2),(69,2,3),(69,2,4),(69,2,6),(69,2,7),(69,2,8),(69,2,9),(69,2,10),(69,2,11),(69,2,12),(69,2,13),(69,2,14),(69,2,15),(69,2,16),(70,2,85),(70,2,86),(70,2,87),(70,2,88),(70,2,89),(70,2,90),(70,2,91),(70,2,92),(70,2,93),(70,2,94),(71,2,85),(71,2,86),(71,2,87),(71,2,88),(71,2,89),(71,2,90),(71,2,91),(71,2,92),(71,2,93),(71,2,94),(72,1,2),(72,2,2),(72,2,85),(72,2,86),(72,2,87),(72,2,88),(72,2,89),(72,2,90),(72,2,91),(72,2,92),(72,2,93),(72,2,94),(72,3,2),(72,4,2),(72,5,2),(73,1,2),(73,2,2),(73,2,85),(73,2,86),(73,2,87),(73,2,88),(73,2,89),(73,2,90),(73,2,91),(73,2,92),(73,2,93),(73,2,94),(74,1,2),(74,1,4),(74,2,2),(74,2,4),(74,2,85),(74,2,86),(74,2,87),(74,2,88),(74,2,89),(74,2,90),(74,2,91),(74,2,92),(74,2,93),(74,2,94),(74,3,4),(74,4,4),(74,5,4),(75,1,2),(75,1,3),(75,1,4),(75,2,2),(75,2,3),(75,2,4),(75,2,85),(75,2,86),(75,2,87),(75,2,88),(75,2,89),(75,2,90),(75,2,91),(75,2,92),(75,2,93),(75,2,94),(76,1,2),(76,1,3),(76,1,4),(76,2,2),(76,2,3),(76,2,4),(76,2,85),(76,2,86),(76,2,87),(76,2,88),(76,2,89),(76,2,90),(76,2,91),(76,2,92),(76,2,93),(76,2,94),(76,3,2),(76,3,3),(76,3,4),(77,1,2),(77,1,3),(77,2,2),(77,2,3),(77,2,85),(77,2,86),(77,2,87),(77,2,88),(77,2,89),(77,2,90),(77,2,91),(77,2,92),(77,2,93),(77,2,94),(77,3,2),(77,3,3),(77,4,2),(77,4,3),(77,5,2),(77,5,3),(78,2,2);
+INSERT INTO `biddercategory` VALUES (67,1,1,1),(67,1,8,2),(67,1,12,3),(67,1,13,4),(67,1,16,5),(67,2,1,6),(67,2,12,7),(67,2,16,8),(68,2,2,9),(68,2,3,10),(68,2,4,11),(68,2,6,12),(68,2,7,13),(68,2,8,14),(68,2,9,15),(68,2,10,16),(68,2,11,17),(68,2,12,18),(68,2,13,19),(68,2,14,20),(68,2,15,21),(68,2,16,22),(69,2,2,23),(69,2,3,24),(69,2,4,25),(69,2,6,26),(69,2,7,27),(69,2,8,28),(69,2,9,29),(69,2,10,30),(69,2,11,31),(69,2,12,32),(69,2,13,33),(69,2,14,34),(69,2,15,35),(69,2,16,36),(70,2,85,37),(70,2,86,38),(70,2,87,39),(70,2,88,40),(70,2,89,41),(70,2,90,42),(70,2,91,43),(70,2,92,44),(70,2,93,45),(70,2,94,46),(71,2,85,47),(71,2,86,48),(71,2,87,49),(71,2,88,50),(71,2,89,51),(71,2,90,52),(71,2,91,53),(71,2,92,54),(71,2,93,55),(71,2,94,56),(72,1,2,57),(72,2,2,58),(72,2,85,59),(72,2,86,60),(72,2,87,61),(72,2,88,62),(72,2,89,63),(72,2,90,64),(72,2,91,65),(72,2,92,66),(72,2,93,67),(72,2,94,68),(72,3,2,69),(72,4,2,70),(72,5,2,71),(73,1,2,72),(73,2,2,73),(73,2,85,74),(73,2,86,75),(73,2,87,76),(73,2,88,77),(73,2,89,78),(73,2,90,79),(73,2,91,80),(73,2,92,81),(73,2,93,82),(73,2,94,83),(74,1,2,84),(74,1,4,85),(74,2,2,86),(74,2,4,87),(74,2,85,88),(74,2,86,89),(74,2,87,90),(74,2,88,91),(74,2,89,92),(74,2,90,93),(74,2,91,94),(74,2,92,95),(74,2,93,96),(74,2,94,97),(74,3,4,98),(74,4,4,99),(74,5,4,100),(75,1,2,101),(75,1,3,102),(75,1,4,103),(75,2,2,104),(75,2,3,105),(75,2,4,106),(75,2,85,107),(75,2,86,108),(75,2,87,109),(75,2,88,110),(75,2,89,111),(75,2,90,112),(75,2,91,113),(75,2,92,114),(75,2,93,115),(75,2,94,116),(76,1,2,117),(76,1,3,118),(76,1,4,119),(76,2,2,120),(76,2,3,121),(76,2,4,122),(76,2,85,123),(76,2,86,124),(76,2,87,125),(76,2,88,126),(76,2,89,127),(76,2,90,128),(76,2,91,129),(76,2,92,130),(76,2,93,131),(76,2,94,132),(76,3,2,133),(76,3,3,134),(76,3,4,135),(77,1,2,136),(77,1,3,137),(77,2,2,138),(77,2,3,139),(77,2,85,140),(77,2,86,141),(77,2,87,142),(77,2,88,143),(77,2,89,144),(77,2,90,145),(77,2,91,146),(77,2,92,147),(77,2,93,148),(77,2,94,149),(77,3,2,150),(77,3,3,151),(77,4,2,152),(77,4,3,153),(77,5,2,154),(77,5,3,155),(78,2,2,156);
 /*!40000 ALTER TABLE `biddercategory` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -337,7 +315,7 @@ CREATE TABLE `bidsequence` (
 
 LOCK TABLES `bidsequence` WRITE;
 /*!40000 ALTER TABLE `bidsequence` DISABLE KEYS */;
-INSERT INTO `bidsequence` VALUES (1,68,2,120),(2,68,3,120),(3,68,4,120),(4,68,5,120),(5,68,6,120),(6,68,7,120),(7,68,8,120),(8,68,9,120),(9,68,10,120),(10,68,11,120),(11,68,12,120),(12,68,13,120),(13,68,14,120),(14,68,15,120),(15,68,16,120),(16,68,17,120),(17,68,18,120),(18,68,19,120),(19,68,20,120),(20,68,21,120),(21,68,22,120),(1,69,23,120),(2,69,24,120),(3,69,25,120),(4,69,26,120),(5,69,27,120),(6,69,28,120),(7,69,29,120),(8,69,30,120),(9,69,31,120),(10,69,32,120),(11,69,33,120),(12,69,34,120),(13,69,35,120),(14,69,36,120),(15,69,37,120),(16,69,38,120),(17,69,39,120),(18,69,40,120),(19,69,41,120),(20,69,42,120),(21,69,43,120),(1,70,44,120),(2,70,45,120),(3,70,46,120),(4,70,47,120),(5,70,48,120),(6,70,49,120),(7,70,50,120),(8,70,51,120),(9,70,52,120),(10,70,53,120),(11,70,54,120),(12,70,55,120),(13,70,56,120),(14,70,57,120),(15,70,58,120),(16,70,59,120),(17,70,60,120),(18,70,61,120),(19,70,62,120),(20,70,63,120),(21,70,64,120),(1,71,65,120),(2,71,66,120),(3,71,67,120),(4,71,68,120),(5,71,69,120),(6,71,70,120),(7,71,71,120),(8,71,72,120),(9,71,73,120),(10,71,74,120),(11,71,75,120),(12,71,76,120),(13,71,77,120),(14,71,78,120),(15,71,79,120),(16,71,80,120),(17,71,81,120),(18,71,82,120),(19,71,83,120),(20,71,84,120),(21,71,85,120),(1,72,86,120),(2,72,87,120),(3,72,88,120),(4,72,89,120),(5,72,90,120),(6,72,91,120),(7,72,92,120),(8,72,93,120),(9,72,94,120),(10,72,95,120),(11,72,96,120),(12,72,97,120),(13,72,98,120),(14,72,99,120),(15,72,100,120),(16,72,101,120),(17,72,102,120),(18,72,103,120),(19,72,104,120),(20,72,105,120),(21,72,106,120),(1,73,107,120),(2,73,108,120),(3,73,109,120),(4,73,110,120),(5,73,111,120),(6,73,112,120),(7,73,113,120),(8,73,114,120),(9,73,115,120),(10,73,116,120),(11,73,117,120),(12,73,118,120),(13,73,119,120),(14,73,120,120),(15,73,121,120),(16,73,122,120),(17,73,123,120),(18,73,124,120),(19,73,125,120),(20,73,126,120),(21,73,127,120),(1,74,128,120),(2,74,129,120),(3,74,130,120),(4,74,131,120),(5,74,132,120),(6,74,133,120),(7,74,134,120),(8,74,135,120),(9,74,136,120),(10,74,137,120),(11,74,138,120),(12,74,139,120),(13,74,140,120),(14,74,141,120),(15,74,142,120),(16,74,143,120),(17,74,144,120),(18,74,145,120),(19,74,146,120),(20,74,147,120),(21,74,148,120),(1,75,149,120),(2,75,150,120),(3,75,151,120),(4,75,152,120),(5,75,153,120),(6,75,154,120),(7,75,155,120),(8,75,156,120),(9,75,157,120),(10,75,158,120),(11,75,159,120),(12,75,160,120),(13,75,161,120),(14,75,162,120),(15,75,163,120),(16,75,164,120),(17,75,165,120),(18,75,166,120),(19,75,167,120),(20,75,168,120),(21,75,169,120),(1,76,170,120),(2,76,171,120),(3,76,172,120),(4,76,173,120),(5,76,174,120),(6,76,175,120),(7,76,176,120),(8,76,177,120),(9,76,178,120),(10,76,179,120),(11,76,180,120),(12,76,181,120),(13,76,182,120),(14,76,183,120),(15,76,184,120),(16,76,185,120),(17,76,186,120),(18,76,187,120),(19,76,188,120),(20,76,189,120),(21,76,190,120),(1,77,191,120),(2,77,192,120),(3,77,193,120),(4,77,194,120),(5,77,195,120),(6,77,196,120),(7,77,197,120),(8,77,198,120),(9,77,199,120),(10,77,200,120),(11,77,201,120),(12,77,202,120),(13,77,203,120),(14,77,204,120),(15,77,205,120),(16,77,206,120),(17,77,207,120),(18,77,208,120),(19,77,209,120),(20,77,210,120),(21,77,211,120);
+INSERT INTO `bidsequence` VALUES (1,68,2,120),(2,68,3,120),(3,68,4,120),(4,68,5,120),(5,68,6,120),(6,68,7,120),(7,68,8,120),(8,68,9,120),(9,68,10,120),(10,68,11,120),(11,68,12,120),(12,68,13,120),(13,68,14,120),(14,68,15,120),(15,68,16,120),(16,68,17,120),(17,68,18,120),(18,68,19,120),(19,68,20,120),(20,68,21,120),(21,68,22,120),(1,69,23,120),(2,69,24,120),(3,69,25,120),(4,69,26,120),(5,69,27,120),(6,69,28,120),(7,69,29,120),(8,69,30,120),(9,69,31,120),(10,69,32,120),(11,69,33,120),(12,69,34,120),(13,69,35,120),(14,69,36,120),(15,69,37,120),(16,69,38,120),(17,69,39,120),(18,69,40,120),(19,69,41,120),(20,69,42,120),(21,69,43,120),(1,70,44,120),(2,70,45,120),(3,70,46,120),(4,70,47,120),(5,70,48,120),(6,70,49,120),(7,70,50,120),(8,70,51,120),(9,70,52,120),(10,70,53,120),(11,70,54,120),(12,70,55,120),(13,70,56,120),(14,70,57,120),(15,70,58,120),(16,70,59,120),(17,70,60,120),(18,70,61,120),(19,70,62,120),(20,70,63,120),(21,70,64,120),(1,71,65,120),(2,71,66,120),(3,71,67,120),(4,71,68,120),(5,71,69,120),(6,71,70,120),(7,71,71,120),(8,71,72,120),(9,71,73,120),(10,71,74,120),(11,71,75,120),(12,71,76,120),(13,71,77,120),(14,71,78,120),(15,71,79,120),(16,71,80,120),(17,71,81,120),(18,71,82,120),(19,71,83,120),(20,71,84,120),(21,71,85,120),(1,72,86,120),(2,72,87,120),(3,72,88,120),(4,72,89,120),(5,72,90,120),(6,72,91,120),(7,72,92,120),(8,72,93,120),(9,72,94,120),(10,72,95,120),(11,72,96,120),(12,72,97,120),(13,72,98,120),(14,72,99,120),(15,72,100,120),(16,72,101,120),(17,72,102,120),(18,72,103,120),(19,72,104,120),(20,72,105,120),(21,72,106,120),(1,73,107,120),(2,73,108,120),(3,73,109,120),(4,73,110,120),(5,73,111,120),(6,73,112,120),(7,73,113,120),(8,73,114,120),(9,73,115,120),(10,73,116,120),(11,73,117,120),(12,73,118,120),(13,73,119,120),(14,73,120,120),(15,73,121,120),(16,73,122,120),(17,73,123,120),(18,73,124,120),(19,73,125,120),(20,73,126,120),(21,73,127,120),(1,74,128,120),(2,74,129,120),(3,74,130,120),(4,74,131,120),(5,74,132,120),(6,74,133,120),(7,74,134,120),(8,74,135,120),(9,74,136,120),(10,74,137,120),(11,74,138,120),(12,74,139,120),(13,74,140,120),(14,74,141,120),(15,74,142,120),(16,74,143,120),(17,74,144,120),(18,74,145,120),(19,74,146,120),(20,74,147,120),(21,74,148,120),(1,75,149,120),(2,75,150,120),(3,75,151,120),(4,75,152,120),(5,75,153,120),(6,75,154,120),(7,75,155,120),(8,75,156,120),(9,75,157,120),(10,75,158,120),(11,75,159,120),(12,75,160,120),(13,75,161,120),(14,75,162,120),(15,75,163,120),(16,75,164,120),(17,75,165,120),(18,75,166,120),(19,75,167,120),(20,75,168,120),(21,75,169,120),(1,76,170,120),(2,76,171,120),(3,76,172,120),(4,76,173,120),(5,76,174,120),(6,76,175,120),(7,76,176,120),(8,76,177,120),(9,76,178,120),(10,76,179,120),(11,76,180,120),(12,76,181,120),(13,76,182,120),(14,76,183,120),(15,76,184,120),(16,76,185,120),(17,76,186,120),(18,76,187,120),(19,76,188,120),(20,76,189,120),(21,76,190,120),(1,78,191,120),(2,78,192,120),(3,78,193,120),(4,78,194,120),(5,78,195,120),(6,78,196,120),(7,78,197,120),(8,78,198,120),(9,78,199,120),(10,78,200,120),(11,78,201,120),(12,78,202,120),(13,78,203,120),(14,78,204,120),(15,78,205,120),(16,78,206,120),(17,78,207,120),(18,78,208,120),(19,78,209,120),(20,78,210,120),(21,78,211,120);
 /*!40000 ALTER TABLE `bidsequence` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -397,7 +375,7 @@ CREATE TABLE `closedbids` (
 
 LOCK TABLES `closedbids` WRITE;
 /*!40000 ALTER TABLE `closedbids` DISABLE KEYS */;
-INSERT INTO `closedbids` VALUES (101,128,NULL,22200.00,'H1','bidder1',NULL,'observer1',NULL);
+INSERT INTO `closedbids` VALUES (101,128,78,22200.00,'H1','bidder',NULL,'observer',NULL);
 /*!40000 ALTER TABLE `closedbids` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -514,29 +492,6 @@ INSERT INTO `markets` VALUES (1,'FORWARD_MARKET',NULL),(2,'REVERSE_MARKET',NULL)
 UNLOCK TABLES;
 
 --
--- Table structure for table `roles`
---
-
-DROP TABLE IF EXISTS `roles`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `roles` (
-  `ROLEID` tinyint(4) NOT NULL,
-  `ROLE` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `roles`
---
-
-LOCK TABLES `roles` WRITE;
-/*!40000 ALTER TABLE `roles` DISABLE KEYS */;
-INSERT INTO `roles` VALUES (1,'ROLE_ADMIN'),(2,'ROLE_BIDDER'),(3,'ROLE_OBSERVER'),(4,'ROLE_SUPER_ADMIN');
-/*!40000 ALTER TABLE `roles` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `useractivity`
 --
 
@@ -588,7 +543,6 @@ CREATE TABLE `userdetails` (
   KEY `FK_userdetails_contact` (`primaryContactId`),
   KEY `FK_userdetails_second` (`secondContactId`),
   KEY `FK_userdetails_addr` (`addressId`),
-  CONSTRAINT `FK_userdetails` FOREIGN KEY (`userId`) REFERENCES `users` (`userId`),
   CONSTRAINT `FK_userdetails_addr` FOREIGN KEY (`addressId`) REFERENCES `address` (`addressId`),
   CONSTRAINT `FK_userdetails_contact` FOREIGN KEY (`primaryContactId`) REFERENCES `contactdetails` (`contactId`),
   CONSTRAINT `FK_userdetails_second` FOREIGN KEY (`secondContactId`) REFERENCES `contactdetails` (`contactId`)
@@ -603,65 +557,6 @@ LOCK TABLES `userdetails` WRITE;
 /*!40000 ALTER TABLE `userdetails` DISABLE KEYS */;
 INSERT INTO `userdetails` VALUES (1,6,'pd','sharma','singh',NULL,NULL,NULL,NULL,NULL,NULL),(2,7,'Shree Ganesh ','','Tube Supplier ',NULL,NULL,NULL,NULL,NULL,NULL),(3,8,'Asia Steel ','','Center',NULL,NULL,NULL,NULL,NULL,NULL),(4,9,'Delhi Steel Tube','',' ',NULL,NULL,NULL,NULL,NULL,NULL),(5,10,'Anshika Steel','',' ',NULL,NULL,NULL,NULL,NULL,NULL),(6,11,'Goel Sales Corporation ','',' ',NULL,NULL,NULL,NULL,NULL,NULL),(7,12,'A K ','','Gupta',NULL,NULL,NULL,NULL,NULL,NULL),(8,13,'PD','','Sharma',NULL,NULL,NULL,NULL,NULL,NULL),(9,14,'Shiv','','Kumar',NULL,NULL,NULL,NULL,NULL,NULL),(10,15,'RS','','Gupta',NULL,NULL,NULL,NULL,NULL,NULL),(11,16,'ABHISHEK','','KUMAR',NULL,NULL,NULL,NULL,NULL,NULL),(12,1,'admin1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(13,2,'bidder1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(14,3,'bidder2',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(15,4,'observer1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(16,5,'superadmin',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `userdetails` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `userroles`
---
-
-DROP TABLE IF EXISTS `userroles`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `userroles` (
-  `USERID` bigint(20) NOT NULL,
-  `ROLEID` tinyint(4) NOT NULL,
-  `ID` bigint(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`ID`),
-  KEY `FK_userroles_users` (`USERID`),
-  CONSTRAINT `FK_userroles_users` FOREIGN KEY (`USERID`) REFERENCES `users` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `userroles`
---
-
-LOCK TABLES `userroles` WRITE;
-/*!40000 ALTER TABLE `userroles` DISABLE KEYS */;
-INSERT INTO `userroles` VALUES (1,1,1),(2,2,2),(3,3,3);
-/*!40000 ALTER TABLE `userroles` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `users`
---
-
-DROP TABLE IF EXISTS `users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `users` (
-  `userId` bigint(20) NOT NULL AUTO_INCREMENT,
-  `userName` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL,
-  `passwordQuestion` varchar(200) DEFAULT NULL,
-  `passwordAnswer` varchar(200) DEFAULT NULL,
-  `email` varchar(50) DEFAULT NULL,
-  `enabled` tinyint(1) NOT NULL DEFAULT '1',
-  `active` tinyint(4) DEFAULT NULL,
-  `LAST_LOGIN_TIME` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `RETRY_COUNT` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `users`
---
-
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'admin','e87161df44872ac7d77e97e779dabe51','Favourite Movie','Titanic','jeeva@bizonease.com',1,1,NULL,0),(2,'bidder','e87161df44872ac7d77e97e779dabe51','Favourite Movie','Titanic','vikas.cool@gmail.com',1,1,'2015-08-06 10:06:20',0),(3,'observer','e87161df44872ac7d77e97e779dabe51','Favourite Movie','Titanic','jeevaratnam.k@gmail.com',1,1,NULL,0),(4,'observer2','e87161df44872ac7d77e97e779dabe51','Favourite Movie','Titanic','kumarr.rakesh@gmail.com',1,1,NULL,0),(5,'superadmin','iJo6eRs4dc+uQTV0tT2ku4qQ1T4=','Favourite Movie','Titanic','jeeva@bizonease.com',1,1,NULL,0),(6,'pdsharma1','wLE3/i15JFnyb/djzORFdKW1qwM=','Favourite Movie','Titanic','kumarr.rakesh@gmail.com',1,0,NULL,0),(7,'shriganesh','wLE3/i15JFnyb/djzORFdKW1qwM=','Favourite Movie','Titanic','kumarr.rakesh@gmail.com',1,1,NULL,0),(8,'asiasteel','wLE3/i15JFnyb/djzORFdKW1qwM=','Favourite Movie','Titanic','kumarr.rakesh@gmail.com',1,1,NULL,0),(9,'delhisteel','wLE3/i15JFnyb/djzORFdKW1qwM=','Favourite Movie','Titanic','kumarr.rakesh@gmail.com',1,0,NULL,0),(10,'anshikasteel','wLE3/i15JFnyb/djzORFdKW1qwM=','Favourite Movie','Titanic','kumarr.rakesh@gmail.com',1,0,NULL,0),(11,'goelsales','wLE3/i15JFnyb/djzORFdKW1qwM=','Favourite Movie','Titanic','kumarr.rakesh@gmail.com',1,0,NULL,0),(12,'akgupta','wLE3/i15JFnyb/djzORFdKW1qwM=','Favourite Movie','Titanic','kumarr.rakesh@gmail.com',1,0,NULL,0),(13,'pdsharma','wLE3/i15JFnyb/djzORFdKW1qwM=','Favourite Movie','Titanic','kumarr.rakesh@gmail.com',1,0,NULL,0),(14,'shivkumar','wLE3/i15JFnyb/djzORFdKW1qwM=','Favourite Movie','Titanic','kumarr.rakesh@gmail.com',1,0,NULL,0),(15,'rsgupta','wLE3/i15JFnyb/djzORFdKW1qwM=','Favourite Movie','Titanic','kumarr.rakesh@gmail.com',1,0,NULL,0),(16,'abhi','wLE3/i15JFnyb/djzORFdKW1qwM=','Favourite Movie','Titanic','abhi280003@gmail.com',1,0,NULL,0);
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -701,4 +596,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-08-06 15:55:40
+-- Dump completed on 2015-08-20 14:48:08

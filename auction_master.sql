@@ -1,10 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `auction_master` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `auction_master`;
--- MySQL dump 10.13  Distrib 5.5.43, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.5.44, for debian-linux-gnu (x86_64)
 --
--- Host: 127.0.0.1    Database: auction_master
+-- Host: localhost    Database: auction_master
 -- ------------------------------------------------------
--- Server version	5.5.43-0ubuntu0.14.04.1
+-- Server version	5.5.44-0ubuntu0.14.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -20,7 +18,8 @@ USE `auction_master`;
 --
 -- Table structure for table `authorities`
 --
-
+create database auction_master;
+use auction_master;
 DROP TABLE IF EXISTS `authorities`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -49,16 +48,16 @@ DROP TABLE IF EXISTS `client_details`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `client_details` (
-  `clientId` int(11) NOT NULL,
+  `clientId` int(11) NOT NULL AUTO_INCREMENT,
   `clientName` varchar(40) NOT NULL,
   `clientSchemaName` varchar(45) NOT NULL,
   `clientDescription` varchar(45) DEFAULT NULL,
   `active` varchar(45) DEFAULT NULL,
-  `lastUpdatedOn` varchar(45) DEFAULT NULL,
-  `createdOn` varchar(45) DEFAULT NULL,
+  `lastUpdatedOn` timestamp NULL DEFAULT NULL,
+  `createdOn` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `schemaKey` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`clientId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=102 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,7 +66,7 @@ CREATE TABLE `client_details` (
 
 LOCK TABLES `client_details` WRITE;
 /*!40000 ALTER TABLE `client_details` DISABLE KEYS */;
-INSERT INTO `client_details` VALUES (101,'zin','auction_trans_zin','tata steel','A',NULL,NULL,NULL);
+INSERT INTO `client_details` VALUES (101,'zin','auction_trans_zin','tata steel','A',NULL,'2015-08-19 12:39:10',NULL);
 /*!40000 ALTER TABLE `client_details` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -150,7 +149,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'admin','e87161df44872ac7d77e97e779dabe51','Favourite Movie','Titanic','jeeva@bizonease.com','101',1,1,'2015-08-19 10:39:08',0),(2,'bidder','e87161df44872ac7d77e97e779dabe51','Favourite Movie','Titanic','vikas.cool@gmail.com','101',1,1,'2015-08-06 04:36:20',0),(3,'observer','e87161df44872ac7d77e97e779dabe51','Favourite Movie','Titanic','jeevaratnam.k@gmail.com','101',1,1,NULL,0),(4,'observer2','e87161df44872ac7d77e97e779dabe51','Favourite Movie','Titanic','kumarr.rakesh@gmail.com','101',1,1,NULL,0),(5,'superadmin','iJo6eRs4dc+uQTV0tT2ku4qQ1T4=','Favourite Movie','Titanic','101','jeeva@bizo',1,1,NULL,0),(6,'pdsharma1','wLE3/i15JFnyb/djzORFdKW1qwM=','Favourite Movie','Titanic','kumarr.rakesh@gmail.com','101',1,0,NULL,0);
+INSERT INTO `users` VALUES (1,'admin','e87161df44872ac7d77e97e779dabe51','Favourite Movie','Titanic','jeeva@bizonease.com','101',1,1,'2015-08-20 07:13:58',0),(2,'bidder','e87161df44872ac7d77e97e779dabe51','Favourite Movie','Titanic','vikas.cool@gmail.com','101',1,1,'2015-08-20 06:54:03',0),(3,'observer','e87161df44872ac7d77e97e779dabe51','Favourite Movie','Titanic','jeevaratnam.k@gmail.com','101',1,1,NULL,0),(4,'observer2','e87161df44872ac7d77e97e779dabe51','Favourite Movie','Titanic','kumarr.rakesh@gmail.com','101',1,1,NULL,0),(5,'superadmin','iJo6eRs4dc+uQTV0tT2ku4qQ1T4=','Favourite Movie','Titanic','101','101',1,1,NULL,0),(6,'pdsharma1','wLE3/i15JFnyb/djzORFdKW1qwM=','Favourite Movie','Titanic','kumarr.rakesh@gmail.com','101',1,0,NULL,0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -163,4 +162,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-08-19 16:13:22
+-- Dump completed on 2015-08-20 14:43:05
