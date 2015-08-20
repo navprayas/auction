@@ -33,12 +33,13 @@ public class UserServiceImpl extends CRUDServiceImpl<Integer, User, UserDao>
 	public UserServiceImpl(UserDao dao) {
 		super(dao);
 	}
-	
-	@Override @Transactional
+
+	@Override
+	@Transactional
 	public User update(User po) {
 		return dao.update(po);
 	}
-	
+
 	@Override
 	@Transactional
 	public User getUserByUserName(String userName) {
@@ -86,11 +87,15 @@ public class UserServiceImpl extends CRUDServiceImpl<Integer, User, UserDao>
 		for (String userId : userIds) {
 			for (String categoryId : categoryIds) {
 				BidderCategory bidderCategory = new BidderCategory();
-				BidderCategoryId bidderCategoryId = new BidderCategoryId();
-				bidderCategoryId.setCategory(categoryDao.get(Integer
-						.parseInt(categoryId)));
-				bidderCategoryId.setUser(read(Integer.parseInt(userId)));
-				bidderCategory.setBidderCategoryId(bidderCategoryId);
+				/*
+				 * bidderCategoryId.setCategory(categoryDao.get(Integer
+				 * .parseInt(categoryId)));
+				 * bidderCategoryId.setUser(read(Integer.parseInt(userId)));
+				 * bidderCategory.setBidderCategoryId(bidderCategoryId);
+				 */
+				bidderCategory.setCategoryId(Integer.parseInt(categoryId));
+				bidderCategory.setUserId(Integer.parseInt(userId));
+
 				bidderCategory.setAuction(iAuctionDao.get(Integer
 						.parseInt(selectedAuctionId.toString())));
 				bidderCategoryDao.saveBIdderCategory(bidderCategory);

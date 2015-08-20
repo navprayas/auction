@@ -10,15 +10,16 @@ import com.cfe.auction.dao.BidderCategoryDao;
 import com.cfe.auction.model.persist.BidderCategory;
 
 @Service
-public class BidderCategoryDaoImpl extends DAOImpl<Integer, BidderCategory> implements BidderCategoryDao {
-	
+public class BidderCategoryDaoImpl extends DAOImpl<Integer, BidderCategory>
+		implements BidderCategoryDao {
 
 	@Override
 	public List<BidderCategory> getBidderCategory(Integer userId,
 			Integer auctionId) {
+		System.out.println("userId " + userId + "   " + auctionId);
 		Query query = getEntityManager()
 				.createQuery(
-						"from  BidderCategory bc where bc.auction.auctionId=:auctionId and bc.bidderCategoryId.user.id=:userId ");
+						"from  BidderCategory bc where bc.auction.auctionId=:auctionId and bc.userId=:userId ");
 		query.setParameter("auctionId", auctionId);
 		query.setParameter("userId", userId);
 		return (List<BidderCategory>) query.getResultList();
@@ -27,8 +28,8 @@ public class BidderCategoryDaoImpl extends DAOImpl<Integer, BidderCategory> impl
 
 	@Override
 	public Integer saveBIdderCategory(BidderCategory bidderCategory) {
-		 getEntityManager().persist(bidderCategory);
-		 return bidderCategory.getId();
+		getEntityManager().persist(bidderCategory);
+		return bidderCategory.getId();
 	}
 
 	@Override

@@ -1,29 +1,34 @@
 package com.cfe.auction.model.persist;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "BidderCategory")
 public class BidderCategory extends AbstractPO<Integer> {
 
-	private static final long serialVersionUID = -6312688222365987584L;
-
-	@Id
-	private BidderCategoryId bidderCategoryId;
-
-	public BidderCategoryId getBidderCategoryId() {
-		return bidderCategoryId;
+	public BidderCategory() {
+		// TODO Auto-generated constructor stub
 	}
+
+	public BidderCategory(int id) {
+		// TODO Auto-generated constructor stub
+		this.id = id;
+	}
+
+	private Integer categoryId;
+	private Integer userId;
+
+	private Auction auction;
 
 	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinColumn(name = "AUCTIONID", referencedColumnName = "AUCTIONID")
-	private Auction auction;
-
 	public Auction getAuction() {
 		return auction;
 	}
@@ -37,19 +42,26 @@ public class BidderCategory extends AbstractPO<Integer> {
 		return "BidderCategory [auction=" + auction.getAuctionId() + "]";
 	}
 
+	@Column(name = "categoryid")
 	public Integer getCategoryId() {
-		return bidderCategoryId.getCategory().getId();
+		return categoryId;
 	}
 
-	public String getUserName() {
-		return bidderCategoryId.getUser().getUsername();
+	public void setCategoryId(Integer categoryId) {
+		this.categoryId = categoryId;
 	}
 
-	public void setBidderCategoryId(BidderCategoryId bidderCategoryId) {
-		this.bidderCategoryId = bidderCategoryId;
+	@Column(name = "userid")
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
 	@Override
+	@Id
 	public Integer getId() {
 		return id;
 	}

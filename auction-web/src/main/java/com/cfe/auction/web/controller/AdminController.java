@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cfe.auction.model.persist.Auction;
+import com.cfe.auction.model.persist.ClientDetails;
 import com.cfe.auction.model.persist.User;
 import com.cfe.auction.service.CategoryService;
 import com.cfe.auction.service.IAuctionService;
@@ -28,6 +30,7 @@ import com.cfe.auction.service.UserService;
 import com.cfe.auction.service.cache.IBidItemsCacheService;
 import com.cfe.auction.service.cache.manager.AuctionCacheManager;
 import com.cfe.auction.service.cache.manager.AuctionCacheService;
+import com.cfe.auction.web.constants.SessionConstants;
 
 @Controller
 @RequestMapping("/admin/**")
@@ -52,11 +55,12 @@ public class AdminController {
 	@Autowired
 	AuctionCacheManager auctionCacheManager;
 
-	@RequestMapping(value = { "/home", "/index" }, method = RequestMethod.GET)
-	public String adminHome(ModelMap model) {
-		
-		
-		
+	@RequestMapping(value = { "/home", "/index", "/auctionmanagement" }, method = RequestMethod.GET)
+	public String adminHome(ModelMap model, HttpSession session) {
+
+		ClientDetails clientDetails = (ClientDetails) session
+				.getAttribute(SessionConstants.CLIENT_INFO);
+		System.out.println("clientDetails" + clientDetails.getId());
 		List<Auction> auctionList = iAuctionService.getAuctionList();
 		Integer aunctionRunningOrClosedPresent = 0;
 		if (auctionList != null) {
@@ -71,29 +75,25 @@ public class AdminController {
 		model.addAttribute("auctionlist", iAuctionService.getAuctionList());
 		model.addAttribute("aunctionRunningOrClosedPresent",
 				aunctionRunningOrClosedPresent);
-		return "adminhome";
-	}
-
-	@RequestMapping(value = "/auctionmanagement", method = RequestMethod.GET)
-	public String auctionManegement(ModelMap model) {
-
-		List<Auction> auctionList = iAuctionService.getAuctionList();
-		Integer aunctionRunningOrClosedPresent = 0;
-		if (auctionList != null) {
-			for (Auction auction : auctionList) {
-				if ("END".equalsIgnoreCase(auction.getStatus())
-						|| "Running".equalsIgnoreCase(auction.getStatus())) {
-					aunctionRunningOrClosedPresent++;
-					break;
-				}
-			}
-		}
-		model.addAttribute("auctionlist", iAuctionService.getAuctionList());
-		model.addAttribute("aunctionRunningOrClosedPresent",
-				aunctionRunningOrClosedPresent);
-
 		return "auctionmanagement";
 	}
+
+	/*
+	 * @RequestMapping(value = "/auctionmanagement", method = RequestMethod.GET)
+	 * public String auctionManegement(ModelMap model) {
+	 * 
+	 * List<Auction> auctionList = iAuctionService.getAuctionList(); Integer
+	 * aunctionRunningOrClosedPresent = 0; if (auctionList != null) { for
+	 * (Auction auction : auctionList) { if
+	 * ("END".equalsIgnoreCase(auction.getStatus()) ||
+	 * "Running".equalsIgnoreCase(auction.getStatus())) {
+	 * aunctionRunningOrClosedPresent++; break; } } }
+	 * model.addAttribute("auctionlist", iAuctionService.getAuctionList());
+	 * model.addAttribute("aunctionRunningOrClosedPresent",
+	 * aunctionRunningOrClosedPresent);
+	 * 
+	 * return "auctionmanagement"; }
+	 */
 
 	@RequestMapping(value = "/userauctionmap", method = RequestMethod.GET)
 	public String getUserAuctionMap(ModelMap modelMap) {
@@ -189,7 +189,7 @@ public class AdminController {
 	}
 
 	private String closeAuction(Integer auctionId,
-			HttpServletRequest httpServletRequest) {		
+			HttpServletRequest httpServletRequest) {
 		iAuctionService.closeAuction(auctionId);
 		String msg = "Auction Closed - " + auctionId;
 		httpServletRequest.setAttribute("SuccessMessage", "Auction Closed");
