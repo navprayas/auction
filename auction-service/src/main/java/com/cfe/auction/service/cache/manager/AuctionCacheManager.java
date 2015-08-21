@@ -9,6 +9,8 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.cfe.auction.model.auction.persist.AuctionCacheBean;
+import com.cfe.auction.model.auction.persist.AuctionSearchBean;
 import com.cfe.auction.model.persist.Auction;
 import com.cfe.auction.model.persist.BidItem;
 import com.cfe.auction.service.IAuctionService;
@@ -25,6 +27,9 @@ public class AuctionCacheManager implements InitializingBean {
 
 	private static Integer activeAuctionId;
 
+
+	private static Map<Integer, AuctionCacheBean> activeAuctionMap;
+	
 	private static List<BidItem> bidItems;
 
 	private static Map<Long, BidItem> bidItemsMap = new HashMap<Long, BidItem>();
@@ -34,16 +39,16 @@ public class AuctionCacheManager implements InitializingBean {
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		System.out.println("Properties Loaded");
-		setActiveAuction();
+		//setActiveAuction();
 		System.out.println("active Auction id::" + activeAuctionId);
-		setActiveBidItemsList();
+		//setActiveBidItemsList();
 		setBidItemsMap();
 		bidItemsCacheService.initCache();
 	}
 
-	public void refreshAuctionCache() {
-		setActiveAuction();
-		setActiveBidItemsList();
+	public void refreshAuctionCache(AuctionCacheBean auctionCacheDTO) {
+		setActiveAuction(auctionCacheDTO);
+		//setActiveBidItemsList();
 		setBidItemsMap();
 	}
 
@@ -58,16 +63,20 @@ public class AuctionCacheManager implements InitializingBean {
 		activeAuctionId = auctionId;
 	}
 
-	private void setActiveAuction() {
-		if (activeAuctionId == null) {
-			auction = auctionService.getActiveAuction();
+	public static void setActiveAuctionId(AuctionCacheBean auctionCacheDTO) {
+		activeAuctionMap.put(auctionCacheDTO.getClientId(), auctionCacheDTO);
+	}
+	
+	private void setActiveAuction(AuctionCacheBean auctionCacheBean) {
+		if (auctionCacheBean != null) {
+			AuctionSearchBean auctionSearchBean = new AuctionSearchBean(auctionCacheBean.getSchemaName());
+			auctionSearchBean.setAuctionId(auctionCacheBean.getAuctionId());
+			Auction auction = auctionService.getActiveAuction(auctionSearchBean);
 			if (auction != null) {
-
-				activeAuctionId = auction.getAuctionId();
+				auctionSearchBean.setGenericId(auction.getBidItemGroupId());
+				bidItems = auctionService.getActiveAuctionBidItem(auctionSearchBean);
 			}
-		} else {
-			auction = auctionService.getActiveAuction(activeAuctionId);
-		}
+		} 
 	}
 
 	private static void setBidItemsMap() {
@@ -80,11 +89,11 @@ public class AuctionCacheManager implements InitializingBean {
 		}
 	}
 
-	private void setActiveBidItemsList() {
+	/*private void setActiveBidItemsList() {
 		if (activeAuctionId != null) {
 			bidItems = auctionService.getActiveAuctionBidItem(activeAuctionId);
 		}
-	}
+	}*/
 
 	public static Integer getActiveAuctionId() {
 		return activeAuctionId;

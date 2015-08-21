@@ -3,6 +3,7 @@ package com.cfe.auction.service;
 import java.util.Date;
 import java.util.List;
 
+import com.cfe.auction.model.auction.persist.AuctionSearchBean;
 import com.cfe.auction.model.persist.Auction;
 import com.cfe.auction.model.persist.BidItem;
 
@@ -15,9 +16,9 @@ public interface IAuctionService extends CRUDService<Integer, Auction> {
 
 	void closeAuction(Integer auctionId);
 
-	List<BidItem> getActiveAuctionBidItem(Integer auctionId);
+	List<BidItem> getActiveAuctionBidItem(AuctionSearchBean auctionSearchBean);
 
-	Auction getActiveAuction(Integer auctionId);
+	Auction getActiveAuction(AuctionSearchBean auctionSearchBean);
 
 	Auction getActiveAuction();
 
