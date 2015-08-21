@@ -168,11 +168,6 @@ public class AdminController {
 
 	@RequestMapping(value = "/createauction", method = RequestMethod.POST)
 	public String createAuction(@ModelAttribute Auction auction, Model model) {
-		System.out.println("Auction Name" + auction.getName());
-		System.out.println(auction.getStatus());
-		System.out.println(auction.getAuctionId());
-		System.out.println(auction.getIsApproved());
-
 		iAuctionService.create(auction);
 		return "createauction";
 	}
