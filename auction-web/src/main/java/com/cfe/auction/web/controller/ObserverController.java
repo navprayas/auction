@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.cfe.auction.model.persist.BidItem;
 import com.cfe.auction.model.persist.BidderCategory;
+import com.cfe.auction.model.persist.ClientDetails;
 import com.cfe.auction.model.persist.User;
 import com.cfe.auction.service.BidItemService;
 import com.cfe.auction.service.BidderCategoryService;
@@ -51,6 +52,8 @@ public class ObserverController {
 	@RequestMapping(value = { "/marketlist", "/home", "/index" }, method = RequestMethod.GET)
 	public String getMarketList(ModelMap model, HttpSession session) {
 		// User user = (User) session.getAttribute(SessionConstants.USER_INFO);
+		ClientDetails clientDetails = (ClientDetails) session
+				.getAttribute(SessionConstants.CLIENT_INFO);
 		if (AuctionCacheManager.getActiveAuctionId() != null) {
 			List<BidderCategory> bidderCategoryList = bidderCategoryService
 					.getAllCategory(AuctionCacheManager.getActiveAuctionId());
@@ -83,6 +86,8 @@ public class ObserverController {
 	@RequestMapping(value = "/activemarketlist", method = RequestMethod.GET)
 	public String getActiveMarketList(ModelMap model, HttpSession session) {
 		// User user = (User) session.getAttribute(SessionConstants.USER_INFO);
+		ClientDetails clientDetails = (ClientDetails) session
+				.getAttribute(SessionConstants.CLIENT_INFO);
 		List<BidderCategory> bidderCategoryList = bidderCategoryService
 				.getAllCategory(AuctionCacheManager.getActiveAuctionId());
 		BidItem bidItem = AuctionCacheService
@@ -100,6 +105,8 @@ public class ObserverController {
 	@RequestMapping(value = "/closedmarketlist", method = RequestMethod.GET)
 	public String getClosedMarket(ModelMap model, HttpSession session) {
 		// User user = (User) session.getAttribute(SessionConstants.USER_INFO);
+		ClientDetails clientDetails = (ClientDetails) session
+				.getAttribute(SessionConstants.CLIENT_INFO);
 		List<BidderCategory> bidderCategoryList = bidderCategoryService
 				.getAllCategory(AuctionCacheManager.getActiveAuctionId());
 		List<BidItem> bidItems = AuctionCacheManager.getBidItems();

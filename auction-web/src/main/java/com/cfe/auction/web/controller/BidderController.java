@@ -80,7 +80,6 @@ public class BidderController {
 		User user = (User) session.getAttribute(SessionConstants.USER_INFO);
 		ClientDetails clientDetails = (ClientDetails) session
 				.getAttribute(SessionConstants.CLIENT_INFO);
-		System.out.println("clientDetails" + clientDetails.getId());
 		if (AuctionCacheManager.getActiveAuctionId() != null) {
 			List<BidderCategory> bidderCategoryList = bidderCategoryService
 					.getBidderCategory(user.getId(),
@@ -115,6 +114,8 @@ public class BidderController {
 	@RequestMapping(value = "/activemarketlist", method = RequestMethod.GET)
 	public String getActiveMarketList(ModelMap model, HttpSession session) {
 		User user = (User) session.getAttribute(SessionConstants.USER_INFO);
+		ClientDetails clientDetails = (ClientDetails) session
+				.getAttribute(SessionConstants.CLIENT_INFO);
 		List<BidderCategory> bidderCategoryList = bidderCategoryService
 				.getBidderCategory(user.getId(),
 						AuctionCacheManager.getActiveAuctionId());
@@ -134,6 +135,8 @@ public class BidderController {
 	@RequestMapping(value = "/closedmarketlist", method = RequestMethod.GET)
 	public String getClosedMarket(ModelMap model, HttpSession session) {
 		User user = (User) session.getAttribute(SessionConstants.USER_INFO);
+		ClientDetails clientDetails = (ClientDetails) session
+				.getAttribute(SessionConstants.CLIENT_INFO);
 		List<BidderCategory> bidderCategoryList = bidderCategoryService
 				.getBidderCategory(user.getId(),
 						AuctionCacheManager.getActiveAuctionId());
@@ -155,6 +158,8 @@ public class BidderController {
 
 		String userName = session.getAttribute(CommonConstants.USER_NAME)
 				.toString();
+		ClientDetails clientDetails = (ClientDetails) session
+				.getAttribute(SessionConstants.CLIENT_INFO);
 		List<BidItem> bidItemsList = null;
 		System.out.println("bidItemId" + bidItemId);
 		try {
@@ -186,6 +191,8 @@ public class BidderController {
 				+ comments);
 		String userName = session.getAttribute(CommonConstants.USER_NAME)
 				.toString();
+		ClientDetails clientDetails = (ClientDetails) session
+				.getAttribute(SessionConstants.CLIENT_INFO);
 		System.out.println(userName);
 		boolean returnVal = false;// bidderService.doBid(bidItemId.intValue(),
 									// bidType,
@@ -223,6 +230,8 @@ public class BidderController {
 			throws Exception {
 
 		User user = (User) session.getAttribute(SessionConstants.USER_INFO);
+		ClientDetails clientDetails = (ClientDetails) session
+				.getAttribute(SessionConstants.CLIENT_INFO);
 		LOG.debug("UserName" + user.getUsername());
 		List<BidItem> wonList = bidItemService.getWonList(user.getUsername());
 		LOG.debug("closedbids List::" + wonList);

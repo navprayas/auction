@@ -60,8 +60,9 @@ public class AdminController {
 
 		ClientDetails clientDetails = (ClientDetails) session
 				.getAttribute(SessionConstants.CLIENT_INFO);
-		if(clientDetails != null && clientDetails.getSchemaKey() != null) {
-			List<Auction> auctionList = iAuctionService.getAuctionList(clientDetails.getSchemaKey());
+		if (clientDetails != null && clientDetails.getSchemaKey() != null) {
+			List<Auction> auctionList = iAuctionService
+					.getAuctionList(clientDetails.getSchemaKey());
 			Integer aunctionRunningOrClosedPresent = 0;
 			if (auctionList != null) {
 				for (Auction auction : auctionList) {
@@ -102,10 +103,11 @@ public class AdminController {
 		System.out.println("Message" + msg);
 		ClientDetails clientDetails = (ClientDetails) session
 				.getAttribute(SessionConstants.CLIENT_INFO);
-		if(clientDetails != null && clientDetails.getSchemaKey() != null) {
-		
-			List<Auction> auctionList = iAuctionService.getAuctionList(clientDetails.getSchemaKey());
-	
+		if (clientDetails != null && clientDetails.getSchemaKey() != null) {
+
+			List<Auction> auctionList = iAuctionService
+					.getAuctionList(clientDetails.getSchemaKey());
+
 			List<Auction> newAuctionList = new ArrayList<Auction>();
 			for (Auction auction : auctionList) {
 				if ("Start".equalsIgnoreCase(auction.getStatus())
@@ -125,10 +127,11 @@ public class AdminController {
 	public String setUserAuctionMap(
 			@RequestParam(value = "selectedAuctionId", required = true) Long selectedAuctionId,
 			@RequestParam(value = "selectedCategoryIdList", required = true) String selectedCategoryIdList,
-			@RequestParam(value = "selectedUserIdList", required = true) String selectedUserIdList) {
+			@RequestParam(value = "selectedUserIdList", required = true) String selectedUserIdList,
+			HttpSession session) {
 		String msg = null;
-		System.out.println(selectedAuctionId + "   " + selectedCategoryIdList
-				+ "   " + selectedUserIdList);
+		ClientDetails clientDetails = (ClientDetails) session
+				.getAttribute(SessionConstants.CLIENT_INFO);
 
 		try {
 			logger.debug("selectedAuctionId: " + selectedAuctionId);
@@ -167,17 +170,23 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/createauction", method = RequestMethod.POST)
-	public String createAuction(@ModelAttribute Auction auction, Model model) {
+	public String createAuction(@ModelAttribute Auction auction,
+			HttpSession session) {
+		ClientDetails clientDetails = (ClientDetails) session
+				.getAttribute(SessionConstants.CLIENT_INFO);
 		iAuctionService.create(auction);
 		return "createauction";
 	}
+
 	@RequestMapping(value = "/registeruser", method = RequestMethod.GET)
 	public String registerUser() {
 		return "userregisteration";
 	}
 
 	@RequestMapping(value = "/registeruser", method = RequestMethod.POST)
-	public String registerUser(@ModelAttribute User user, Model model) {
+	public String registerUser(@ModelAttribute User user,HttpSession session) {
+		ClientDetails clientDetails = (ClientDetails) session
+				.getAttribute(SessionConstants.CLIENT_INFO);
 		userService.addUser(user);
 		return "userregisteration";
 	}
@@ -185,7 +194,10 @@ public class AdminController {
 	@RequestMapping(value = "/closeAuction", method = RequestMethod.GET)
 	public String closeAuction(
 			@RequestParam(value = "auctionId", required = true) Integer auctionId,
-			ModelMap modelMap, HttpServletRequest httpServletRequest) {
+			ModelMap modelMap, HttpServletRequest httpServletRequest,
+			HttpSession session) {
+		ClientDetails clientDetails = (ClientDetails) session
+				.getAttribute(SessionConstants.CLIENT_INFO);
 		String msg = null;
 		try {
 			msg = closeAuction(auctionId, httpServletRequest);
@@ -211,7 +223,11 @@ public class AdminController {
 			@RequestParam(value = "auctionStartTime", required = false) String auctionStart,
 			@RequestParam(value = "auctionId", required = true) String auctionIdStr,
 			@RequestParam(value = "auctionTimeExt", required = false) String auctionTimeExt,
-			ModelMap modelMap, HttpServletRequest httpServletRequest) {
+			ModelMap modelMap, HttpServletRequest httpServletRequest,
+			HttpSession session) {
+
+		ClientDetails clientDetails = (ClientDetails) session
+				.getAttribute(SessionConstants.CLIENT_INFO);
 		Integer auctionId = null;
 		if (auctionIdStr != null && !auctionIdStr.equals("")) {
 			auctionId = Integer.parseInt(auctionIdStr);
