@@ -60,21 +60,22 @@ public class AdminController {
 
 		ClientDetails clientDetails = (ClientDetails) session
 				.getAttribute(SessionConstants.CLIENT_INFO);
-		System.out.println("clientDetails" + clientDetails.getId());
-		List<Auction> auctionList = iAuctionService.getAuctionList();
-		Integer aunctionRunningOrClosedPresent = 0;
-		if (auctionList != null) {
-			for (Auction auction : auctionList) {
-				if ("END".equalsIgnoreCase(auction.getStatus())
-						|| "Running".equalsIgnoreCase(auction.getStatus())) {
-					aunctionRunningOrClosedPresent++;
-					break;
+		if(clientDetails != null && clientDetails.getSchemaKey() != null) {
+			List<Auction> auctionList = iAuctionService.getAuctionList(clientDetails.getSchemaKey());
+			Integer aunctionRunningOrClosedPresent = 0;
+			if (auctionList != null) {
+				for (Auction auction : auctionList) {
+					if ("END".equalsIgnoreCase(auction.getStatus())
+							|| "Running".equalsIgnoreCase(auction.getStatus())) {
+						aunctionRunningOrClosedPresent++;
+						break;
+					}
 				}
 			}
+			model.addAttribute("auctionlist", auctionList);
+			model.addAttribute("aunctionRunningOrClosedPresent",
+					aunctionRunningOrClosedPresent);
 		}
-		model.addAttribute("auctionlist", iAuctionService.getAuctionList());
-		model.addAttribute("aunctionRunningOrClosedPresent",
-				aunctionRunningOrClosedPresent);
 		return "auctionmanagement";
 	}
 
@@ -97,21 +98,26 @@ public class AdminController {
 
 	@RequestMapping(value = "/userauctionmap", method = RequestMethod.GET)
 	public String getUserAuctionMap(ModelMap modelMap,
-			@RequestParam(required = false) String msg) {
+			@RequestParam(required = false) String msg, HttpSession session) {
 		System.out.println("Message" + msg);
-		List<Auction> auctionList = iAuctionService.getAuctionList();
-
-		List<Auction> newAuctionList = new ArrayList<Auction>();
-		for (Auction auction : auctionList) {
-			if ("Start".equalsIgnoreCase(auction.getStatus())
-					|| "Running".equalsIgnoreCase(auction.getStatus())) {
-				newAuctionList.add(auction);
+		ClientDetails clientDetails = (ClientDetails) session
+				.getAttribute(SessionConstants.CLIENT_INFO);
+		if(clientDetails != null && clientDetails.getSchemaKey() != null) {
+		
+			List<Auction> auctionList = iAuctionService.getAuctionList(clientDetails.getSchemaKey());
+	
+			List<Auction> newAuctionList = new ArrayList<Auction>();
+			for (Auction auction : auctionList) {
+				if ("Start".equalsIgnoreCase(auction.getStatus())
+						|| "Running".equalsIgnoreCase(auction.getStatus())) {
+					newAuctionList.add(auction);
+				}
 			}
+			modelMap.addAttribute("auctionlist", newAuctionList);
+			modelMap.addAttribute("userlist", userService.findAll(User.class));
+			modelMap.addAttribute("categorylist", categoryService.listAll());
+			modelMap.addAttribute("message", msg);
 		}
-		modelMap.addAttribute("auctionlist", newAuctionList);
-		modelMap.addAttribute("userlist", userService.findAll(User.class));
-		modelMap.addAttribute("categorylist", categoryService.listAll());
-		modelMap.addAttribute("message", msg);
 		return "userauctionmap";
 	}
 

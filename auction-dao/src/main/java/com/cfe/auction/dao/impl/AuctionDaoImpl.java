@@ -29,10 +29,13 @@ public class AuctionDaoImpl extends DAOImpl<Integer, Auction> implements
 	}
 
 	@Override
-	public List<Auction> getAuctionList() {
-		Query query = getEntityManager().createQuery(
-						"From Auction auction where auction.status != 'Closed' and auction.status != 'Terminated' order by auction.auctionStartTime desc");
-		return query.getResultList();
+	public List<Auction> getAuctionList(String schemaKey) {
+		if (getEntityManager(schemaKey) != null) {
+			Query query = getEntityManager(schemaKey).createQuery(
+							"From Auction auction where auction.status != 'Closed' and auction.status != 'Terminated' order by auction.auctionStartTime desc");
+			return query.getResultList();
+		}
+		return null;
 	}
 
 	@Override

@@ -56,8 +56,8 @@ public class AuctionServiceImpl extends
 	}
 	@Transactional
 	@Override
-	public List<Auction> getAuctionList() {
-		return auctionDao.getAuctionList();
+	public List<Auction> getAuctionList(String schemaKey) {
+		return auctionDao.getAuctionList(schemaKey);
 	}
 	
 	@Transactional

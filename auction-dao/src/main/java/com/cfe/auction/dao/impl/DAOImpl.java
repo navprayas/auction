@@ -144,7 +144,13 @@ public abstract class DAOImpl<I extends Serializable, T extends PO<I>>
 	protected EntityManager getEntityManager() {
 		return entityManagerB;
 	}
-
+	protected EntityManager getEntityManager(String schemaKey) {
+		if (schemaKey.equals("PersistenceUnitB")) {
+			return entityManagerB;
+		}
+		return null;
+	}
+	
 	protected EntityManager getMasterEntityManager() {
 		return entityManagerA;
 	}

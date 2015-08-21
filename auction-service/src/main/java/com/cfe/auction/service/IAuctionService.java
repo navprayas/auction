@@ -13,8 +13,6 @@ import com.cfe.auction.model.persist.BidItem;
  */
 public interface IAuctionService extends CRUDService<Integer, Auction> {
 
-	List<Auction> getAuctionList();
-	
 	void closeAuction(Integer auctionId);
 
 	List<BidItem> getActiveAuctionBidItem(Integer auctionId);
@@ -27,4 +25,6 @@ public interface IAuctionService extends CRUDService<Integer, Auction> {
 	
 	void setActualAuctionStartTime(Integer auctionId,
 			Date actualAuctionStartTime);
+
+	List<Auction> getAuctionList(String schemaKey);
 }
