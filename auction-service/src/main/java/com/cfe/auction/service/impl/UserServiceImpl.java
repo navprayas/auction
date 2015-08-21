@@ -14,7 +14,6 @@ import com.cfe.auction.dao.CategoryDao;
 import com.cfe.auction.dao.IAuctionDao;
 import com.cfe.auction.dao.UserDao;
 import com.cfe.auction.model.persist.BidderCategory;
-import com.cfe.auction.model.persist.BidderCategoryId;
 import com.cfe.auction.model.persist.User;
 import com.cfe.auction.service.UserService;
 

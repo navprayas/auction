@@ -1,13 +1,10 @@
 package com.cfe.auction.web;
 
-import java.util.List;
-
 import junit.framework.TestCase;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.cfe.auction.model.persist.User;
 import com.cfe.auction.service.UserService;
 
 public class UserServiceTestCase extends TestCase {
@@ -24,10 +21,5 @@ public class UserServiceTestCase extends TestCase {
 
 		UserService userService = (UserService) context
 				.getBean("userServiceImpl");
-		List<User> users = userService.findAll(User.class);
-		for (User user : users) {
-			System.out.println(user.getUsername());
-		}
-
 	}
 }

@@ -85,6 +85,7 @@ public class BidderController {
 			List<BidderCategory> bidderCategoryList = bidderCategoryService
 					.getBidderCategory(user.getId(),
 							AuctionCacheManager.getActiveAuctionId());
+			System.out.println("bidderCategoryList" + bidderCategoryList);
 			LOG.debug("Category Id" + bidderCategoryList);
 
 			List<BidItem> bidItems = AuctionCacheManager.getBidItems();
@@ -94,7 +95,7 @@ public class BidderController {
 				model.put("bidItems", bidItemFilterService
 						.getBidItemListForMarketList(bidItems, categoryIds,
 								AuctionCacheService.getActiveBidSequenceId()));
-				model.put("timeextention", 180);
+				model.put("timeextention", 30);
 			}
 		}
 		return "biddermarketlist";

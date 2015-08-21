@@ -171,7 +171,6 @@ public class AdminController {
 		iAuctionService.create(auction);
 		return "createauction";
 	}
-
 	@RequestMapping(value = "/registeruser", method = RequestMethod.GET)
 	public String registerUser() {
 		return "userregisteration";

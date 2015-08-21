@@ -57,7 +57,7 @@
 										+ marketlist[i].timeLeft
 										+ "'),'"
 										+ marketlist[i].bidItemId
-										+ "')</td><td><input type='text' value='Next Bid'/></td></tr>";
+										+ "')<script></td><td><input type='text' value='Next Bid'/></td></tr>";
 							}
 						} else {
 							tableData += "<tr><td colspan='10'>No Data Found</td></tr>";
@@ -155,7 +155,7 @@
 									<td><input type='hidden' name="currentPriceHidden"
 										id="itemPrice${marketlist.bidItemId}"
 										value='${marketlist.currentMarketPrice}'>
-									<div id="currentPriceDiv">${marketlist.currentMarketPrice}</div></td>
+										<div id="currentPriceDiv">${marketlist.currentMarketPrice}</div></td>
 									<td>${marketlist.createdTime}</td>
 									<td><div id="countdown${marketlist.bidItemId}">
 											${marketlist.timeLeft}</div> <script>
@@ -163,8 +163,7 @@
 														parseInt('${marketlist.timeLeft}'),
 														'${marketlist.bidItemId}');
 											</script></td>
-									<td>
-									<c:choose>
+									<td><c:choose>
 											<c:when
 												test='${bidItemWithAutoBidFlag[bidItem.bidItemId] == 2 && bidItemWithRanks[bidItem.bidItemId] == 1} '>
 												<input type="submit" name="button3"

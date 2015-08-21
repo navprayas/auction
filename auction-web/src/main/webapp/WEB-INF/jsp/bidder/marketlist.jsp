@@ -1,4 +1,3 @@
-
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="f" uri="http://www.springframework.org/tags/form"%>
@@ -163,7 +162,7 @@
 										<div id="countdown${marketlist.bidItemId}">${marketlist.timeLeft}</div>
 										<script>
 											setTimeLefts(
-													parseInt('${timeextention+(status.index+1)}'),
+													parseInt('${timeextention+(status.index)}'),
 													'${marketlist.bidItemId}');
 										</script>
 									</td>
@@ -234,6 +233,7 @@
 		}
 
 		var marketList = function() {
+
 			$
 					.ajax({
 						url : 'marketlistajaxcall',
@@ -242,8 +242,9 @@
 							$('#marketlist-pagination').empty();
 							var marketlist = jQuery.parseJSON(data);
 							var l = marketlist.length;
-							var tableHeader = "<tr><th>Sr. No.</th><th>Name</th><th>Location</th><th>City</th><th>Zone</th><th>MinBidPrice</th><th>MinBidIncrement</th><th>Time Left</th><th>Time To Start</th><th>Auto Bid</th></tr>";
+							var tableHeader = "<tr><th>Sr. No.</th><th>Name</th><th>Location</th><th>City</th><th>Zone</th><th>Min Bid Price</th><th>Min Bid Increment</th><th>Time Left</th><th>Time To Start</th><th>Auto Bid</th></tr>";
 							$('#marketlist-pagination').append(tableHeader);
+							var timeExt = $('#extn').val();
 							var tableData = "";
 							if (l > 0) {
 								for (var i = 0; i < l; i++) {
@@ -261,13 +262,12 @@
 											+ marketlist[i].minBidPrice
 											+ "</td><td>"
 											+ marketlist[i].minBidIncrement
-											+ "</td><td>"
+											+ "</td><td> <div id='countdown"+marketlist[i].bidItemId+"'>"
 											+ marketlist[i].timeleft
-											+ "</td><td>"
+											+ "</div><script>setTimeLefts(parseInt( '"+timeExt + i+"'),'"+marketlist[i].bidItemId+"')<script></td><td>"
 											+ getConvertedDate(marketlist[i].createdTime)
-											+ "</td><td> <div id=dialog_bids"+marketlist[i].bidItemId+"></div><input type='submit' value='Auto Bid'  onclick=opneDialogBox(dialog_bids"
-											+ marketlist[i].bidItemId
-											+ ")/></td></tr>";
+											+ "</td><td> <div id='dialog_bids"+marketlist[i].bidItemId+"'></div><input type='submit' value='Auto Bid'  onclick=opneDialogBox('dialog_bids"+ marketlist[i].bidItemId+ "')/></td></tr>";
+
 								}
 							} else {
 								tableData += "<tr><td colspan='10'>No Data Found</td></tr>";
@@ -279,7 +279,7 @@
 						}
 					});
 		};
-		setInterval(marketList, 1000 * 60 * 1); // you could choose not to continue on failure...
+		      setInterval(marketList, 100 * 60 * 1); // you could choose not to continue on failure...
 		function getConvertedDate(time) {
 			var date = new Date(time);
 			var dd = date.getDate();
