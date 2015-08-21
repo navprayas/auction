@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cfe.auction.common.Bidder;
+import com.cfe.auction.model.auction.persist.AuctionSearchBean;
 import com.cfe.auction.model.persist.BidItem;
 import com.cfe.auction.model.persist.BidderCategory;
 import com.cfe.auction.model.persist.ClientDetails;
@@ -155,17 +156,18 @@ public class BidderController {
 			@RequestParam(value = "categoryId", required = true) Long categoryId,
 			ModelMap modelMap, HttpSession session) {
 		session.getAttribute(CommonConstants.USER_NAME);
-
+AuctionSearchBean auctionSearchBean=new AuctionSearchBean();
 		String userName = session.getAttribute(CommonConstants.USER_NAME)
 				.toString();
 		ClientDetails clientDetails = (ClientDetails) session
 				.getAttribute(SessionConstants.CLIENT_INFO);
+		auctionSearchBean.setAuctionId(AuctionCacheManager.getActiveAuctionId());
 		List<BidItem> bidItemsList = null;
 		System.out.println("bidItemId" + bidItemId);
 		try {
 			autoBidService.saveAutoBid(userName, categoryId, bidItemId,
 					bidAmount, "No Comments",
-					AuctionCacheManager.getActiveAuctionId());
+					auctionSearchBean);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -228,12 +230,15 @@ public class BidderController {
 	@RequestMapping(value = "/bidderreport", method = RequestMethod.GET)
 	public String getwonLists(ModelMap modelMap, HttpSession session)
 			throws Exception {
-
+		AuctionSearchBean auctionSearchBean = new AuctionSearchBean();
 		User user = (User) session.getAttribute(SessionConstants.USER_INFO);
 		ClientDetails clientDetails = (ClientDetails) session
 				.getAttribute(SessionConstants.CLIENT_INFO);
+		auctionSearchBean.setSchemaName(clientDetails.getSchemaKey());
 		LOG.debug("UserName" + user.getUsername());
-		List<BidItem> wonList = bidItemService.getWonList(user.getUsername());
+
+		List<BidItem> wonList = bidItemService.getWonList(user.getUsername(),
+				auctionSearchBean);
 		LOG.debug("closedbids List::" + wonList);
 		modelMap.addAttribute("wonList", wonList);
 		List<BidderCategory> categoryList = bidderCategoryService
@@ -242,5 +247,4 @@ public class BidderController {
 		LOG.debug(" For category: bidderCategoryList List::" + categoryList);
 		return "bidderreport";
 	}
-
 }

@@ -23,9 +23,14 @@ public interface IAuctionService extends CRUDService<Integer, Auction> {
 	Auction getActiveAuction();
 
 	boolean isValidAuction(Integer auctionId);
-	
+
 	void setActualAuctionStartTime(Integer auctionId,
 			Date actualAuctionStartTime);
 
 	List<Auction> getAuctionList(String schemaKey);
+
+	void closeAuction(AuctionSearchBean auctionSearchBean);
+
+	boolean isValidAuction(AuctionSearchBean auctionSearchBean);
+
 }

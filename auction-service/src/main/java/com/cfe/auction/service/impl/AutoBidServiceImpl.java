@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cfe.auction.dao.AutoBidDao;
 import com.cfe.auction.dao.BidItemDao;
 import com.cfe.auction.dao.IAuctionDao;
-import com.cfe.auction.model.persist.Auction;
+import com.cfe.auction.model.auction.persist.AuctionSearchBean;
 import com.cfe.auction.model.persist.AutoBids;
 import com.cfe.auction.model.persist.BidItem;
 import com.cfe.auction.service.AutoBidService;
@@ -33,11 +33,44 @@ public class AutoBidServiceImpl extends
 		// TODO Auto-generated constructor stub
 	}
 
+	/*
+	 * @Override public void saveAutoBid(String userName, Long categoryId, Long
+	 * bidItemId, Double bidAmount, String comment, Integer auctionId) {
+	 * 
+	 * BidItem bidItem = bidItemDao.getBidItem(bidItemId);
+	 * System.out.println(bidItem.getCurrency());
+	 * 
+	 * // Auction auction = iAuctionDao.get(auctionId); // TODO Auto-generated
+	 * method stub AutoBids autoBid = new AutoBids();
+	 * autoBid.setBidItemId(bidItemId); autoBid.setBidTime(new Date());
+	 * autoBid.setCurrency("INR"); autoBid.setBidAmount(bidAmount);
+	 * autoBid.setBidderName(userName); autoBid.setBidStatus("A");
+	 * autoBid.setComments(comment); autoBid.setAuctionId(auctionId);
+	 * System.out.println(autoBid);
+	 * 
+	 * List<AutoBids> autoBids = autoBidDao.getAutoBids(); if (autoBids != null)
+	 * for (AutoBids autoBidItem : autoBids) { if
+	 * (autoBidItem.getBidderName().equalsIgnoreCase(userName)) {
+	 * autoBidItem.setBidStatus("I"); autoBidDao.createOrUpdate(autoBidItem);
+	 * 
+	 * } }
+	 * 
+	 * create(autoBid);
+	 * 
+	 * bidItem.setCurrentAutoBidId(Long.parseLong(autoBid.getBidItemId().toString
+	 * ()));
+	 * 
+	 * bidItemDao.createOrUpdate(bidItem);
+	 * 
+	 * }
+	 */
+
 	@Override
 	public void saveAutoBid(String userName, Long categoryId, Long bidItemId,
-			Double bidAmount, String comment, Integer auctionId) {
+			Double bidAmount, String comment,
+			AuctionSearchBean auctionSearchBean) {
 
-		BidItem bidItem = bidItemDao.getBidItem(bidItemId);
+		BidItem bidItem = bidItemDao.getBidItem(bidItemId, auctionSearchBean);
 		System.out.println(bidItem.getCurrency());
 
 		// Auction auction = iAuctionDao.get(auctionId);
@@ -50,9 +83,9 @@ public class AutoBidServiceImpl extends
 		autoBid.setBidderName(userName);
 		autoBid.setBidStatus("A");
 		autoBid.setComments(comment);
-		autoBid.setAuctionId(auctionId);
+		autoBid.setAuctionId(auctionSearchBean.getAuctionId());
 		System.out.println(autoBid);
-		
+
 		List<AutoBids> autoBids = autoBidDao.getAutoBids();
 		if (autoBids != null)
 			for (AutoBids autoBidItem : autoBids) {
@@ -65,7 +98,8 @@ public class AutoBidServiceImpl extends
 
 		create(autoBid);
 
-		bidItem.setCurrentAutoBidId(Long.parseLong(autoBid.getBidItemId().toString()));
+		bidItem.setCurrentAutoBidId(Long.parseLong(autoBid.getBidItemId()
+				.toString()));
 
 		bidItemDao.createOrUpdate(bidItem);
 

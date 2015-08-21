@@ -13,21 +13,21 @@ import com.cfe.auction.model.persist.Auction;
 import com.cfe.auction.model.persist.BidItem;
 import com.cfe.auction.service.BidItemService;
 import com.cfe.auction.service.IAuctionService;
-import com.cfe.auction.service.cache.manager.AuctionCacheManager;
+
 /**
  * 
  * @author Vikas Anand
- *
+ * 
  */
 @Service("auctionServiceImpl")
 @Transactional
 public class AuctionServiceImpl extends
 		CRUDServiceImpl<Integer, Auction, IAuctionDao> implements
 		IAuctionService {
-	
+
 	@Autowired
 	IAuctionDao auctionDao;
-	
+
 	@Autowired
 	BidItemService bidItemService;
 
@@ -35,6 +35,7 @@ public class AuctionServiceImpl extends
 	public AuctionServiceImpl(IAuctionDao dao) {
 		super(dao);
 	}
+
 	@Transactional
 	@Override
 	public List<BidItem> getActiveAuctionBidItem(
@@ -43,23 +44,25 @@ public class AuctionServiceImpl extends
 				.getBidItemsbyAuctionId(auctionSearchBean);
 		return bidItems;
 	}
+
 	@Transactional
 	@Override
 	public Auction getActiveAuction(AuctionSearchBean auctionSearchBean) {
 		return auctionDao.getActiveAuction(auctionSearchBean);
 	}
-	
+
 	@Transactional
 	@Override
 	public Auction getActiveAuction() {
 		return auctionDao.getActiveAuction();
 	}
+
 	@Transactional
 	@Override
 	public List<Auction> getAuctionList(String schemaKey) {
 		return auctionDao.getAuctionList(schemaKey);
 	}
-	
+
 	@Transactional
 	@Override
 	public void closeAuction(Integer auctionId) {
@@ -71,10 +74,23 @@ public class AuctionServiceImpl extends
 	public boolean isValidAuction(Integer auctionId) {
 		return auctionDao.isValidAuction(auctionId);
 	}
+
 	@Override
 	public void setActualAuctionStartTime(Integer auctionId,
 			Date actualAuctionStartTime) {
 		auctionDao.setActualAuctionStartTime(auctionId, actualAuctionStartTime);
 	}
-	
+
+	@Override
+	public void closeAuction(AuctionSearchBean auctionSearchBean) {
+		auctionDao.closeAuction(auctionSearchBean);
+
+	}
+
+	@Override
+	public boolean isValidAuction(AuctionSearchBean auctionSearchBean) {
+		// TODO Auto-generated method stub
+		return auctionDao.isValidAuction(auctionSearchBean);
+	}
+
 }

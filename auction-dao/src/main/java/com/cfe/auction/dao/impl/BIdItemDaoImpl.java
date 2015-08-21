@@ -24,45 +24,45 @@ public class BIdItemDaoImpl extends DAOImpl<Integer, BidItem> implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<BidItem> getBidItems(AuctionSearchBean auctionSearchBean) {
-		Query query = getEntityManager(auctionSearchBean.getSchemaName()).createQuery(" from BidItem as bidItem where bidItemGroupId = :bidItemGroupId");
+		Query query = getEntityManager(auctionSearchBean.getSchemaName())
+				.createQuery(
+						" from BidItem as bidItem where bidItemGroupId = :bidItemGroupId");
 		query.setParameter("bidItemGroupId", auctionSearchBean.getGenericId());
-		return  (List<BidItem>)query.getResultList();
+		return (List<BidItem>) query.getResultList();
 	}
+
 	public List<BidItem> getBidItems(Integer auctionId) {
 
-		Query query = getEntityManager().createQuery(" from BidItem as bidItem , BidSequence bidSeq "
-				+ "where bidSeq.auction.auctionId = :auctionId and bidSeq.bidItem.bidItemId = bidItem.bidItemId");
-		query.setParameter("auctionId", auctionId);	
+		Query query = getEntityManager()
+				.createQuery(
+						" from BidItem as bidItem , BidSequence bidSeq "
+								+ "where bidSeq.auction.auctionId = :auctionId and bidSeq.bidItem.bidItemId = bidItem.bidItemId");
+		query.setParameter("auctionId", auctionId);
 		List<Object[]> objectsList = query.getResultList();
 		List<BidItem> bidItemsList = new ArrayList<BidItem>();
 
 		for (Object[] objects : objectsList) {
-			BidItem bidItem = (BidItem)objects[0];
-			BidSequence bidSequence = (BidSequence)objects[1];
+			BidItem bidItem = (BidItem) objects[0];
+			BidSequence bidSequence = (BidSequence) objects[1];
 
 			bidItem.setSeqId(bidSequence.getSequenceId());
 			bidItem.setBidSpan(bidSequence.getBidspan());
 
-			if(!bidItemsList.contains(bidItem)) {
+			if (!bidItemsList.contains(bidItem)) {
 				bidItemsList.add(bidItem);
 			}
 		}
 		return bidItemsList;
 	}
 
-	@Override
-	public List<BidItem> getBIdItemActiveMarket() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<BidItem> getBIdItemClosedMarket() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
+	/*
+	 * @Override public List<BidItem> getBIdItemActiveMarket() { // TODO
+	 * Auto-generated method stub return null; }
+	 * 
+	 * @Override public List<BidItem> getBIdItemClosedMarket() { // TODO
+	 * Auto-generated method stub return null; }
+	 */
+	/*@Override
 	public BidItem getBidItem(Long id) {
 
 		Query query = getEntityManager().createQuery(
@@ -70,17 +70,45 @@ public class BIdItemDaoImpl extends DAOImpl<Integer, BidItem> implements
 		query.setParameter("bidItemId", id);
 		return (BidItem) query.getSingleResult();
 	}
+
 	@Override
 	public List<BidItem> getWonList(String username) {
-		Query query = getEntityManager().createQuery("From CloseBids closeBids where closeBids.bidderName= :bidderName ");
+		Query query = getEntityManager()
+				.createQuery(
+						"From CloseBids closeBids where closeBids.bidderName= :bidderName ");
 		query.setParameter("bidderName", username);
 		List<CloseBids> closebidList = query.getResultList();
-		
+
 		List<BidItem> listBidItems = new ArrayList<BidItem>();
 		for (CloseBids closebid : closebidList) {
 			BidItem bidItem = closebid.getBidItem();
 			listBidItems.add(bidItem);
 		}
-		return listBidItems ;
+		return listBidItems;
+	}*/
+
+	@Override
+	public BidItem getBidItem(Long id, AuctionSearchBean auctionSearchBean) {
+		Query query = getEntityManager(auctionSearchBean.getSchemaName())
+				.createQuery("from BidItem where bidItemId = :bidItemId");
+		query.setParameter("bidItemId", id);
+		return (BidItem) query.getSingleResult();
+	}
+
+	@Override
+	public List<BidItem> getWonList(String username,
+			AuctionSearchBean auctionSearchBean) {
+		Query query = getEntityManager(auctionSearchBean.getSchemaName())
+				.createQuery(
+						"From CloseBids closeBids where closeBids.bidderName= :bidderName ");
+		query.setParameter("bidderName", username);
+		List<CloseBids> closebidList = query.getResultList();
+
+		List<BidItem> listBidItems = new ArrayList<BidItem>();
+		for (CloseBids closebid : closebidList) {
+			BidItem bidItem = closebid.getBidItem();
+			listBidItems.add(bidItem);
+		}
+		return listBidItems;
 	}
 }

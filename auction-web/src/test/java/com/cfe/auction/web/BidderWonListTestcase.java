@@ -7,6 +7,7 @@ import junit.framework.TestCase;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.cfe.auction.model.auction.persist.AuctionSearchBean;
 import com.cfe.auction.model.persist.BidItem;
 import com.cfe.auction.model.persist.BidderCategory;
 import com.cfe.auction.service.BidItemService;
@@ -23,12 +24,16 @@ public class BidderWonListTestcase extends TestCase {
 		context = new ClassPathXmlApplicationContext("spring-beans.xml");
 
 		bidItemService = (BidItemService) context.getBean("bidItemServiceImpl");
-		bidderCategoryService=(BidderCategoryService)context.getBean("bidderCategoryServiceImpl");
+		bidderCategoryService = (BidderCategoryService) context
+				.getBean("bidderCategoryServiceImpl");
 	}
 
 	public void testBidderWonListService() {
 		try {
-			List<BidItem> wonList = bidItemService.getWonList("bidder");
+			AuctionSearchBean auctionSearchBean = new AuctionSearchBean();
+			auctionSearchBean.setSchemaName("PersistenceUnitB");
+			List<BidItem> wonList = bidItemService.getWonList("bidder",
+					auctionSearchBean);
 			List<BidderCategory> categoryList = bidderCategoryService
 					.getAllCategory(AuctionCacheManager.getActiveAuctionId());
 

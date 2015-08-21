@@ -28,13 +28,20 @@ public class BidItemServiceImpl extends
 
 	@Transactional
 	@Override
-	public List<BidItem> getBidItemsbyAuctionId(AuctionSearchBean auctionSearchBean) {
+	public List<BidItem> getBidItemsbyAuctionId(
+			AuctionSearchBean auctionSearchBean) {
 		return bidItemDao.getBidItems(auctionSearchBean);
 	}
 
-	@Override
+	/*@Override
 	public List<BidItem> getWonList(String username) {
 		return bidItemDao.getWonList(username);
+	}
+*/
+	@Override
+	public List<BidItem> getWonList(String username,
+			AuctionSearchBean auctionSearchBean) {
+		return bidItemDao.getWonList(username, auctionSearchBean);
 	}
 
 }
