@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.cfe.auction.model.auction.persist.AuctionCacheBean;
 import com.cfe.auction.model.persist.Auction;
 import com.cfe.auction.model.persist.ClientDetails;
 import com.cfe.auction.model.persist.User;
@@ -79,22 +80,6 @@ public class AdminController {
 		return "auctionmanagement";
 	}
 
-	/*
-	 * @RequestMapping(value = "/auctionmanagement", method = RequestMethod.GET)
-	 * public String auctionManegement(ModelMap model) {
-	 * 
-	 * List<Auction> auctionList = iAuctionService.getAuctionList(); Integer
-	 * aunctionRunningOrClosedPresent = 0; if (auctionList != null) { for
-	 * (Auction auction : auctionList) { if
-	 * ("END".equalsIgnoreCase(auction.getStatus()) ||
-	 * "Running".equalsIgnoreCase(auction.getStatus())) {
-	 * aunctionRunningOrClosedPresent++; break; } } }
-	 * model.addAttribute("auctionlist", iAuctionService.getAuctionList());
-	 * model.addAttribute("aunctionRunningOrClosedPresent",
-	 * aunctionRunningOrClosedPresent);
-	 * 
-	 * return "auctionmanagement"; }
-	 */
 
 	@RequestMapping(value = "/userauctionmap", method = RequestMethod.GET)
 	public String getUserAuctionMap(ModelMap modelMap,
@@ -217,8 +202,10 @@ public class AdminController {
 			@RequestParam(value = "auctionStartTime", required = false) String auctionStart,
 			@RequestParam(value = "auctionId", required = true) String auctionIdStr,
 			@RequestParam(value = "auctionTimeExt", required = false) String auctionTimeExt,
-			ModelMap modelMap, HttpServletRequest httpServletRequest) {
+			ModelMap modelMap, HttpServletRequest httpServletRequest, HttpSession session) {
 		Integer auctionId = null;
+		ClientDetails clientDetails = (ClientDetails) session
+				.getAttribute(SessionConstants.CLIENT_INFO);
 		if (auctionIdStr != null && !auctionIdStr.equals("")) {
 			auctionId = Integer.parseInt(auctionIdStr);
 		}
@@ -229,7 +216,13 @@ public class AdminController {
 
 		AuctionCacheService.flushCache();
 		AuctionCacheManager.flushCache();
-		AuctionCacheManager.setActiveAuctionId(auctionId);
+		//AuctionCacheManager.setActiveAuctionId(auctionId);
+		
+		AuctionCacheBean auctionCacheDTO = new AuctionCacheBean();
+		auctionCacheDTO.setAuctionId(auctionId);
+		auctionCacheDTO.setClientId(clientDetails.getId());
+		AuctionCacheManager.setActiveAuctionId(auctionCacheDTO);
+		
 		auctionCacheManager.refreshAuctionCache();
 		// KilimEngineGenerator.getAuctioneer().restart();
 

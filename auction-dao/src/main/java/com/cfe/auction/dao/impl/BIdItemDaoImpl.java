@@ -8,6 +8,7 @@ import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 
 import com.cfe.auction.dao.BidItemDao;
+import com.cfe.auction.model.auction.persist.AuctionSearchBean;
 import com.cfe.auction.model.persist.BidItem;
 import com.cfe.auction.model.persist.BidSequence;
 import com.cfe.auction.model.persist.CloseBids;
@@ -22,9 +23,9 @@ public class BIdItemDaoImpl extends DAOImpl<Integer, BidItem> implements
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<BidItem> getBidItems(Long bidItemGroupId) {
-		Query query = getEntityManager().createQuery(" from BidItem as bidItem where bidItemGroupId = :bidItemGroupId");
-		query.setParameter("bidItemGroupId", bidItemGroupId);
+	public List<BidItem> getBidItems(AuctionSearchBean auctionSearchBean) {
+		Query query = getEntityManager(auctionSearchBean.getSchemaName()).createQuery(" from BidItem as bidItem where bidItemGroupId = :bidItemGroupId");
+		query.setParameter("bidItemGroupId", auctionSearchBean.getGenericId());
 		return  (List<BidItem>)query.getResultList();
 	}
 	public List<BidItem> getBidItems(Integer auctionId) {

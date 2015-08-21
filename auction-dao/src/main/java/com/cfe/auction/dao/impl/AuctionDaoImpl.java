@@ -8,6 +8,7 @@ import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 
 import com.cfe.auction.dao.IAuctionDao;
+import com.cfe.auction.model.auction.persist.AuctionSearchBean;
 import com.cfe.auction.model.persist.Auction;
 
 @Repository
@@ -16,11 +17,11 @@ public class AuctionDaoImpl extends DAOImpl<Integer, Auction> implements
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Auction getActiveAuction(Integer auctionId) {
+	public Auction getActiveAuction(AuctionSearchBean auctionSearchBean) {
 		
-		Query query = getEntityManager().createQuery(
+		Query query = getEntityManager(auctionSearchBean.getSchemaName()).createQuery(
 				"From Auction auction where auction.auctionId = :auctionId");
-		query.setParameter("auctionId", auctionId);
+		query.setParameter("auctionId", auctionSearchBean.getAuctionId());
 		List<Auction> list = query.getResultList();
 		if (list != null && list.size() >= 1) {
 			return list.get(0);
