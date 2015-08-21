@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cfe.auction.dao.IAuctionDao;
+import com.cfe.auction.model.auction.persist.AuctionSearchBean;
 import com.cfe.auction.model.persist.Auction;
 import com.cfe.auction.model.persist.BidItem;
 import com.cfe.auction.service.BidItemService;
@@ -36,17 +37,16 @@ public class AuctionServiceImpl extends
 	}
 	@Transactional
 	@Override
-	public List<BidItem> getActiveAuctionBidItem(Integer auctionId) { 
-	  if (AuctionCacheManager.getActiveAuctionId() != null) {
-		  List<BidItem> bidItems = bidItemService.getBidItemsbyAuctionId(AuctionCacheManager.getActiveAuctionId());
-		  return bidItems;
-	  }
-	  return null;
+	public List<BidItem> getActiveAuctionBidItem(
+			AuctionSearchBean auctionSearchBean) {
+		List<BidItem> bidItems = bidItemService
+				.getBidItemsbyAuctionId(auctionSearchBean);
+		return bidItems;
 	}
 	@Transactional
 	@Override
-	public Auction getActiveAuction(Integer auctionId) {
-		return auctionDao.getActiveAuction(auctionId);
+	public Auction getActiveAuction(AuctionSearchBean auctionSearchBean) {
+		return auctionDao.getActiveAuction(auctionSearchBean);
 	}
 	
 	@Transactional

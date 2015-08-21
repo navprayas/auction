@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cfe.auction.dao.BidItemDao;
+import com.cfe.auction.model.auction.persist.AuctionSearchBean;
 import com.cfe.auction.model.persist.BidItem;
 import com.cfe.auction.service.BidItemService;
 
@@ -27,8 +28,8 @@ public class BidItemServiceImpl extends
 
 	@Transactional
 	@Override
-	public List<BidItem> getBidItemsbyAuctionId(Integer auctionId) {
-		return bidItemDao.getBidItems(auctionId);
+	public List<BidItem> getBidItemsbyAuctionId(AuctionSearchBean auctionSearchBean) {
+		return bidItemDao.getBidItems(auctionSearchBean);
 	}
 
 	@Override
