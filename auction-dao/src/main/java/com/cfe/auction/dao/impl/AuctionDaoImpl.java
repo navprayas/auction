@@ -20,7 +20,7 @@ public class AuctionDaoImpl extends DAOImpl<Integer, Auction> implements
 	public Auction getActiveAuction(AuctionSearchBean auctionSearchBean) {
 		
 		Query query = getEntityManager(auctionSearchBean.getSchemaName()).createQuery(
-				"From Auction auction where auction.auctionId = :auctionId");
+				"From Auction auction where auction.id = :auctionId");
 		query.setParameter("auctionId", auctionSearchBean.getAuctionId());
 		List<Auction> list = query.getResultList();
 		if (list != null && list.size() >= 1) {
@@ -43,7 +43,7 @@ public class AuctionDaoImpl extends DAOImpl<Integer, Auction> implements
 	public void closeAuction(Integer auctionId) {
 		Query query = getEntityManager().createQuery(
 						" update Auction as auction set auction.auctionEndTime = :auctionEndTime, "
-								+ "auction.lastUpdateTime = :lastUpdateTime, auction.status = 'Closed'  where auction.auctionId = :auctionId ");
+								+ "auction.lastUpdateTime = :lastUpdateTime, auction.status = 'Closed'  where auction.id = :auctionId ");
 		query.setParameter("auctionEndTime", new Date());
 		query.setParameter("lastUpdateTime", new Date());
 		query.setParameter("auctionId", auctionId);
@@ -53,7 +53,7 @@ public class AuctionDaoImpl extends DAOImpl<Integer, Auction> implements
 	@Override
 	public boolean isValidAuction(Integer auctionId) {
 		Query query = getEntityManager().createQuery(
-				" from Auction as auction where auction.auctionId = :auctionId ");
+				" from Auction as auction where auction.id = :auctionId ");
 		query.setParameter("auctionId", auctionId);
 		Auction auction = (Auction) query.getSingleResult();
 		return auction.getStatus().equals("Start")
@@ -77,7 +77,7 @@ public class AuctionDaoImpl extends DAOImpl<Integer, Auction> implements
 	public void setActualAuctionStartTime(Integer auctionId,
 			Date actualAuctionStartTime) {
 		Query query = getEntityManager().createQuery(
-						" Update Auction as auction set auction.status = 'Running', auction.auctionStartTime = :actualAuctionStartTime, auction.lastUpdateTime = :lastUpdateTime where auction.auctionId = :auctionId ");
+						" Update Auction as auction set auction.status = 'Running', auction.auctionStartTime = :actualAuctionStartTime, auction.lastUpdateTime = :lastUpdateTime where auction.id = :auctionId ");
 		query.setParameter("actualAuctionStartTime", actualAuctionStartTime);
 		query.setParameter("auctionId", auctionId);
 		query.setParameter("lastUpdateTime", new Date());

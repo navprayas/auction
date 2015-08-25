@@ -29,12 +29,12 @@ public class BidderWonListTestcase extends TestCase {
 	public void testBidderWonListService() {
 		try {
 			List<BidItem> wonList = bidItemService.getWonList("bidder");
-			List<BidderCategory> categoryList = bidderCategoryService
+	/*		List<BidderCategory> categoryList = bidderCategoryService
 					.getAllCategory(AuctionCacheManager.getActiveAuctionId());
 
 			System.out.println("Wonlist" + wonList);
 			System.out.println("Category Test" + categoryList);
-		} catch (Exception e) {
+*/		} catch (Exception e) {
 			e.printStackTrace();
 		}
 

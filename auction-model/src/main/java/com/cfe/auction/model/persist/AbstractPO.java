@@ -4,13 +4,11 @@ import java.io.Serializable;
 
 public abstract class AbstractPO<I extends Serializable> implements PO<I>, Cloneable {
 
+	private static final long serialVersionUID = 1202022L;
+
 	protected I id;
 	
 	protected AbstractPO(){
-	}
-	
-	protected AbstractPO(I id){
-		this.id = id;
 	}
 	
 	@Override
@@ -29,5 +27,15 @@ public abstract class AbstractPO<I extends Serializable> implements PO<I>, Clone
 		if(!getClass().equals(other.getClass()))
 			return false;
 		return (id != null) && id.equals(((PO<I>)other).getId());
+	}
+
+	@Override
+	public I getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(I id) {
+		this.id = id;		
 	}
 }

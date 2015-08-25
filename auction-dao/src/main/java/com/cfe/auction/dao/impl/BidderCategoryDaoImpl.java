@@ -7,6 +7,7 @@ import javax.persistence.Query;
 import org.springframework.stereotype.Service;
 
 import com.cfe.auction.dao.BidderCategoryDao;
+import com.cfe.auction.model.auction.persist.AuctionSearchBean;
 import com.cfe.auction.model.persist.BidderCategory;
 
 @Service
@@ -15,12 +16,12 @@ public class BidderCategoryDaoImpl extends DAOImpl<Integer, BidderCategory>
 
 	@Override
 	public List<BidderCategory> getBidderCategory(Integer userId,
-			Integer auctionId) {
-		System.out.println("userId " + userId + "   " + auctionId);
-		Query query = getEntityManager()
+			AuctionSearchBean auctionSearchBean) {
+		System.out.println("userId " + userId + "   " + auctionSearchBean.getAuctionId());
+		Query query = getEntityManager(auctionSearchBean.getSchemaName())
 				.createQuery(
 						"from  BidderCategory bc where bc.auction.auctionId=:auctionId and bc.userId=:userId ");
-		query.setParameter("auctionId", auctionId);
+		query.setParameter("auctionId", auctionSearchBean.getAuctionId());
 		query.setParameter("userId", userId);
 		return (List<BidderCategory>) query.getResultList();
 

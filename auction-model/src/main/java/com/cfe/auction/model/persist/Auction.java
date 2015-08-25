@@ -4,7 +4,6 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 import java.util.Date;
 
-import javax.annotation.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,16 +16,8 @@ import javax.persistence.TemporalType;
 @Table(name = "AUCTION")
 public class Auction extends AbstractPO<Integer> {
 
-	public Auction() {
-		// TODO Auto-generated constructor stub
-	}
-
-	public Auction(int id) {
-		// TODO Auto-generated constructor stub
-		this.id = id;
-	}
-
-	private Integer auctionId;
+	private static final long serialVersionUID = 122332L;
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "LASTUPDATETIME")
 	private Date lastUpdateTime;
@@ -122,39 +113,6 @@ public class Auction extends AbstractPO<Integer> {
 		this.isApproved = isApproved;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "Auction [auctionId=" + auctionId + "]";
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#hashCode()
-	 */
-	/*
-	 * @Override public int hashCode() { final int prime = 31; int result = 1;
-	 * result = prime * result + ((auctionId == null) ? 0 :
-	 * auctionId.hashCode()); return result; }
-	 */
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	/*
-	 * @Override public boolean equals(Object obj) { if (this == obj) return
-	 * true; if (obj == null) return false; if (getClass() != obj.getClass())
-	 * return false; Auction other = (Auction) obj; if (auctionId == null) { if
-	 * (other.auctionId != null) return false; } else if
-	 * (!auctionId.equals(other.auctionId)) return false; return true; }
-	 */
 	public Date getAuctionStartTime() {
 		return auctionStartTime;
 	}

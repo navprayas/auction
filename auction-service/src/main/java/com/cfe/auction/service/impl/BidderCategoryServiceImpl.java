@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cfe.auction.dao.BidderCategoryDao;
+import com.cfe.auction.model.auction.persist.AuctionCacheBean;
+import com.cfe.auction.model.auction.persist.AuctionSearchBean;
 import com.cfe.auction.model.persist.BidderCategory;
 import com.cfe.auction.service.BidderCategoryService;
 
@@ -18,9 +20,9 @@ public class BidderCategoryServiceImpl implements BidderCategoryService {
 
 	@Override
 	public List<BidderCategory> getBidderCategory(Integer userId,
-			Integer auctionId) {
+			AuctionSearchBean auctionSearchBean) {
 		// TODO Auto-generated method stub
-		return bidderCategoryDao.getBidderCategory(userId, auctionId);
+		return bidderCategoryDao.getBidderCategory(userId, auctionSearchBean);
 	}
 
 	@Override

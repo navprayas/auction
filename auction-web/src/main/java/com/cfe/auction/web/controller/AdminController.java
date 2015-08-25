@@ -203,7 +203,7 @@ public class AdminController {
 		if (auctionIdStr != null && !auctionIdStr.equals("")) {
 			auctionId = Integer.parseInt(auctionIdStr);
 		}
-		if (auctionId == null || !iAuctionService.isValidAuction(auctionId)) {
+		if (auctionId == null ){ //|| !iAuctionService.isValidAuction(auctionId)) {
 			String msg = "Auction Not Present - " + auctionId;
 			return "redirect:/admin/auctionmanagement?Message=" + msg;
 		}
@@ -212,12 +212,13 @@ public class AdminController {
 		AuctionCacheManager.flushCache();
 		//AuctionCacheManager.setActiveAuctionId(auctionId);
 		
-		AuctionCacheBean auctionCacheDTO = new AuctionCacheBean();
-		auctionCacheDTO.setAuctionId(auctionId);
-		auctionCacheDTO.setClientId(clientDetails.getId());
-		AuctionCacheManager.setActiveAuctionId(auctionCacheDTO);
+		AuctionCacheBean auctionCacheBean = new AuctionCacheBean();
+		auctionCacheBean.setAuctionId(auctionId);
+		auctionCacheBean.setClientId(clientDetails.getId());
+		auctionCacheBean.setSchemaName(clientDetails.getSchemaKey());
+		AuctionCacheManager.setActiveAuctionId(auctionCacheBean);
 		
-		auctionCacheManager.refreshAuctionCache();
+		auctionCacheManager.refreshAuctionCache(auctionCacheBean);
 		// KilimEngineGenerator.getAuctioneer().restart();
 
 		try {
@@ -235,7 +236,7 @@ public class AdminController {
 				cal.add(Calendar.MINUTE, 3);
 				actualAuctionStartTime = cal.getTime();
 			}
-			bidItemsCacheService.setAuctionStartTime(actualAuctionStartTime);
+			auctionCacheBean.setAuctionStartTime(actualAuctionStartTime);
 			iAuctionService.setActualAuctionStartTime(auctionId,
 					actualAuctionStartTime);
 		} catch (ParseException e) {
@@ -243,7 +244,7 @@ public class AdminController {
 			logger.error(e.getMessage());
 			throw new RuntimeException(e.getMessage());
 		}
-		bidItemsCacheService.initCache();
+		bidItemsCacheService.initCache(auctionCacheBean);
 		String msg = "Auction Started - " + auctionId;
 		return "redirect:/admin/auctionmanagement?Message=" + msg;
 	}

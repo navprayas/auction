@@ -1,19 +1,13 @@
 package com.cfe.auction.model.persist;
 
-import java.io.Serializable;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
 /*@Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "BidSequence" )*/
@@ -26,9 +20,8 @@ public class BidSequence extends AbstractPO<Integer> {
     @JoinColumn(name="auctionId", referencedColumnName = "auctionId")
 	private Auction auction;
 	
-	@ManyToOne( cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch=FetchType.EAGER)
-    @JoinColumn(name="bidItemId", referencedColumnName = "bidItemId")
-	private BidItem bidItem;
+	@Column(name="bidItemId")
+	private Long bidItemId;
 	
 	@Id
 	@Column(name="SEQUENCEID")
@@ -50,20 +43,6 @@ public class BidSequence extends AbstractPO<Integer> {
 	 */
 	public void setAuction(Auction auction) {
 		this.auction = auction;
-	}
-
-	/**
-	 * @return the bidItem
-	 */
-	public BidItem getBidItem() {
-		return bidItem;
-	}
-
-	/**
-	 * @param bidItem the bidItem to set
-	 */
-	public void setBidItem(BidItem bidItem) {
-		this.bidItem = bidItem;
 	}
 
 	/**
@@ -100,8 +79,16 @@ public class BidSequence extends AbstractPO<Integer> {
 	@Override
 	public String toString() {
 		return "BidSequence [auction="
-				+ auction.getAuctionId()+ ", bidItem=" + ((bidItem != null) ? bidItem.getId() : "null") + ", sequenceId="
+				+ auction.getAuctionId()+ ", bidItem=" + bidItemId + ", sequenceId="
 				+ sequenceId + ", bidspan=" + bidspan + "]";
+	}
+	
+	public Long getBidItemId() {
+		return bidItemId;
+	}
+
+	public void setBidItemId(Long bidItemId) {
+		this.bidItemId = bidItemId;
 	}
 
 	@Override

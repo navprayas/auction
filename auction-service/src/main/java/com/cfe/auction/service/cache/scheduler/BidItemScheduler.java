@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.cfe.auction.model.auction.persist.AuctionCacheBean;
 import com.cfe.auction.service.cache.IBidItemsCacheService;
 
 public class BidItemScheduler {
@@ -32,13 +33,13 @@ public class BidItemScheduler {
         cacheService = c;
     }
     
-    public void start(Date startTime) {
+    public void start(final AuctionCacheBean auctionCacheBean) {
 
         task = new TimerTask() {
             @Override
             public void run() {
                 try {
-                    long span = cacheService.setNextActiveBidItem();
+                    long span = cacheService.setNextActiveBidItem(auctionCacheBean);
                     if(span == 0) {
                         timer.cancel();
                         return;
@@ -57,6 +58,6 @@ public class BidItemScheduler {
         };
 
         timer = new Timer();
-        timer.schedule(task, startTime, TimeUnit.MILLISECONDS.toMillis(1000L));
+        timer.schedule(task, auctionCacheBean.getAuctionStartTime(), TimeUnit.MILLISECONDS.toMillis(1000L));
     }
 }

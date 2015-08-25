@@ -21,18 +21,19 @@ public class BIdItemDaoImpl extends DAOImpl<Integer, BidItem> implements
 	 * .getLogger(BIdItemDaoImpl.class);
 	 */
 
-	@SuppressWarnings("unchecked")
+	/*@SuppressWarnings("unchecked")
 	@Override
 	public List<BidItem> getBidItems(AuctionSearchBean auctionSearchBean) {
 		Query query = getEntityManager(auctionSearchBean.getSchemaName()).createQuery(" from BidItem as bidItem where bidItemGroupId = :bidItemGroupId");
 		query.setParameter("bidItemGroupId", auctionSearchBean.getGenericId());
 		return  (List<BidItem>)query.getResultList();
-	}
-	public List<BidItem> getBidItems(Integer auctionId) {
+	}*/
+	@Override
+	public List<BidItem> getBidItems(AuctionSearchBean auctionSearchBean) {
 
 		Query query = getEntityManager().createQuery(" from BidItem as bidItem , BidSequence bidSeq "
-				+ "where bidSeq.auction.auctionId = :auctionId and bidSeq.bidItem.bidItemId = bidItem.bidItemId");
-		query.setParameter("auctionId", auctionId);	
+				+ "where bidSeq.auction.auctionId = :auctionId and bidSeq.bidItemId = bidItem.bidItemId");
+		query.setParameter("auctionId", auctionSearchBean.getAuctionId());	
 		List<Object[]> objectsList = query.getResultList();
 		List<BidItem> bidItemsList = new ArrayList<BidItem>();
 

@@ -20,10 +20,10 @@ public class BidItemTestCase extends TestCase {
 
 	public void testBIdItemTestCase() {
 
-		BidItemService bidItemService = (BidItemService) context
-				.getBean("bidItemServiceImpl");
-		System.out.println(bidItemService
+		/*BidItemService bidItemService = (BidItemService) context
+				.getBean("bidItemServiceImpl");*/
+		/*System.out.println(bidItemService
 				.getBidItemsbyAuctionId(AuctionCacheManager
-						.getActiveAuctionId()));
+						.getActiveAuctionId()));*/
 	}
 }

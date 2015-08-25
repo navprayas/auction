@@ -2,6 +2,7 @@ package com.cfe.auction.dao;
 
 import java.util.List;
 
+import com.cfe.auction.model.auction.persist.AuctionSearchBean;
 import com.cfe.auction.model.persist.BidSequence;
 
 /**
@@ -11,6 +12,6 @@ import com.cfe.auction.model.persist.BidSequence;
  */
 public interface IBidSequenceDao extends DAO<Integer, BidSequence> {
 
-	List<BidSequence> getBidSequenceList(Integer auctionId);
+	List<BidSequence> getBidSequenceList(AuctionSearchBean auctionSearchBean);
 
 }
