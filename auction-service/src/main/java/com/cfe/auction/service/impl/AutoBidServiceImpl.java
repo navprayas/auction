@@ -30,40 +30,7 @@ public class AutoBidServiceImpl extends
 	@Autowired
 	public AutoBidServiceImpl(AutoBidDao dao) {
 		super(dao);
-		// TODO Auto-generated constructor stub
 	}
-
-	/*
-	 * @Override public void saveAutoBid(String userName, Long categoryId, Long
-	 * bidItemId, Double bidAmount, String comment, Integer auctionId) {
-	 * 
-	 * BidItem bidItem = bidItemDao.getBidItem(bidItemId);
-	 * System.out.println(bidItem.getCurrency());
-	 * 
-	 * // Auction auction = iAuctionDao.get(auctionId); // TODO Auto-generated
-	 * method stub AutoBids autoBid = new AutoBids();
-	 * autoBid.setBidItemId(bidItemId); autoBid.setBidTime(new Date());
-	 * autoBid.setCurrency("INR"); autoBid.setBidAmount(bidAmount);
-	 * autoBid.setBidderName(userName); autoBid.setBidStatus("A");
-	 * autoBid.setComments(comment); autoBid.setAuctionId(auctionId);
-	 * System.out.println(autoBid);
-	 * 
-	 * List<AutoBids> autoBids = autoBidDao.getAutoBids(); if (autoBids != null)
-	 * for (AutoBids autoBidItem : autoBids) { if
-	 * (autoBidItem.getBidderName().equalsIgnoreCase(userName)) {
-	 * autoBidItem.setBidStatus("I"); autoBidDao.createOrUpdate(autoBidItem);
-	 * 
-	 * } }
-	 * 
-	 * create(autoBid);
-	 * 
-	 * bidItem.setCurrentAutoBidId(Long.parseLong(autoBid.getBidItemId().toString
-	 * ()));
-	 * 
-	 * bidItemDao.createOrUpdate(bidItem);
-	 * 
-	 * }
-	 */
 
 	@Override
 	public void saveAutoBid(String userName, Long categoryId, Long bidItemId,
@@ -84,22 +51,20 @@ public class AutoBidServiceImpl extends
 		autoBid.setAuctionId(auctionSearchBean.getAuctionId());
 		System.out.println(autoBid);
 
-		List<AutoBids> autoBids = autoBidDao.getAutoBids();
+		List<AutoBids> autoBids = autoBidDao.getAutoBids(auctionSearchBean);
 		if (autoBids != null)
 			for (AutoBids autoBidItem : autoBids) {
 				if (autoBidItem.getBidderName().equalsIgnoreCase(userName)) {
 					autoBidItem.setBidStatus("I");
 					autoBidDao.createOrUpdate(autoBidItem);
-
 				}
 			}
 
-		create(autoBid);
+		autoBid = autoBidDao.create(autoBid, auctionSearchBean);
 
-		bidItem.setCurrentAutoBidId(Long.parseLong(autoBid.getBidItemId()
-				.toString()));
+		bidItem.setCurrentAutoBidId(autoBid.getAutoBidId());
 
-		bidItemDao.createOrUpdate(bidItem);
+		bidItemDao.createOrUpdate(bidItem, auctionSearchBean);
 
 	}
 }

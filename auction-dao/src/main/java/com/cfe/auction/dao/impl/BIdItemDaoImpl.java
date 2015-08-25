@@ -1,7 +1,6 @@
 package com.cfe.auction.dao.impl;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -22,6 +21,7 @@ public class BIdItemDaoImpl extends DAOImpl<Integer, BidItem> implements
 	 * private Logger logger = org.slf4j.LoggerFactory
 	 * .getLogger(BIdItemDaoImpl.class);
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<BidItem> getBidItems(AuctionSearchBean auctionSearchBean) {
 
@@ -69,6 +69,7 @@ public class BIdItemDaoImpl extends DAOImpl<Integer, BidItem> implements
 			entityManager.getTransaction().commit();
 		}
 	}
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<BidItem> getWonList(String username, AuctionSearchBean auctionSearchBean) {
 		Query query = getEntityManager(auctionSearchBean.getSchemaName())
@@ -82,5 +83,13 @@ public class BIdItemDaoImpl extends DAOImpl<Integer, BidItem> implements
 			listBidItems.add(bidItem);
 		}
 		return listBidItems ;
+	}
+
+	@Override
+	public BidItem createOrUpdate(BidItem bidItem,
+			AuctionSearchBean auctionSearchBean) {
+		getEntityManager(auctionSearchBean.getSchemaName()).merge(bidItem);
+		return bidItem;
+		
 	}
 }

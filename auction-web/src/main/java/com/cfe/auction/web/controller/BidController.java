@@ -57,8 +57,8 @@ public class BidController {
 		AuctionSearchBean auctionSearchBean = new AuctionSearchBean(clientDetails.getSchemaKey());
 		auctionSearchBean.setClientId(clientDetails.getId());
 		auctionSearchBean.setSchemaName(clientDetails.getSchemaKey());
-		
-		List<BidItem> bidItemsList = null;
+		auctionSearchBean.setAuctionId(AuctionCacheManager.getActiveAuctionId(auctionSearchBean));
+
 		System.out.println("bidItemId" + bidItemId);
 		try {
 			autoBidService.saveAutoBid(userName, categoryId, bidItemId,
@@ -67,12 +67,7 @@ public class BidController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		/* bidItemsList = bidderService.saveAutoBid(); */
-		LOG.debug(" For category: BidItems List::" + bidItemsList);
-		modelMap.addAttribute("bidItemsList", bidItemsList);
-		// List<BidderCategory> categoryList = getCategoryIdList(userName);
-		// modelMap.addAttribute("bidderCategoryList", categoryList);
-		// LOG.debug(" For category: bidderCategoryList List::" + categoryList);
+		
 		return "redirect:/bidder/home";
 
 	}

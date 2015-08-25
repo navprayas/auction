@@ -15,4 +15,6 @@ public interface BidItemDao extends DAO<Integer, BidItem> {
 			AuctionSearchBean auctionSearchBean);
 
 	void updateBidItem(AuctionSearchBean auctionSearchBean, BidItem bidItem);
+
+	BidItem createOrUpdate(BidItem bidItem, AuctionSearchBean auctionSearchBean);
 }
