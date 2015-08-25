@@ -73,8 +73,6 @@ public class AutoBidServiceImpl extends
 		BidItem bidItem = bidItemDao.getBidItem(bidItemId, auctionSearchBean);
 		System.out.println(bidItem.getCurrency());
 
-		// Auction auction = iAuctionDao.get(auctionId);
-		// TODO Auto-generated method stub
 		AutoBids autoBid = new AutoBids();
 		autoBid.setBidItemId(bidItemId);
 		autoBid.setBidTime(new Date());

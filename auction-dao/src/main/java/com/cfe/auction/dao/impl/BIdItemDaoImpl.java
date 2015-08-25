@@ -1,8 +1,10 @@
 package com.cfe.auction.dao.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
@@ -50,6 +52,22 @@ public class BIdItemDaoImpl extends DAOImpl<Integer, BidItem> implements
 				"from BidItem where bidItemId = :bidItemId");
 		query.setParameter("bidItemId", id);
 		return (BidItem) query.getSingleResult();
+	}
+	
+	@Override
+	public void updateBidItem(AuctionSearchBean auctionSearchBean, BidItem bidItem) {
+
+		EntityManager entityManager = getEntityManager(auctionSearchBean.getSchemaName());
+		BidItem dbBidItem = entityManager.find(BidItem.class, bidItem.getId());
+		if(dbBidItem != null) {
+			entityManager.getTransaction().begin();
+			dbBidItem.setBidStartTime(bidItem.getBidStartTime());
+			dbBidItem.setBidEndTime(bidItem.getBidEndTime());
+			dbBidItem.setLastUpDateTime(bidItem.getLastUpDateTime());
+			dbBidItem.setCurrentMarketPrice(bidItem.getCurrentMarketPrice());
+			dbBidItem.setStatusCode(bidItem.getStatus());
+			entityManager.getTransaction().commit();
+		}
 	}
 	@Override
 	public List<BidItem> getWonList(String username, AuctionSearchBean auctionSearchBean) {

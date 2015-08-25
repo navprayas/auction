@@ -14,6 +14,7 @@ import com.cfe.auction.model.auction.persist.AuctionCacheBean;
 import com.cfe.auction.model.auction.persist.AuctionSearchBean;
 import com.cfe.auction.model.persist.BidItem;
 import com.cfe.auction.model.persist.BidSequence;
+import com.cfe.auction.service.BidItemService;
 import com.cfe.auction.service.IBidSequenceService;
 import com.cfe.auction.service.cache.manager.AuctionCacheManager;
 import com.cfe.auction.service.cache.manager.AuctionCacheService;
@@ -32,11 +33,12 @@ public class BidItemsCacheServiceImpl implements IBidItemsCacheService {
 	@Autowired
 	IBidSequenceService bidSequenceService;
 	
+	@Autowired
+	BidItemService bidItemService;
+	
 	private BidItemScheduler scheduler = null;
 
 	boolean startFlag = true;
-	
-	
 	
 	@Override
 	public long setNextActiveBidItem(AuctionCacheBean auctionCacheBean) {
@@ -63,7 +65,7 @@ public class BidItemsCacheServiceImpl implements IBidItemsCacheService {
 				return bidItem.getTimeLeft();		
 			}
 			else {
-				//cleanBidItem(activeBidItemId);
+				cleanBidItem(AuctionCacheManager.getActiveBidItemId(auctionSearchBean), auctionSearchBean);
 				Long activeBidItemId = AuctionCacheService.pollActiveBidItemId(auctionCacheBean);
 				AuctionCacheManager.setActiveBidItemId(auctionSearchBean, activeBidItemId);
 				bidItem = getBidItem(activeBidItemId, auctionSearchBean);
@@ -131,8 +133,19 @@ public class BidItemsCacheServiceImpl implements IBidItemsCacheService {
 		return null;
 	}
 	
-	/*private void cleanBidItem(long bidItemId) {
-		RedisCacheService.setExpiredBidItem(bidItemId);
-		commonDao.updateBidItem(RedisCacheService.getBidItem(RedisConstants.BIDITEM + bidItemId, bidItemId + ""));
-	}*/
+	private void cleanBidItem(long bidItemId, AuctionSearchBean auctionSearchBean) {
+		BidItem bidItem = setExpiredBidItem(bidItemId, auctionSearchBean);
+		bidItemService.updateBidItem(auctionSearchBean, bidItem);
+	}
+	
+	private BidItem setExpiredBidItem(long bidItemId, AuctionSearchBean auctionSearchBean) {
+		BidItem bidItem = AuctionCacheManager.getBidItem(auctionSearchBean, bidItemId);
+		bidItem.setBidEndTime(new Date());
+		bidItem.setLastUpDateTime(new Date());
+		//bidItem.setCurrentMarketPrice(bidItem.getCurrentMarketPrice());
+		bidItem.setStatusCode("END");
+		return bidItem;
+	}
 }
+
+
