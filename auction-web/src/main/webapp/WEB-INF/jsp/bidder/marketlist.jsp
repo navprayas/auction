@@ -162,7 +162,7 @@
 										<div id="countdown${marketlist.bidItemId}">${marketlist.timeLeft}</div>
 										<script>
 											setTimeLefts(
-													parseInt('${timeextention+(status.index)}'),
+													parseInt('${marketlist.timeLeft}'),
 													'${marketlist.bidItemId}');
 										</script>
 									</td>
@@ -279,7 +279,7 @@
 						}
 					});
 		};
-		      setInterval(marketList, 100 * 60 * 1); // you could choose not to continue on failure...
+		      //setInterval(marketList, 100 * 60 * 1); // you could choose not to continue on failure...
 		function getConvertedDate(time) {
 			var date = new Date(time);
 			var dd = date.getDate();

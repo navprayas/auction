@@ -16,6 +16,7 @@ public class AuctionSearchBean {
 	private String schemaName;
 	private Integer auctionId;
 	private Long genericId;
+	private Integer clientId;
 	
 	public String getSchemaName() {
 		return schemaName;
@@ -40,4 +41,13 @@ public class AuctionSearchBean {
 	public void setGenericId(Long genericId) {
 		this.genericId = genericId;
 	}
+
+	public Integer getClientId() {
+		return clientId;
+	}
+
+	public void setClientId(Integer clientId) {
+		this.clientId = clientId;
+	}
+	
 }

@@ -7,6 +7,7 @@ import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 
 import com.cfe.auction.dao.IBidSequenceDao;
+import com.cfe.auction.model.auction.persist.AuctionSearchBean;
 import com.cfe.auction.model.persist.BidSequence;
 
 /**
@@ -19,10 +20,10 @@ public class BidSequenceDaoImpl extends DAOImpl<Integer, BidSequence> implements
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<BidSequence> getBidSequenceList(Integer auctionId) {
-		Query query = getEntityManager().createQuery(" from BidSequence  where auction.auctionId = :auctionId");
-		query.setParameter("auctionId", auctionId);
-		
+	public List<BidSequence> getBidSequenceList(AuctionSearchBean auctionSearchBean) {
+		Query query = getEntityManager(auctionSearchBean.getSchemaName()).
+				createQuery(" from BidSequence where auction.id = :auctionId");
+		query.setParameter("auctionId", auctionSearchBean.getAuctionId());
 		List<BidSequence> list = (List<BidSequence>) query.getResultList();
 		return list;
 	}

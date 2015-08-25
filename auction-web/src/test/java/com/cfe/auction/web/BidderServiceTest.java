@@ -6,14 +6,10 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.cfe.auction.model.persist.BidItem;
 import com.cfe.auction.model.persist.BidderCategory;
 import com.cfe.auction.service.BidderCategoryService;
 import com.cfe.auction.service.IBidItemFilterService;
-import com.cfe.auction.service.cache.manager.AuctionCacheManager;
-import com.cfe.auction.service.cache.manager.AuctionCacheService;
 
 public class BidderServiceTest extends TestCase {
 
@@ -21,7 +17,7 @@ public class BidderServiceTest extends TestCase {
 	BidderCategoryService bidderCategoryService;
 	IBidItemFilterService bidItemFilterService;
 
-	public void setUp() {
+	/*public void setUp() {
 
 		context = new ClassPathXmlApplicationContext("spring-beans.xml");
 
@@ -30,8 +26,8 @@ public class BidderServiceTest extends TestCase {
 		bidItemFilterService = (IBidItemFilterService) context
 				.getBean("bidItemFilterServiceImpl");
 	}
-
-	public void testBidderService() {
+*/
+	/*public void testBidderService() {
 
 		List<BidderCategory> bidderCategoryList = bidderCategoryService
 				.getBidderCategory(2, AuctionCacheManager.getActiveAuctionId());
@@ -48,12 +44,12 @@ public class BidderServiceTest extends TestCase {
 						bidItems, categoryIds,
 						AuctionCacheService.getActiveBidSequenceId()));
 
-		/*
+		
 		 * System.out.println("Closed Bid Item"+bidItemFilterService
 		 * .getBidItemListForClosedMarketList(bidItems, categoryIds,
 		 * AuctionCacheService.getActiveBidSequenceId()));
-		 */
-	}
+		 
+	}*/
 
 	private List<Integer> getCategoryIdList(
 			List<BidderCategory> bidderCategoryList) {

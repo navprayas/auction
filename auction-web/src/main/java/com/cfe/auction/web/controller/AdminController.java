@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cfe.auction.model.auction.persist.AuctionCacheBean;
+import com.cfe.auction.model.auction.persist.AuctionSearchBean;
 import com.cfe.auction.model.persist.Auction;
 import com.cfe.auction.model.persist.ClientDetails;
 import com.cfe.auction.model.persist.User;
@@ -60,9 +62,8 @@ public class AdminController {
 
 		ClientDetails clientDetails = (ClientDetails) session
 				.getAttribute(SessionConstants.CLIENT_INFO);
-		if (clientDetails != null && clientDetails.getSchemaKey() != null) {
-			List<Auction> auctionList = iAuctionService
-					.getAuctionList(clientDetails.getSchemaKey());
+		if(clientDetails != null && clientDetails.getSchemaKey() != null) {
+			List<Auction> auctionList = iAuctionService.getAuctionList(clientDetails.getSchemaKey());
 			Integer aunctionRunningOrClosedPresent = 0;
 			if (auctionList != null) {
 				for (Auction auction : auctionList) {
@@ -80,17 +81,17 @@ public class AdminController {
 		return "auctionmanagement";
 	}
 
+
 	@RequestMapping(value = "/userauctionmap", method = RequestMethod.GET)
 	public String getUserAuctionMap(ModelMap modelMap,
 			@RequestParam(required = false) String msg, HttpSession session) {
 		System.out.println("Message" + msg);
 		ClientDetails clientDetails = (ClientDetails) session
 				.getAttribute(SessionConstants.CLIENT_INFO);
-		if (clientDetails != null && clientDetails.getSchemaKey() != null) {
-
-			List<Auction> auctionList = iAuctionService
-					.getAuctionList(clientDetails.getSchemaKey());
-
+		if(clientDetails != null && clientDetails.getSchemaKey() != null) {
+		
+			List<Auction> auctionList = iAuctionService.getAuctionList(clientDetails.getSchemaKey());
+	
 			List<Auction> newAuctionList = new ArrayList<Auction>();
 			for (Auction auction : auctionList) {
 				if ("Start".equalsIgnoreCase(auction.getStatus())
@@ -110,16 +111,18 @@ public class AdminController {
 	public String setUserAuctionMap(
 			@RequestParam(value = "selectedAuctionId", required = true) Long selectedAuctionId,
 			@RequestParam(value = "selectedCategoryIdList", required = true) String selectedCategoryIdList,
-			@RequestParam(value = "selectedUserIdList", required = true) String selectedUserIdList,
-			HttpSession session) {
+			@RequestParam(value = "selectedUserIdList", required = true) String selectedUserIdList) {
 		String msg = null;
-		ClientDetails clientDetails = (ClientDetails) session
-				.getAttribute(SessionConstants.CLIENT_INFO);
+		System.out.println(selectedAuctionId + "   " + selectedCategoryIdList
+				+ "   " + selectedUserIdList);
 
 		try {
 			logger.debug("selectedAuctionId: " + selectedAuctionId);
 			logger.debug("selectedCategoryIdList: " + selectedCategoryIdList);
 			logger.debug("selectedUserIdList: " + selectedUserIdList);
+			userService.setAuctionMapping(selectedAuctionId,
+					selectedCategoryIdList, selectedUserIdList);
+
 			userService.setAuctionMapping(selectedAuctionId,
 					selectedCategoryIdList, selectedUserIdList);
 			msg = "All selected Users are now allowed for the auction "
@@ -138,8 +141,12 @@ public class AdminController {
 		ClientDetails clientDetails = (ClientDetails) session
 				.getAttribute(SessionConstants.CLIENT_INFO);
 		String msg = null;
+		AuctionSearchBean auctionSearchBean = new AuctionSearchBean(clientDetails.getSchemaKey());
+		auctionSearchBean.setClientId(clientDetails.getId());
+		auctionSearchBean.setSchemaName(clientDetails.getSchemaKey());
+		auctionSearchBean.setAuctionId(auctionId);
 		try {
-			msg = closeAuction(auctionId, httpServletRequest);
+			msg = closeAuction(auctionSearchBean, httpServletRequest);
 		} catch (Exception e) {
 			e.printStackTrace();
 			msg = "Auction Could not be Closed - " + auctionId;
@@ -153,37 +160,34 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/createauction", method = RequestMethod.POST)
-	public String createAuction(@ModelAttribute Auction auction,
-			HttpSession session) {
-		ClientDetails clientDetails = (ClientDetails) session
-				.getAttribute(SessionConstants.CLIENT_INFO);
+	public String createAuction(@ModelAttribute Auction auction, Model model) {
 		iAuctionService.create(auction);
 		return "createauction";
 	}
-
 	@RequestMapping(value = "/registeruser", method = RequestMethod.GET)
 	public String registerUser() {
 		return "userregisteration";
 	}
 
 	@RequestMapping(value = "/registeruser", method = RequestMethod.POST)
-	public String registerUser(@ModelAttribute User user, HttpSession session) {
-		ClientDetails clientDetails = (ClientDetails) session
-				.getAttribute(SessionConstants.CLIENT_INFO);
+	public String registerUser(@ModelAttribute User user, Model model) {
 		userService.addUser(user);
 		return "userregisteration";
 	}
 
-	@RequestMapping(value = "/closeAuction", method = RequestMethod.GET)
+	@RequestMapping(value = {"/closeAuction","/closeauction"}, method = RequestMethod.GET)
 	public String closeAuction(
 			@RequestParam(value = "auctionId", required = true) Integer auctionId,
-			ModelMap modelMap, HttpServletRequest httpServletRequest,
-			HttpSession session) {
+			ModelMap modelMap, HttpServletRequest httpServletRequest, HttpSession session) {
+		String msg = null;
 		ClientDetails clientDetails = (ClientDetails) session
 				.getAttribute(SessionConstants.CLIENT_INFO);
-		String msg = null;
+		AuctionSearchBean auctionSearchBean = new AuctionSearchBean(clientDetails.getSchemaKey());
+		auctionSearchBean.setClientId(clientDetails.getId());
+		auctionSearchBean.setSchemaName(clientDetails.getSchemaKey());
+		auctionSearchBean.setAuctionId(auctionId);
 		try {
-			msg = closeAuction(auctionId, httpServletRequest);
+			msg = closeAuction(auctionSearchBean, httpServletRequest);
 		} catch (Exception e) {
 			e.printStackTrace();
 			msg = "Auction Could not be Closed - " + auctionId;
@@ -191,10 +195,10 @@ public class AdminController {
 		return "redirect:/admin/auctionmanagement?Message=" + msg;
 	}
 
-	private String closeAuction(Integer auctionId,
+	private String closeAuction(AuctionSearchBean auctionSearchBean,
 			HttpServletRequest httpServletRequest) {
-		iAuctionService.closeAuction(auctionId);
-		String msg = "Auction Closed - " + auctionId;
+		iAuctionService.closeAuction(auctionSearchBean);
+		String msg = "Auction Closed - " + auctionSearchBean.getAuctionId();
 		httpServletRequest.setAttribute("SuccessMessage", "Auction Closed");
 		AuctionCacheService.flushCache();
 		AuctionCacheManager.flushCache();
@@ -206,32 +210,29 @@ public class AdminController {
 			@RequestParam(value = "auctionStartTime", required = false) String auctionStart,
 			@RequestParam(value = "auctionId", required = true) String auctionIdStr,
 			@RequestParam(value = "auctionTimeExt", required = false) String auctionTimeExt,
-
-			ModelMap modelMap, HttpServletRequest httpServletRequest,
-			HttpSession session) {
-
+			ModelMap modelMap, HttpServletRequest httpServletRequest, HttpSession session) {
+		Integer auctionId = null;
 		ClientDetails clientDetails = (ClientDetails) session
 				.getAttribute(SessionConstants.CLIENT_INFO);
-
-		Integer auctionId = null;
 		if (auctionIdStr != null && !auctionIdStr.equals("")) {
 			auctionId = Integer.parseInt(auctionIdStr);
 		}
-		if (auctionId == null || !iAuctionService.isValidAuction(auctionId)) {
+		if (auctionId == null ){ //|| !iAuctionService.isValidAuction(auctionId)) {
 			String msg = "Auction Not Present - " + auctionId;
 			return "redirect:/admin/auctionmanagement?Message=" + msg;
 		}
 
 		AuctionCacheService.flushCache();
 		AuctionCacheManager.flushCache();
-		// AuctionCacheManager.setActiveAuctionId(auctionId);
-
-		AuctionCacheBean auctionCacheDTO = new AuctionCacheBean();
-		auctionCacheDTO.setAuctionId(auctionId);
-		auctionCacheDTO.setClientId(clientDetails.getId());
-		AuctionCacheManager.setActiveAuctionId(auctionCacheDTO);
-
-		auctionCacheManager.refreshAuctionCache(auctionCacheDTO);
+		//AuctionCacheManager.setActiveAuctionId(auctionId);
+		
+		AuctionCacheBean auctionCacheBean = new AuctionCacheBean();
+		auctionCacheBean.setAuctionId(auctionId);
+		auctionCacheBean.setClientId(clientDetails.getId());
+		auctionCacheBean.setSchemaName(clientDetails.getSchemaKey());
+		AuctionCacheManager.setActiveAuctionId(auctionCacheBean);
+		
+		auctionCacheManager.refreshAuctionCache(auctionCacheBean);
 		// KilimEngineGenerator.getAuctioneer().restart();
 
 		try {
@@ -249,7 +250,7 @@ public class AdminController {
 				cal.add(Calendar.MINUTE, 3);
 				actualAuctionStartTime = cal.getTime();
 			}
-			bidItemsCacheService.setAuctionStartTime(actualAuctionStartTime);
+			auctionCacheBean.setAuctionStartTime(actualAuctionStartTime);
 			iAuctionService.setActualAuctionStartTime(auctionId,
 					actualAuctionStartTime);
 		} catch (ParseException e) {
@@ -257,7 +258,7 @@ public class AdminController {
 			logger.error(e.getMessage());
 			throw new RuntimeException(e.getMessage());
 		}
-		bidItemsCacheService.initCache();
+		bidItemsCacheService.initCache(auctionCacheBean);
 		String msg = "Auction Started - " + auctionId;
 		return "redirect:/admin/auctionmanagement?Message=" + msg;
 	}

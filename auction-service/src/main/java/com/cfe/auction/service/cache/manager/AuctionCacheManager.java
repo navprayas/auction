@@ -1,6 +1,5 @@
 package com.cfe.auction.service.cache.manager;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,46 +24,36 @@ public class AuctionCacheManager implements InitializingBean {
 	@Autowired
 	IBidItemsCacheService bidItemsCacheService;
 
-	private static Integer activeAuctionId;
-
-
-	private static Map<Integer, AuctionCacheBean> activeAuctionMap;
+	private static Map<Integer, AuctionCacheBean> activeAuctionMap = new HashMap<Integer, AuctionCacheBean>();
 	
-	private static List<BidItem> bidItems;
-
-	private static Map<Long, BidItem> bidItemsMap = new HashMap<Long, BidItem>();
-
-	private static Auction auction;
-
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		System.out.println("Properties Loaded");
 		//setActiveAuction();
-		System.out.println("active Auction id::" + activeAuctionId);
-		//setActiveBidItemsList();
-		setBidItemsMap();
-		bidItemsCacheService.initCache();
+		System.out.println("active Auction id::");
+		//bidItemsCacheService.initCache();
 	}
 
-	public void refreshAuctionCache(AuctionCacheBean auctionCacheDTO) {
-		setActiveAuction(auctionCacheDTO);
-		//setActiveBidItemsList();
-		setBidItemsMap();
+	public void refreshAuctionCache(AuctionCacheBean auctionCacheBean) {
+		setActiveAuction(auctionCacheBean);
 	}
 
 	public static void flushCache() {
-		activeAuctionId = null;
+	/*	activeAuctionId = null;
 		bidItems = null;
 		bidItemsMap = new HashMap<Long, BidItem>();
-		auction = null;
+		auction = null;*/
 	}
 
-	public static void setActiveAuctionId(Integer auctionId) {
-		activeAuctionId = auctionId;
+	public static void setActiveAuctionId(AuctionCacheBean auctionCacheBean) {
+		activeAuctionMap.put(auctionCacheBean.getClientId(), auctionCacheBean);
 	}
 
-	public static void setActiveAuctionId(AuctionCacheBean auctionCacheDTO) {
-		activeAuctionMap.put(auctionCacheDTO.getClientId(), auctionCacheDTO);
+	public static Integer getActiveAuctionId(AuctionSearchBean auctionSearchBean) {
+		if (activeAuctionMap.get(auctionSearchBean.getClientId()) != null) {
+			return activeAuctionMap.get(auctionSearchBean.getClientId()).getAuctionId();
+		}
+		return  null;
 	}
 	
 	private void setActiveAuction(AuctionCacheBean auctionCacheBean) {
@@ -74,44 +63,55 @@ public class AuctionCacheManager implements InitializingBean {
 			Auction auction = auctionService.getActiveAuction(auctionSearchBean);
 			if (auction != null) {
 				auctionSearchBean.setGenericId(auction.getBidItemGroupId());
-				bidItems = auctionService.getActiveAuctionBidItem(auctionSearchBean);
+				List<BidItem> bidItems = auctionService.getActiveAuctionBidItem(auctionSearchBean);
+				Map<Long, BidItem> bidItemsMap = new HashMap<Long, BidItem>();
+				if (bidItems != null) {
+					for (BidItem bidItem : bidItems) {
+						if (bidItem != null && bidItem.getBidItemId() != null) {
+							bidItemsMap.put(bidItem.getBidItemId(), bidItem);
+						}
+					}
+				}
+				AuctionCacheBean auctionCacheBean2 = activeAuctionMap.get(auctionCacheBean.getClientId());
+				auctionCacheBean2.setBidItems(bidItems);
+				auctionCacheBean2.setBidItemsMap(bidItemsMap);
 			}
 		} 
 	}
 
-	private static void setBidItemsMap() {
-		if (bidItems != null && !bidItems.isEmpty()) {
-			for (BidItem bidItem : bidItems) {
-				if (bidItem != null && bidItem.getBidItemId() != null) {
-					bidItemsMap.put(bidItem.getBidItemId(), bidItem);
-				}
-			}
-		}
+	public static BidItem getBidItem(AuctionSearchBean auctionSearchBean, Long bidItemId) {
+		return activeAuctionMap.get(auctionSearchBean.getClientId()).getBidItemsMap().get(bidItemId);
 	}
-
-	/*private void setActiveBidItemsList() {
-		if (activeAuctionId != null) {
-			bidItems = auctionService.getActiveAuctionBidItem(activeAuctionId);
-		}
-	}*/
-
-	public static Integer getActiveAuctionId() {
-		return activeAuctionId;
-	}
-
-	public static List<BidItem> getBidItems() {
-		return bidItems;
-	}
-
-	public static Date getAuctionStartTime() {
-		if (auction != null) {
-			return auction.getAuctionStartTime();
+	
+	public static BidItem getActiveBidItem(AuctionSearchBean auctionSearchBean) {
+		Long bidItemId = activeAuctionMap.get(auctionSearchBean.getClientId()).getActiveBidItemId();
+		if(bidItemId != null){
+			return activeAuctionMap.get(auctionSearchBean.getClientId()).getBidItemsMap().get(bidItemId);
 		}
 		return null;
 	}
 
-	public static BidItem getBidItem(Long bidItemId) {
-		return bidItemsMap.get(bidItemId);
+	public static void setActiveBidItemId(AuctionSearchBean auctionSearchBean, Long activeBidItemId) {
+		activeAuctionMap.get(auctionSearchBean.getClientId()).setActiveBidItemId(activeBidItemId);
+	}
+
+	public static Long getActiveBidItemId(AuctionSearchBean auctionSearchBean) {
+		return activeAuctionMap.get(auctionSearchBean.getClientId()).getActiveBidItemId();
+	}
+
+	public static AuctionCacheBean getActiveAuctionCacheBean(AuctionSearchBean auctionSearchBean) {
+		return activeAuctionMap.get(auctionSearchBean.getClientId());
+	}
+	public static Long getActiveBidSequenceId(AuctionSearchBean auctionSearchBean) {
+		BidItem bidItem = getActiveBidItem(auctionSearchBean);
+		return bidItem != null ? bidItem.getSeqId() : null;
+	
+	}
+	public static List<BidItem> getBidItems(AuctionSearchBean auctionSearchBean) {
+		if (activeAuctionMap.get(auctionSearchBean.getClientId()) != null) {
+			return activeAuctionMap.get(auctionSearchBean.getClientId()).getBidItems();
+		}
+		return null;
 	}
 
 }
