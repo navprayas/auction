@@ -186,7 +186,7 @@ public class BidderController {
 		return "bidderclosedmarket";
 	}
 
-	@RequestMapping(value = "/saveautobid", method = RequestMethod.POST)
+	/*@RequestMapping(value = "/saveautobid", method = RequestMethod.POST)
 	public String saveAutoBid(
 			@RequestParam(value = "bidItemId", required = true) Long bidItemId,
 			@RequestParam(value = "autoBidAmount", required = true) Double bidAmount,
@@ -208,7 +208,7 @@ public class BidderController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		/* bidItemsList = bidderService.saveAutoBid(); */
+		 bidItemsList = bidderService.saveAutoBid(); 
 		LOG.debug(" For category: BidItems List::" + bidItemsList);
 		modelMap.addAttribute("bidItemsList", bidItemsList);
 		// List<BidderCategory> categoryList = getCategoryIdList(userName);
@@ -217,8 +217,8 @@ public class BidderController {
 		return "redirect:/bidder/home";
 
 	}
-
-	@RequestMapping(value = "/bid", method = RequestMethod.GET)
+*/
+	/*@RequestMapping(value = "/bid", method = RequestMethod.GET)
 	public @ResponseBody
 	String doBid(
 			@RequestParam(value = "bidItemId", required = true) Long bidItemId,
@@ -234,7 +234,7 @@ public class BidderController {
 				.toString();
 		ClientDetails clientDetails = (ClientDetails) session
 				.getAttribute(SessionConstants.CLIENT_INFO);
-		/*
+		
 		 * auctionSearchBean.setSchemaName(clientDetails.getSchemaKey());
 		 * System.out.println(userName); boolean returnVal = false; Bid bid =
 		 * new Bid(); bid.setBidId(bidItemId); bid.setBidType(bidType);
@@ -242,7 +242,7 @@ public class BidderController {
 		 * bid.setComments(comments); bid.setAuctionId(AuctionCacheManager
 		 * .getActiveAuctionId(auctionSearchBean));
 		 * bidsService.createBidService(bid,auctionSearchBean);
-		 */
+		 
 
 		auctionSearchBean.setSchemaName("PersistenceUnitB");
 		Bid bid = new Bid();
@@ -276,14 +276,14 @@ public class BidderController {
 			return "success";
 		}
 
-		/*
+		
 		 * LOG.debug("In doBid Method returnVal: " + returnVal); HashMap<String,
 		 * String> h = new HashMap<String, String>(); h.put("returnVal", "" +
 		 * returnVal);
-		 */return "success";
+		 return "success";
 	}
-
-	@RequestMapping(value = "/bidderreport", method = RequestMethod.GET)
+*/
+	/*@RequestMapping(value = "/bidderreport", method = RequestMethod.GET)
 	public String getwonLists(ModelMap modelMap, HttpSession session)
 			throws Exception {
 		AuctionSearchBean auctionSearchBean = new AuctionSearchBean();
@@ -303,5 +303,5 @@ public class BidderController {
 		modelMap.addAttribute("bidderCategoryList", categoryList);
 		LOG.debug(" For category: bidderCategoryList List::" + categoryList);
 		return "bidderreport";
-	}
+	}*/
 }

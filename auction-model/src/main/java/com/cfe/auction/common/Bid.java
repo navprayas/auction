@@ -7,7 +7,7 @@ public class Bid {
 	private Integer version;
 	private Long bidId;
 	private Long bidItemId;
-	private Integer auctionId;
+	private Long auctionId;
 	private Double bidAmount;
 	private String currency;
 	private Date bidTime;
@@ -55,10 +55,10 @@ public class Bid {
 	public Long getBidItemId() {
 		return bidItemId;
 	}
-	public void setAuctionId(Integer auctionId) {
+	public void setAuctionId(Long auctionId) {
 		this.auctionId = auctionId;
 	}
-	public Integer getAuctionId() {
+	public Long getAuctionId() {
 		return auctionId;
 	}
 	public void setBidAmount(Double bidAmount) {

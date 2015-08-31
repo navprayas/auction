@@ -113,30 +113,30 @@ public class BidItem extends AbstractPO<Integer> {
 		this.isProcessed = isProcessed;
 	}
 
-	@Column(name = "AUTOBIDID")
+	/*@Column(name = "AUTOBIDID")
 	private Long AUTOBIDID;
 
-	/**
+	*//**
 	 * @return the aUTOBIDID
-	 */
+	 *//*
 	public Long getAUTOBIDID() {
 		return AUTOBIDID;
-	}
+	}*/
 
 	/**
 	 * @param aUTOBIDID
 	 *            the aUTOBIDID to set
 	 */
-	public void setAUTOBIDID(Long aUTOBIDID) {
+	/*public void setAUTOBIDID(Long aUTOBIDID) {
 		AUTOBIDID = aUTOBIDID;
-	}
+	}*/
 
 	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
 	@JoinColumn(name = "categoryid", referencedColumnName = "categoryid")
 	private Category category;
 
-	@Column(name = "BIDITEMGROUPID")
-	private Long biditemgroupid;
+	/*@Column(name = "BIDITEMGROUPID")
+	private Long biditemgroupid;*/
 
 	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
 	@JoinColumn(name = "bidItemId", referencedColumnName = "bidItemId")
@@ -472,12 +472,12 @@ public class BidItem extends AbstractPO<Integer> {
 		this.bidItemId = bidItemId;
 	}
 
-	public Long getBiditemgroupid() {
+	/*public Long getBiditemgroupid() {
 		return biditemgroupid;
 	}
 
 	public void setBiditemgroupid(Long biditemgroupid) {
 		this.biditemgroupid = biditemgroupid;
 	}
-
+*/
 }

@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cfe.auction.common.Bid;
 import com.cfe.auction.common.Bidder;
 import com.cfe.auction.model.auction.persist.AuctionSearchBean;
 import com.cfe.auction.model.persist.BidItem;
 import com.cfe.auction.model.persist.ClientDetails;
 import com.cfe.auction.service.AutoBidService;
+import com.cfe.auction.service.BidsService;
 import com.cfe.auction.service.cache.manager.AuctionCacheManager;
 import com.cfe.auction.web.constants.CommonConstants;
 import com.cfe.auction.web.constants.SessionConstants;
@@ -28,18 +30,20 @@ import com.cfe.auction.web.constants.SessionConstants;
 /**
  * 
  * @author Vikas Anand
- *
+ * 
  */
 @Controller
 @RequestMapping("/bidder/**")
 public class BidController {
-	
+
 	private static final Logger LOG = LoggerFactory
 			.getLogger(BidController.class);
-	
+
 	@Autowired
 	AutoBidService autoBidService;
-	
+	@Autowired
+	private BidsService bidsService;
+
 	@RequestMapping(value = "/saveautobid", method = RequestMethod.POST)
 	public String saveAutoBid(
 			@RequestParam(value = "bidItemId", required = true) Long bidItemId,
@@ -50,24 +54,25 @@ public class BidController {
 
 		String userName = session.getAttribute(CommonConstants.USER_NAME)
 				.toString();
-		
+
 		ClientDetails clientDetails = (ClientDetails) session
 				.getAttribute(SessionConstants.CLIENT_INFO);
-		
-		AuctionSearchBean auctionSearchBean = new AuctionSearchBean(clientDetails.getSchemaKey());
+
+		AuctionSearchBean auctionSearchBean = new AuctionSearchBean(
+				clientDetails.getSchemaKey());
 		auctionSearchBean.setClientId(clientDetails.getId());
 		auctionSearchBean.setSchemaName(clientDetails.getSchemaKey());
-		auctionSearchBean.setAuctionId(AuctionCacheManager.getActiveAuctionId(auctionSearchBean));
+		auctionSearchBean.setAuctionId(AuctionCacheManager
+				.getActiveAuctionId(auctionSearchBean));
 
 		System.out.println("bidItemId" + bidItemId);
 		try {
 			autoBidService.saveAutoBid(userName, categoryId, bidItemId,
-					bidAmount, "No Comments",
-					auctionSearchBean);
+					bidAmount, "No Comments", auctionSearchBean);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return "redirect:/bidder/home";
 
 	}
@@ -85,10 +90,23 @@ public class BidController {
 		String userName = session.getAttribute(CommonConstants.USER_NAME)
 				.toString();
 		System.out.println(userName);
-		boolean returnVal = false;// bidderService.doBid(bidItemId.intValue(),
-									// bidType,
-		// new Double(bidAmount), userName, comments);
+		boolean returnVal = false;
 
+		AuctionSearchBean auctionSearchBean = new AuctionSearchBean();
+		ClientDetails clientDetails = (ClientDetails) session
+				.getAttribute(SessionConstants.CLIENT_INFO);
+
+		auctionSearchBean.setSchemaName(clientDetails.getSchemaKey());
+		auctionSearchBean.setClientId(clientDetails.getId());
+		Bid bid = new Bid();
+		bid.setBidItemId(bidItemId);
+		bid.setBidType(bidType);
+		bid.setBidAmount(bidAmount);
+		bid.setBidderName(userName);
+		bid.setComments(comments);
+		bid.setAuctionId(Long.parseLong(AuctionCacheManager.getActiveAuctionId(
+				auctionSearchBean).toString()));
+		bidsService.createBidService(bid, auctionSearchBean);
 		if (bidType == 2) {
 			BidItem bidItem = null;// bidItemsCacheService.getBidItem(bidItemId);
 
@@ -115,6 +133,5 @@ public class BidController {
 		h.put("returnVal", "" + returnVal);
 		return "success";
 	}
-
 
 }

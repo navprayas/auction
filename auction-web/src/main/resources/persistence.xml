@@ -28,6 +28,8 @@
 		<class>com.cfe.auction.model.persist.CloseBids</class>
 		<class>com.cfe.auction.model.persist.BidderCategory</class>
 		<class>com.cfe.auction.model.persist.Bids</class>
+		<class>com.cfe.auction.model.persist.Markets</class>
+
 		<properties>
 			<property name="hibernate.transaction.manager_lookup_class"
 				value="com.atomikos.icatch.jta.hibernate3.TransactionManagerLookup" />

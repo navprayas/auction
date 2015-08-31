@@ -17,7 +17,7 @@ public class BidsTestCase extends TestCase {
 
 	public void setUp() {
 		try {
-			context = new ClassPathXmlApplicationContext("persistence.xml");
+			context = new ClassPathXmlApplicationContext("spring-beans.xml");
 			
 			System.out.println(bidsService);
 		} catch (Exception e) {
@@ -32,14 +32,15 @@ public class BidsTestCase extends TestCase {
 		AuctionSearchBean auctionSearchBean = new AuctionSearchBean();
 		try {
 			auctionSearchBean.setSchemaName("PersistenceUnitB");
+			auctionSearchBean.setClientId(101);
 			Bid bid = new Bid();
 			bid.setBidId(80L);
 			bid.setBidType(1);
 			bid.setBidAmount(34000.0);
 			bid.setBidderName("bidder");
 			bid.setComments("comments");
-			bid.setAuctionId(AuctionCacheManager
-					.getActiveAuctionId(auctionSearchBean));
+			bid.setAuctionId(Long.parseLong(AuctionCacheManager
+					.getActiveAuctionId(auctionSearchBean).toString()));
 			bidsService.createBidService(bid, auctionSearchBean);
 		} catch (Exception e) {
 			e.printStackTrace();

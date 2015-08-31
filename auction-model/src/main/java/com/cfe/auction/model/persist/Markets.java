@@ -1,7 +1,5 @@
 package com.cfe.auction.model.persist;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,26 +7,35 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="MARKETS")
-public class Markets implements Serializable{
-	
+@Table(name = "MARKETS")
+public class Markets extends AbstractPO<Long> {
+
+	public Markets() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public Markets(Long id) {
+		// TODO Auto-generated constructor stub
+		this.id=id;
+	}
+
 	@Id
-	@Column(name="ID")
+	@Column(name = "ID")
 	@GeneratedValue
 	private Long id;
-	
-	@Column(name="VERSION")
+
+	@Column(name = "VERSION")
 	@GeneratedValue
 	private Integer version;
-	
-	@Column(name="MARKETID")
+
+	@Column(name = "MARKETID")
 	private Long marketId;
-	
-	@Column(name="NAME")
+
+	@Column(name = "NAME")
 	private String name;
-	
-	@Column(name="DESCRIPTION")
-	private String  description;
+
+	@Column(name = "DESCRIPTION")
+	private String description;
 
 	/**
 	 * @return the id
@@ -38,7 +45,8 @@ public class Markets implements Serializable{
 	}
 
 	/**
-	 * @param id the id to set
+	 * @param id
+	 *            the id to set
 	 */
 	public void setId(Long id) {
 		this.id = id;
@@ -52,7 +60,8 @@ public class Markets implements Serializable{
 	}
 
 	/**
-	 * @param version the version to set
+	 * @param version
+	 *            the version to set
 	 */
 	public void setVersion(Integer version) {
 		this.version = version;
@@ -66,7 +75,8 @@ public class Markets implements Serializable{
 	}
 
 	/**
-	 * @param marketId the marketId to set
+	 * @param marketId
+	 *            the marketId to set
 	 */
 	public void setMarketId(Long marketId) {
 		this.marketId = marketId;
@@ -80,7 +90,8 @@ public class Markets implements Serializable{
 	}
 
 	/**
-	 * @param name the name to set
+	 * @param name
+	 *            the name to set
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -94,15 +105,16 @@ public class Markets implements Serializable{
 	}
 
 	/**
-	 * @param description the description to set
+	 * @param description
+	 *            the description to set
 	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
-	
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -110,10 +122,12 @@ public class Markets implements Serializable{
 		return "Markets [marketId=" + marketId + ", name=" + name + "]";
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
-	@Override
+	/*@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -122,9 +136,11 @@ public class Markets implements Serializable{
 		return result;
 	}
 
-	/* (non-Javadoc)
+	
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
+	 
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -140,9 +156,6 @@ public class Markets implements Serializable{
 		} else if (!marketId.equals(other.marketId))
 			return false;
 		return true;
-	}
-
-	
-	
+	}*/
 
 }
