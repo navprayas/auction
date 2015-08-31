@@ -156,18 +156,19 @@ public class BidderController {
 			@RequestParam(value = "categoryId", required = true) Long categoryId,
 			ModelMap modelMap, HttpSession session) {
 		session.getAttribute(CommonConstants.USER_NAME);
-AuctionSearchBean auctionSearchBean=new AuctionSearchBean();
+		AuctionSearchBean auctionSearchBean = new AuctionSearchBean();
 		String userName = session.getAttribute(CommonConstants.USER_NAME)
 				.toString();
 		ClientDetails clientDetails = (ClientDetails) session
 				.getAttribute(SessionConstants.CLIENT_INFO);
-		auctionSearchBean.setAuctionId(AuctionCacheManager.getActiveAuctionId());
+		auctionSearchBean
+				.setAuctionId(AuctionCacheManager.getActiveAuctionId());
+		auctionSearchBean.setSchemaName(clientDetails.getSchemaKey());
 		List<BidItem> bidItemsList = null;
 		System.out.println("bidItemId" + bidItemId);
 		try {
 			autoBidService.saveAutoBid(userName, categoryId, bidItemId,
-					bidAmount, "No Comments",
-					auctionSearchBean);
+					bidAmount, "No Comments", auctionSearchBean);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

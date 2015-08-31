@@ -43,6 +43,7 @@ public class HomeController {
 		Authentication auth = SecurityContextHolder.getContext()
 				.getAuthentication();
 
+		@SuppressWarnings("unchecked")
 		Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>) auth
 				.getAuthorities();
 		String name = principal.getName();
