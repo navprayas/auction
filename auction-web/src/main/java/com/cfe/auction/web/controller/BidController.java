@@ -106,6 +106,8 @@ public class BidController {
 		bid.setComments(comments);
 		bid.setAuctionId(Long.parseLong(AuctionCacheManager.getActiveAuctionId(
 				auctionSearchBean).toString()));
+		bid.setBidItemGroupId(AuctionCacheManager.getActiveAuctionCacheBean(
+				auctionSearchBean).getBidItemGroupId());
 		bidsService.createBidService(bid, auctionSearchBean);
 		if (bidType == 2) {
 			BidItem bidItem = null;// bidItemsCacheService.getBidItem(bidItemId);

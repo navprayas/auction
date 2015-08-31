@@ -16,6 +16,8 @@ public class Bid {
 	private String comments;
 	private int bidType;
 	private String status;
+	private Long bidItemGroupId;
+	
 	
 	
 	public int getBidType() {
@@ -97,4 +99,12 @@ public class Bid {
 	public String getComments() {
 		return comments;
 	}
+	public Long getBidItemGroupId() {
+		return bidItemGroupId;
+	}
+	public void setBidItemGroupId(Long bidItemGroupId) {
+		this.bidItemGroupId = bidItemGroupId;
+	}
+	
+	
 }

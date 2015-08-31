@@ -30,6 +30,7 @@ public class BidsServiceImpl extends CRUDServiceImpl<Integer, Bids, BidsDao>
 		bids.setAuctionId(bid.getAuctionId());
 		BidItem bidItem = new BidItem();
 		bidItem.setBidItemId(bid.getBidItemId());
+		bidItem.setBidItemGroupId(bid.getBidItemGroupId());
 		bids.setBidItem(bidItem);
 		bids.setBidAmount(bid.getBidAmount());
 		bids.setCurrency("INR");

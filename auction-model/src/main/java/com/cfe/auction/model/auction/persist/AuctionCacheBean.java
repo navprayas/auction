@@ -18,6 +18,8 @@ public class AuctionCacheBean {
 	private String schemaName;
 	private Date auctionStartTime;
 	private Long activeBidItemId;
+	private Long bidItemGroupId;
+	
 	
 	private List<BidItem> bidItems;
 	
@@ -64,5 +66,11 @@ public class AuctionCacheBean {
 	}
 	public void setActiveBidItemId(Long activeBidItemId) {
 		this.activeBidItemId = activeBidItemId;
+	}
+	public Long getBidItemGroupId() {
+		return bidItemGroupId;
+	}
+	public void setBidItemGroupId(Long bidItemGroupId) {
+		this.bidItemGroupId = bidItemGroupId;
 	}
 }
