@@ -2,66 +2,67 @@ package com.cfe.auction.model.persist;
 
 import java.util.Date;
 
+import javax.annotation.Generated;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="BIDS")
-public class Bids {
-	
+@Table(name = "BIDS")
+public class Bids extends AbstractPO<Integer> {
+
 	@Id
-	@Column(name="BIDID")
+	@GeneratedValue
+	@Column(name = "BIDID")
 	private Long bidId;
-	
-	@ManyToOne( cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch=FetchType.EAGER)
-    @JoinColumn(name="bidItemId", referencedColumnName = "bidItemId")
+
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
+	@JoinColumn(name = "bidItemId", referencedColumnName = "bidItemId")
 	private BidItem bidItem;
-	
-	@Column(name="AUCTIONID")
+
+	@Column(name = "AUCTIONID")
 	private Long auctionId;
-		
-	
-	@Column(name="BIDDERNAME")
+
+	@Column(name = "BIDDERNAME")
 	private String bidderName;
-	
-	@Column(name="BIDAMOUNT")
+
+	@Column(name = "BIDAMOUNT")
 	private Double bidAmount;
-	
-	@Column(name="CURRENCY")
+
+	@Column(name = "CURRENCY")
 	private String currency;
-	
-	@Column(name="BIDTIME")
+
+	@Column(name = "BIDTIME")
 	private Date bidTime;
-	
-	@Column(name="BIDSTATUS")
+
+	@Column(name = "BIDSTATUS")
 	private String bidStatus;
-	
-	
-	@Column(name="COMMENTS")
+
+	@Column(name = "COMMENTS")
 	private String comments;
-	
-	@Column(name="BIDTYPE")
-	private Character bidType;
-	
+
+	@Column(name = "BIDTYPE")
+	private int bidType;
+
 	transient Double bidAmount2;
 	transient Double bidAmount3;
 	transient String bidderName2;
 	transient String bidderName3;
-	
+
 	transient Double salesPrice;
 	transient Double totalSalesPrice;
 
-	public Character getBidType() {
+	public int getBidType() {
 		return bidType;
 	}
 
-	public void setBidType(Character bidType) {
+	public void setBidType(int bidType) {
 		this.bidType = bidType;
 	}
 
@@ -73,12 +74,13 @@ public class Bids {
 	}
 
 	/**
-	 * @param salesPrice the salesPrice to set
+	 * @param salesPrice
+	 *            the salesPrice to set
 	 */
 	public void setSalesPrice(Double salesPrice) {
 		this.salesPrice = salesPrice;
 	}
-	
+
 	/**
 	 * @return the totalSalesPrice
 	 */
@@ -87,7 +89,8 @@ public class Bids {
 	}
 
 	/**
-	 * @param totalSalesPrice the totalSalesPrice to set
+	 * @param totalSalesPrice
+	 *            the totalSalesPrice to set
 	 */
 	public void setTotalSalesPrice(Double totalSalesPrice) {
 		this.totalSalesPrice = totalSalesPrice;
@@ -101,7 +104,8 @@ public class Bids {
 	}
 
 	/**
-	 * @param bidId the bidId to set
+	 * @param bidId
+	 *            the bidId to set
 	 */
 	public void setBidId(Long bidId) {
 		this.bidId = bidId;
@@ -115,7 +119,8 @@ public class Bids {
 	}
 
 	/**
-	 * @param bidItemId the bidItemId to set
+	 * @param bidItemId
+	 *            the bidItemId to set
 	 */
 	public void setBidItem(BidItem bidItem) {
 		this.bidItem = bidItem;
@@ -129,7 +134,8 @@ public class Bids {
 	}
 
 	/**
-	 * @param auctionId the auctionId to set
+	 * @param auctionId
+	 *            the auctionId to set
 	 */
 	public void setAuctionId(Long auctionId) {
 		this.auctionId = auctionId;
@@ -143,7 +149,8 @@ public class Bids {
 	}
 
 	/**
-	 * @param bidderName the bidderName to set
+	 * @param bidderName
+	 *            the bidderName to set
 	 */
 	public void setBidderName(String bidderName) {
 		this.bidderName = bidderName;
@@ -157,7 +164,8 @@ public class Bids {
 	}
 
 	/**
-	 * @param bidAmount the bidAmount to set
+	 * @param bidAmount
+	 *            the bidAmount to set
 	 */
 	public void setBidAmount(Double bidAmount) {
 		this.bidAmount = bidAmount;
@@ -171,7 +179,8 @@ public class Bids {
 	}
 
 	/**
-	 * @param currency the currency to set
+	 * @param currency
+	 *            the currency to set
 	 */
 	public void setCurrency(String currency) {
 		this.currency = currency;
@@ -185,7 +194,8 @@ public class Bids {
 	}
 
 	/**
-	 * @param bidTime the bidTime to set
+	 * @param bidTime
+	 *            the bidTime to set
 	 */
 	public void setBidTime(Date bidTime) {
 		this.bidTime = bidTime;
@@ -199,13 +209,12 @@ public class Bids {
 	}
 
 	/**
-	 * @param bidStatus the bidStatus to set
+	 * @param bidStatus
+	 *            the bidStatus to set
 	 */
 	public void setBidStatus(String bidStatus) {
 		this.bidStatus = bidStatus;
 	}
-
-	 
 
 	/**
 	 * @return the comments
@@ -215,7 +224,8 @@ public class Bids {
 	}
 
 	/**
-	 * @param comments the comments to set
+	 * @param comments
+	 *            the comments to set
 	 */
 	public void setComments(String comments) {
 		this.comments = comments;
@@ -229,7 +239,8 @@ public class Bids {
 	}
 
 	/**
-	 * @param bidAmount2 the bidAmount2 to set
+	 * @param bidAmount2
+	 *            the bidAmount2 to set
 	 */
 	public void setBidAmount2(Double bidAmount2) {
 		this.bidAmount2 = bidAmount2;
@@ -243,7 +254,8 @@ public class Bids {
 	}
 
 	/**
-	 * @param bidAmount3 the bidAmount3 to set
+	 * @param bidAmount3
+	 *            the bidAmount3 to set
 	 */
 	public void setBidAmount3(Double bidAmount3) {
 		this.bidAmount3 = bidAmount3;
@@ -257,7 +269,8 @@ public class Bids {
 	}
 
 	/**
-	 * @param bidderName2 the bidderName2 to set
+	 * @param bidderName2
+	 *            the bidderName2 to set
 	 */
 	public void setBidderName2(String bidderName2) {
 		this.bidderName2 = bidderName2;
@@ -271,7 +284,8 @@ public class Bids {
 	}
 
 	/**
-	 * @param bidderName3 the bidderName3 to set
+	 * @param bidderName3
+	 *            the bidderName3 to set
 	 */
 	public void setBidderName3(String bidderName3) {
 		this.bidderName3 = bidderName3;
@@ -282,7 +296,6 @@ public class Bids {
 		return "Bids [bidId=" + bidId + "]";
 	}
 
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -291,7 +304,6 @@ public class Bids {
 		return result;
 	}
 
-	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -309,5 +321,4 @@ public class Bids {
 		return true;
 	}
 
-	
 }

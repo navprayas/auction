@@ -14,15 +14,11 @@ import com.cfe.auction.model.persist.BidItem;
  */
 public interface IAuctionService extends CRUDService<Integer, Auction> {
 
-	void closeAuction(Integer auctionId);
-
 	List<BidItem> getActiveAuctionBidItem(AuctionSearchBean auctionSearchBean);
 
 	Auction getActiveAuction(AuctionSearchBean auctionSearchBean);
 
 	Auction getActiveAuction();
-
-	boolean isValidAuction(Integer auctionId);
 
 	void setActualAuctionStartTime(Integer auctionId,
 			Date actualAuctionStartTime);

@@ -10,8 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cfe.auction.model.auction.persist.AuctionCacheBean;
+import com.cfe.auction.model.auction.persist.AuctionSearchBean;
 import com.cfe.auction.model.persist.BidItem;
 import com.cfe.auction.model.persist.BidSequence;
+import com.cfe.auction.service.BidItemService;
 import com.cfe.auction.service.IBidSequenceService;
 import com.cfe.auction.service.cache.manager.AuctionCacheManager;
 import com.cfe.auction.service.cache.manager.AuctionCacheService;
@@ -30,25 +33,29 @@ public class BidItemsCacheServiceImpl implements IBidItemsCacheService {
 	@Autowired
 	IBidSequenceService bidSequenceService;
 	
+	@Autowired
+	BidItemService bidItemService;
+	
 	private BidItemScheduler scheduler = null;
 
 	boolean startFlag = true;
 	
-	public Date auctionStartTime;
-	
 	@Override
-	public long setNextActiveBidItem() {
+	public long setNextActiveBidItem(AuctionCacheBean auctionCacheBean) {
+		AuctionSearchBean auctionSearchBean = new AuctionSearchBean();
+		auctionSearchBean.setClientId(auctionCacheBean.getClientId());
 		if(startFlag) {
 			startFlag = false;
 			logger.debug("In Start of Sequence");
-			AuctionCacheService.setActiveBidItemId();
-			BidItem bidItem = getBidItem();
+			Long activeBidItemId = AuctionCacheService.pollActiveBidItemId(auctionCacheBean);
+			AuctionCacheManager.setActiveBidItemId(auctionSearchBean, activeBidItemId);
+			BidItem bidItem = getBidItem(activeBidItemId, auctionSearchBean);
 			logger.debug("BidItem from Redis : " + bidItem);
 			return bidItem != null ? bidItem.getBidSpan() : 0;
 		} 
 		else {
 			logger.debug("In Next of Sequence");
-			BidItem bidItem = getBidItem();
+			BidItem bidItem = AuctionCacheManager.getActiveBidItem(auctionSearchBean);
 			logger.debug("BidItem from Auction cache service : " + bidItem);
 			if(bidItem == null) {
 				return 0;
@@ -58,9 +65,10 @@ public class BidItemsCacheServiceImpl implements IBidItemsCacheService {
 				return bidItem.getTimeLeft();		
 			}
 			else {
-				AuctionCacheService.setActiveBidItemId();
-				//cleanBidItem(activeBidItemId);
-				bidItem = getBidItem();
+				cleanBidItem(AuctionCacheManager.getActiveBidItemId(auctionSearchBean), auctionSearchBean);
+				Long activeBidItemId = AuctionCacheService.pollActiveBidItemId(auctionCacheBean);
+				AuctionCacheManager.setActiveBidItemId(auctionSearchBean, activeBidItemId);
+				bidItem = getBidItem(activeBidItemId, auctionSearchBean);
 				if(bidItem == null) {
 					return 0;
 				}
@@ -70,19 +78,17 @@ public class BidItemsCacheServiceImpl implements IBidItemsCacheService {
 	}
 
 	@Override
-	public void initCache()
+	public void initCache(AuctionCacheBean auctionCacheBean)
 	{
 		logger.debug("Initializing cache " + new Date());
 		
 		startFlag = true;
-		Date startTime = null;
-		if(auctionStartTime != null) {
-			startTime = auctionStartTime;
-		}else {
-			startTime = AuctionCacheManager.getAuctionStartTime();
-		} 
-		List<BidSequence> bidSequenceList = bidSequenceService.getBidSequenceList();
-		AuctionCacheService.setBidSequenceQueue(bidSequenceList);
+		
+		AuctionSearchBean auctionSearchBean = new AuctionSearchBean(auctionCacheBean.getSchemaName());
+		auctionSearchBean.setAuctionId(auctionCacheBean.getAuctionId());
+		
+		List<BidSequence> bidSequenceList = bidSequenceService.getBidSequenceList(auctionSearchBean);
+		AuctionCacheService.setBidSequenceQueue(auctionCacheBean, bidSequenceList);
 		logger.debug("bidSequenceList " + bidSequenceList);
 		try
 		{
@@ -92,7 +98,7 @@ public class BidItemsCacheServiceImpl implements IBidItemsCacheService {
 				//RedisCacheService.setAutoBidIdKey(commonDao.getMaxAutoBidId());
 				scheduler = new BidItemScheduler();
 				scheduler.setCacheService(this);
-				scheduler.start(startTime);
+				scheduler.start(auctionCacheBean);
 			}
 		}
 		catch(Exception e)
@@ -101,44 +107,45 @@ public class BidItemsCacheServiceImpl implements IBidItemsCacheService {
 			e.printStackTrace();
 		}
 	}
-
-	@Override
-	public void setAuctionStartTime(Date auctionStartTime) {
-		this.auctionStartTime = auctionStartTime;
-	}
 	
 	private void initializeBidItem(BidItem bidItem) {
 		Calendar cal = Calendar.getInstance() ;
 		bidItem.setLastUpDateTime(cal.getTime());
 		bidItem.setBidStartTime(cal.getTime());
-		//long bidSpan = RedisCacheService.getBidItemSpan(bidItem.getBidItemId());
-		BidSequence bidSequence = AuctionCacheService.getBidSequenceDetails(bidItem.getBidItemId());
-		long bidSpan = bidSequence.getBidspan();
-		long seqId = bidSequence.getSequenceId();
+		long bidSpan = bidItem.getBidSpan();
+
 		cal.add(Calendar.SECOND, (int)bidSpan);
 		bidItem.setBidEndTime(cal.getTime());
 		bidItem.setStatusCode("ACTIVE");
 		bidItem.setBidSpan(bidSpan);
-		bidItem.setSeqId(seqId);
 	}
 	
 	@Transactional
-	private BidItem getBidItem()
+	private BidItem getBidItem(Long activeBidItemId, AuctionSearchBean auctionSearchBean)
 	{
-		Long activeBidItemId = AuctionCacheService.getActiveBidItemId();
-		BidItem bidItem = AuctionCacheService.getActiveBidItem(activeBidItemId);
-		if(bidItem == null && activeBidItemId != 0) {
-			bidItem = AuctionCacheManager.getBidItem(activeBidItemId);
+		if (activeBidItemId != 0) {
+		BidItem bidItem = AuctionCacheManager.getBidItem(auctionSearchBean, activeBidItemId);
 			if (bidItem != null) {
 				initializeBidItem(bidItem);
-				AuctionCacheService.setActiveBidItem(activeBidItemId, bidItem); 
+				return bidItem;
 			}
 		}
-		return bidItem;
+		return null;
 	}
 	
-	/*private void cleanBidItem(long bidItemId) {
-		RedisCacheService.setExpiredBidItem(bidItemId);
-		commonDao.updateBidItem(RedisCacheService.getBidItem(RedisConstants.BIDITEM + bidItemId, bidItemId + ""));
-	}*/
+	private void cleanBidItem(long bidItemId, AuctionSearchBean auctionSearchBean) {
+		BidItem bidItem = setExpiredBidItem(bidItemId, auctionSearchBean);
+		bidItemService.updateBidItem(auctionSearchBean, bidItem);
+	}
+	
+	private BidItem setExpiredBidItem(long bidItemId, AuctionSearchBean auctionSearchBean) {
+		BidItem bidItem = AuctionCacheManager.getBidItem(auctionSearchBean, bidItemId);
+		bidItem.setBidEndTime(new Date());
+		bidItem.setLastUpDateTime(new Date());
+		//bidItem.setCurrentMarketPrice(bidItem.getCurrentMarketPrice());
+		bidItem.setStatusCode("END");
+		return bidItem;
+	}
 }
+
+

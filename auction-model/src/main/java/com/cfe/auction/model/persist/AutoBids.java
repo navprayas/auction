@@ -14,10 +14,7 @@ public class AutoBids extends AbstractPO<Integer> {
 
 	@Column(name = "auctionId")
 	private Integer auctionId;
-
-	/*@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinColumn(name = "bidItemId", referencedColumnName = "bidItemId")
-	private BidItem bidItemId;*/
+	
 	@Column(name="bidItemId")
 	private Long bidItemId;
 
@@ -41,14 +38,14 @@ public class AutoBids extends AbstractPO<Integer> {
 	@Id
 	@Column(name = "AUTOBIDID")
 	@GeneratedValue
-	public Integer getId() {
-		// TODO Auto-generated method stub
-		return this.id;
+	private Long autoBidId;
+	
+	public Long getAutoBidId() {
+		return autoBidId;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
-
+	public void setId(Long autoBidId) {
+		this.autoBidId = autoBidId;
 	}
 
 	/**

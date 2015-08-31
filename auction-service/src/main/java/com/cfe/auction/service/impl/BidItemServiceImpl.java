@@ -23,7 +23,6 @@ public class BidItemServiceImpl extends
 	@Autowired
 	public BidItemServiceImpl(BidItemDao dao) {
 		super(dao);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Transactional
@@ -32,12 +31,13 @@ public class BidItemServiceImpl extends
 			AuctionSearchBean auctionSearchBean) {
 		return bidItemDao.getBidItems(auctionSearchBean);
 	}
-
-	/*@Override
-	public List<BidItem> getWonList(String username) {
-		return bidItemDao.getWonList(username);
+	@Transactional
+	@Override
+	public void updateBidItem(AuctionSearchBean auctionSearchBean, BidItem bidItem) {
+		bidItemDao.updateBidItem(auctionSearchBean, bidItem);
 	}
-*/
+	
+	@Transactional
 	@Override
 	public List<BidItem> getWonList(String username,
 			AuctionSearchBean auctionSearchBean) {

@@ -13,9 +13,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.cfe.auction.model.auction.persist.AuctionSearchBean;
 import com.cfe.auction.model.persist.BidItem;
 import com.cfe.auction.model.persist.BidderCategory;
 import com.cfe.auction.model.persist.ClientDetails;
+import com.cfe.auction.model.persist.User;
 import com.cfe.auction.service.BidItemService;
 import com.cfe.auction.service.BidderCategoryService;
 import com.cfe.auction.service.IAuctionService;
@@ -50,21 +52,24 @@ public class ObserverController {
 
 	@RequestMapping(value = { "/marketlist", "/home", "/index" }, method = RequestMethod.GET)
 	public String getMarketList(ModelMap model, HttpSession session) {
-		// User user = (User) session.getAttribute(SessionConstants.USER_INFO);
 		ClientDetails clientDetails = (ClientDetails) session
 				.getAttribute(SessionConstants.CLIENT_INFO);
-		if (AuctionCacheManager.getActiveAuctionId() != null) {
+		AuctionSearchBean auctionSearchBean = new AuctionSearchBean(clientDetails.getSchemaKey());
+		auctionSearchBean.setClientId(clientDetails.getId());
+		auctionSearchBean.setSchemaName(clientDetails.getSchemaKey());
+		
+		if (AuctionCacheManager.getActiveAuctionId(auctionSearchBean) != null) {
 			List<BidderCategory> bidderCategoryList = bidderCategoryService
-					.getAllCategory(AuctionCacheManager.getActiveAuctionId());
+					.getAllCategory(AuctionCacheManager.getActiveAuctionId(auctionSearchBean));
 			LOG.debug("Category Id" + bidderCategoryList);
 
-			List<BidItem> bidItems = AuctionCacheManager.getBidItems();
+			List<BidItem> bidItems = AuctionCacheManager.getBidItems(auctionSearchBean);
 			if (bidItems != null) {
 				System.out.println("BidItems" + bidItems);
 				List<Integer> categoryIds = getCategoryIdList(bidderCategoryList);
 				model.put("bidItems", bidItemFilterService
 						.getBidItemListForMarketList(bidItems, categoryIds,
-								AuctionCacheService.getActiveBidSequenceId()));
+								AuctionCacheManager.getActiveBidSequenceId(auctionSearchBean)));
 				model.put("timeextention", 180);
 			}
 		}
@@ -84,35 +89,37 @@ public class ObserverController {
 
 	@RequestMapping(value = "/activemarketlist", method = RequestMethod.GET)
 	public String getActiveMarketList(ModelMap model, HttpSession session) {
-		// User user = (User) session.getAttribute(SessionConstants.USER_INFO);
 		ClientDetails clientDetails = (ClientDetails) session
 				.getAttribute(SessionConstants.CLIENT_INFO);
+		AuctionSearchBean auctionSearchBean = new AuctionSearchBean(clientDetails.getSchemaKey());
+		auctionSearchBean.setClientId(clientDetails.getId());
+		auctionSearchBean.setSchemaName(clientDetails.getSchemaKey());
 		List<BidderCategory> bidderCategoryList = bidderCategoryService
-				.getAllCategory(AuctionCacheManager.getActiveAuctionId());
-		BidItem bidItem = AuctionCacheService
-				.getActiveBidItem(AuctionCacheService.getActiveBidItemId());
+				.getAllCategory(AuctionCacheManager.getActiveAuctionId(auctionSearchBean));
+		BidItem bidItem = AuctionCacheManager.getActiveBidItem(auctionSearchBean);
 		List<BidItem> bidItems = new ArrayList<BidItem>();
 		bidItems.add(bidItem);
 
 		List<Integer> categoryIds = getCategoryIdList(bidderCategoryList);
 		model.put("bidItems", bidItemFilterService
-				.getBidItemListForActiveMarketList(bidItems, categoryIds,
-						AuctionCacheService.getActiveBidSequenceId()));
+				.getBidItemListForActiveMarketList(bidItems, categoryIds, bidItem.getSeqId()));
 		return "observeractivemarket";
 	}
 
 	@RequestMapping(value = "/closedmarketlist", method = RequestMethod.GET)
 	public String getClosedMarket(ModelMap model, HttpSession session) {
-		// User user = (User) session.getAttribute(SessionConstants.USER_INFO);
 		ClientDetails clientDetails = (ClientDetails) session
 				.getAttribute(SessionConstants.CLIENT_INFO);
+		AuctionSearchBean auctionSearchBean = new AuctionSearchBean(clientDetails.getSchemaKey());
+		auctionSearchBean.setClientId(clientDetails.getId());
+		auctionSearchBean.setSchemaName(clientDetails.getSchemaKey());
 		List<BidderCategory> bidderCategoryList = bidderCategoryService
-				.getAllCategory(AuctionCacheManager.getActiveAuctionId());
-		List<BidItem> bidItems = AuctionCacheManager.getBidItems();
+				.getAllCategory(AuctionCacheManager.getActiveAuctionId(auctionSearchBean));
+		List<BidItem> bidItems = AuctionCacheManager.getBidItems(auctionSearchBean);
 		List<Integer> categoryIds = getCategoryIdList(bidderCategoryList);
 		model.put("bidItems", bidItemFilterService
 				.getBidItemListForClosedMarketList(bidItems, categoryIds,
-						AuctionCacheService.getActiveBidSequenceId()));
+						AuctionCacheManager.getActiveBidSequenceId(auctionSearchBean)));
 		return "observerclosedmarket";
 	}
 

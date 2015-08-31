@@ -26,7 +26,7 @@ public class BidItemFilterTestCase extends TestCase {
 
 	}
 
-	public void testBidItemFilterService() {
+/*	public void testBidItemFilterService() {
 
 		BidderCategoryService bidderCategoryService = (BidderCategoryService) context
 				.getBean("bidderCategoryServiceImpl");
@@ -53,7 +53,7 @@ public class BidItemFilterTestCase extends TestCase {
 
 		}
 
-	}
+	}*/
 
 	private List<Integer> getCategoryIdList(
 			List<BidderCategory> bidderCategoryList) {

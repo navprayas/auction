@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cfe.auction.dao.IBidSequenceDao;
+import com.cfe.auction.model.auction.persist.AuctionSearchBean;
 import com.cfe.auction.model.persist.BidSequence;
 import com.cfe.auction.service.IBidSequenceService;
-import com.cfe.auction.service.cache.manager.AuctionCacheManager;
 
 /**
  * 
@@ -24,12 +24,8 @@ public class BidSequenceServiceImpl implements IBidSequenceService {
 	
 	@Transactional
 	@Override
-	public List<BidSequence> getBidSequenceList() {
-		Integer auctionId = AuctionCacheManager.getActiveAuctionId();
-		if (auctionId != null) {
-			return bidSequenceDao.getBidSequenceList(auctionId);
-		}
-		return null;
+	public List<BidSequence> getBidSequenceList(AuctionSearchBean auctionSearchBean) {
+		return bidSequenceDao.getBidSequenceList(auctionSearchBean);
 	}
 	
 }

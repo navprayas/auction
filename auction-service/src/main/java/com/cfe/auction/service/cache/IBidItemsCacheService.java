@@ -1,6 +1,6 @@
 package com.cfe.auction.service.cache;
 
-import java.util.Date;
+import com.cfe.auction.model.auction.persist.AuctionCacheBean;
 
 /**
  * 
@@ -9,10 +9,8 @@ import java.util.Date;
  */
 public interface IBidItemsCacheService {
 
-	long setNextActiveBidItem();
+	long setNextActiveBidItem(AuctionCacheBean auctionCacheBean);
 
-	void setAuctionStartTime(Date auctionStartTime);
-
-	void initCache();
+	void initCache(AuctionCacheBean auctionCacheBean);
 
 }

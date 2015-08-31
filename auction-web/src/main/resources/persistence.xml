@@ -26,8 +26,9 @@
 		<class>com.cfe.auction.model.persist.ItemLot</class>
 		<class>com.cfe.auction.model.persist.AutoBids</class>
 		<class>com.cfe.auction.model.persist.CloseBids</class>
-		 <class>com.cfe.auction.model.persist.BidderCategory</class>
-		 <properties>
+		<class>com.cfe.auction.model.persist.BidderCategory</class>
+		<class>com.cfe.auction.model.persist.Bids</class>
+		<properties>
 			<property name="hibernate.transaction.manager_lookup_class"
 				value="com.atomikos.icatch.jta.hibernate3.TransactionManagerLookup" />
 			<property name="hibernate.transaction.factory_class"
@@ -35,21 +36,21 @@
 		</properties>
 	</persistence-unit>
 
-    <persistence-unit name="PersistenceUnitC"
-        transaction-type="JTA">
-        <class>com.cfe.auction.model.persist.Auction</class>
-        <class>com.cfe.auction.model.persist.BidItem</class>
-        <class>com.cfe.auction.model.persist.BidSequence</class>
-        <class>com.cfe.auction.model.persist.Category</class>
-        <class>com.cfe.auction.model.persist.ItemLot</class>
-        <class>com.cfe.auction.model.persist.AutoBids</class>
-        <class>com.cfe.auction.model.persist.CloseBids</class>
-         <class>com.cfe.auction.model.persist.BidderCategory</class>
-         <properties>
-            <property name="hibernate.transaction.manager_lookup_class"
-                value="com.atomikos.icatch.jta.hibernate3.TransactionManagerLookup" />
-            <property name="hibernate.transaction.factory_class"
-                value="org.hibernate.transaction.CMTTransactionFactory" />
-        </properties>
-    </persistence-unit>
+	<persistence-unit name="PersistenceUnitC"
+		transaction-type="JTA">
+		<class>com.cfe.auction.model.persist.Auction</class>
+		<class>com.cfe.auction.model.persist.BidItem</class>
+		<class>com.cfe.auction.model.persist.BidSequence</class>
+		<class>com.cfe.auction.model.persist.Category</class>
+		<class>com.cfe.auction.model.persist.ItemLot</class>
+		<class>com.cfe.auction.model.persist.AutoBids</class>
+		<class>com.cfe.auction.model.persist.CloseBids</class>
+		<class>com.cfe.auction.model.persist.BidderCategory</class>
+		<properties>
+			<property name="hibernate.transaction.manager_lookup_class"
+				value="com.atomikos.icatch.jta.hibernate3.TransactionManagerLookup" />
+			<property name="hibernate.transaction.factory_class"
+				value="org.hibernate.transaction.CMTTransactionFactory" />
+		</properties>
+	</persistence-unit>
 </persistence>

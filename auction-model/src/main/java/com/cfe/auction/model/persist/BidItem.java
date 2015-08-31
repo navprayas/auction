@@ -456,18 +456,6 @@ public class BidItem extends AbstractPO<Integer> {
 		return createdTime;
 	}
 
-	@Override
-	public Integer getId() {
-
-		return this.id;
-	}
-
-	@Override
-	public void setId(Integer id) {
-		// TODO Auto-generated method stub
-		this.id = id;
-	}
-
 	public Long getBidItemGroupId() {
 		return bidItemGroupId;
 	}

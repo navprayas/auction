@@ -63,18 +63,6 @@ public class AuctionServiceImpl extends
 		return auctionDao.getAuctionList(schemaKey);
 	}
 
-	@Transactional
-	@Override
-	public void closeAuction(Integer auctionId) {
-		auctionDao.closeAuction(auctionId);
-	}
-
-	@Transactional
-	@Override
-	public boolean isValidAuction(Integer auctionId) {
-		return auctionDao.isValidAuction(auctionId);
-	}
-
 	@Override
 	public void setActualAuctionStartTime(Integer auctionId,
 			Date actualAuctionStartTime) {
