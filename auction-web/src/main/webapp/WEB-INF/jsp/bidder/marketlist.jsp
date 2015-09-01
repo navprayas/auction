@@ -159,19 +159,31 @@
 									<td>${marketlist.minBidPrice}</td>
 									<td>${marketlist.minBidIncrement}</td>
 									<td>
-										<div id="countdown${marketlist.bidItemId}">${marketlist.timeLeft}</div>
+										<div id="countdown${marketlist.bidItemId}">${(status.index+1)*timeextention}</div>
 										<script>
-											setTimeLefts(
-													parseInt('${marketlist.timeLeft}'),
-													'${marketlist.bidItemId}');
+											setTimeLefts(parseInt('${(status.index+1)*timeextention}'),'${marketlist.bidItemId}');
 										</script>
 									</td>
 									<td>${marketlist.createdTime}</td>
 									<td>
 										<!-- Auto bid dialog -->
+										
+										<div class="modal fade" id="dialog_desc${status.index+1}"
+								tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal"
+												aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+											<h4 class="modal-title" id="dialog_desc${status.index+1}">Description</h4>
+										</div>
+										<div class="modal-body">
+										
 
 										<div id="dialog_bids${marketlist.bidItemId}"
-											style="display: none;">
+											>
 											<table class="table table-bordered table-striped text-center">
 												<tr>
 													<td>
@@ -182,10 +194,10 @@
 																value="${marketlist.bidItemId}" /> <input type="hidden"
 																name="categoryId" id="categoryId${marketlist.bidItemId}"
 																value="0" />
-															<table>
+															<table class="table table-bordered table-striped text-center">
 
 																<tr>
-																	<td>&nbsp; ${marketlist.serialNo}.
+																	<td colspan="2">&nbsp; ${marketlist.serialNo}.
 																		&nbsp;&nbsp;&nbsp;&nbsp;${marketlist.name}
 																		&nbsp;&nbsp;&nbsp;&nbsp;${marketlist.totalQuantity}
 																		${marketlist.unit}</td>
@@ -212,8 +224,12 @@
 													</td>
 												</tr>
 											</table>
-										</div> <input type="submit" value="Auto Bid"
-										onclick="opneDialogBox('dialog_bids${marketlist.bidItemId}')">
+										</div> 
+										
+										</div></div></div></div>
+										
+										<input type="submit" value="Auto Bid"
+										data-toggle="modal" data-target="#dialog_desc${status.index+1}" >
 									</td>
 								</tr>
 							</c:forEach>

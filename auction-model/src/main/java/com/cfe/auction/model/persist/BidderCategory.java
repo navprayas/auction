@@ -3,6 +3,8 @@ package com.cfe.auction.model.persist;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -23,8 +25,9 @@ public class BidderCategory extends AbstractPO<Integer> {
 
 	private Integer categoryId;
 	private Integer userId;
+	private Integer auctionId;
 
-	private Auction auction;
+	/*private Auction auction;
 
 	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinColumn(name = "AUCTIONID", referencedColumnName = "AUCTIONID")
@@ -34,11 +37,22 @@ public class BidderCategory extends AbstractPO<Integer> {
 
 	public void setAuction(Auction auction) {
 		this.auction = auction;
-	}
+	}*/
 
-	@Override
+	
+	
+	
+	/*@Override
 	public String toString() {
 		return "BidderCategory [auction=" + auction.getAuctionId() + "]";
+	}
+*/
+	public Integer getAuctionId() {
+		return auctionId;
+	}
+
+	public void setAuctionId(Integer auctionId) {
+		this.auctionId = auctionId;
 	}
 
 	@Column(name = "categoryid")
@@ -61,6 +75,7 @@ public class BidderCategory extends AbstractPO<Integer> {
 
 	@Override
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public Integer getId() {
 		return id;
 	}

@@ -95,8 +95,7 @@ public class UserServiceImpl extends CRUDServiceImpl<Integer, User, UserDao>
 				bidderCategory.setCategoryId(Integer.parseInt(categoryId));
 				bidderCategory.setUserId(Integer.parseInt(userId));
 
-				bidderCategory.setAuction(iAuctionDao.get(Integer
-						.parseInt(selectedAuctionId.toString())));
+				bidderCategory.setAuctionId(Integer.parseInt(selectedAuctionId.toString()));
 				bidderCategoryDao.saveBIdderCategory(bidderCategory);
 			}
 		}

@@ -20,7 +20,7 @@ public class BidderCategoryDaoImpl extends DAOImpl<Integer, BidderCategory>
 		System.out.println("userId " + userId + "   " + auctionSearchBean.getAuctionId());
 		Query query = getEntityManager(auctionSearchBean.getSchemaName())
 				.createQuery(
-						"from  BidderCategory bc where bc.auction.auctionId=:auctionId and bc.userId=:userId ");
+						"from  BidderCategory bc where bc.auctionId=:auctionId and bc.userId=:userId ");
 		query.setParameter("auctionId", auctionSearchBean.getAuctionId());
 		query.setParameter("userId", userId);
 		return (List<BidderCategory>) query.getResultList();
@@ -37,7 +37,7 @@ public class BidderCategoryDaoImpl extends DAOImpl<Integer, BidderCategory>
 	public List<BidderCategory> getAllCategory(Integer auctionId) {
 		Query query = getEntityManager()
 				.createQuery(
-						"from  BidderCategory bc where bc.auction.auctionId=:auctionId");
+						"from  BidderCategory bc where bc.auctionId=:auctionId");
 		query.setParameter("auctionId", auctionId);
 		return (List<BidderCategory>) query.getResultList();
 	}

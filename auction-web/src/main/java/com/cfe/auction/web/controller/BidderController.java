@@ -2,9 +2,7 @@ package com.cfe.auction.web.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -15,11 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.cfe.auction.common.Bid;
-import com.cfe.auction.common.Bidder;
 import com.cfe.auction.model.auction.persist.AuctionCacheBean;
 import com.cfe.auction.model.auction.persist.AuctionSearchBean;
 import com.cfe.auction.model.persist.BidItem;
@@ -33,7 +27,6 @@ import com.cfe.auction.service.BidsService;
 import com.cfe.auction.service.IBidItemFilterService;
 import com.cfe.auction.service.UserService;
 import com.cfe.auction.service.cache.manager.AuctionCacheManager;
-import com.cfe.auction.web.constants.CommonConstants;
 import com.cfe.auction.web.constants.SessionConstants;
 
 @Controller
@@ -106,13 +99,14 @@ public class BidderController {
 								+ bidItem.getBidSpan() + " " + refreshTime);
 						refreshTime += bidItem.getBidSpan();
 						bidItem.setTimeLeft(refreshTime);
+						refreshTime += bidItem.getBidSpan();
 						if (bidItem.getCurrentMarketPrice() == null) {
 							bidItem.setCurrentMarketPrice(bidItem
 									.getMinBidPrice());
 						}
 					}
 				}
-				model.put("timeextention", 30);
+				model.put("timeextention", 60);
 			}
 		}
 		return "biddermarketlist";
