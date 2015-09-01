@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cfe.auction.common.Bid;
 import com.cfe.auction.dao.BidsDao;
 import com.cfe.auction.model.auction.persist.AuctionSearchBean;
-import com.cfe.auction.model.persist.BidItem;
 import com.cfe.auction.model.persist.Bids;
 import com.cfe.auction.service.BidsService;
 
@@ -28,10 +27,8 @@ public class BidsServiceImpl extends CRUDServiceImpl<Integer, Bids, BidsDao>
 	public void createBidService(Bid bid, AuctionSearchBean auctionSearchBean) {
 		Bids bids = new Bids();
 		bids.setAuctionId(bid.getAuctionId());
-		BidItem bidItem = new BidItem();
-		bidItem.setBidItemId(bid.getBidItemId());
-		bidItem.setBidItemGroupId(bid.getBidItemGroupId());
-		bids.setBidItem(bidItem);
+		//bids.setBidItem(bidItem);
+		bids.setBidItemId(bid.getBidItemId());
 		bids.setBidAmount(bid.getBidAmount());
 		bids.setCurrency("INR");
 		bids.setBidStatus(bid.getBidStatus());

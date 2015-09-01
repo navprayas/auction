@@ -2,30 +2,29 @@ package com.cfe.auction.model.persist;
 
 import java.util.Date;
 
-import javax.annotation.Generated;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "BIDS")
 public class Bids extends AbstractPO<Integer> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 17878L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "BIDID")
 	private Long bidId;
 
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
-	@JoinColumn(name = "bidItemId", referencedColumnName = "bidItemId")
-	private BidItem bidItem;
+	@Column(name =  "bidItemId")
+	private Long bidItemId;
 
 	@Column(name = "AUCTIONID")
 	private Long auctionId;
@@ -112,19 +111,12 @@ public class Bids extends AbstractPO<Integer> {
 		this.bidId = bidId;
 	}
 
-	/**
-	 * @return the bidItemId
-	 */
-	public BidItem getBidItem() {
-		return bidItem;
+	public Long getBidItemId() {
+		return bidItemId;
 	}
 
-	/**
-	 * @param bidItemId
-	 *            the bidItemId to set
-	 */
-	public void setBidItem(BidItem bidItem) {
-		this.bidItem = bidItem;
+	public void setBidItemId(Long bidItemId) {
+		this.bidItemId = bidItemId;
 	}
 
 	/**
