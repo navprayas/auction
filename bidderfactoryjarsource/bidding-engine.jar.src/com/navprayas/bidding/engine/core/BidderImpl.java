@@ -31,7 +31,8 @@
 /*    */   public void execute() throws kilim.Pausable, Exception
 /*    */   {}
 /*    */   
-/* 34 */   public void call(Bid bid) throws com.navprayas.bidding.engine.except.BiddingException { try { this.bid = bid;
+/* 34 */   public void call(Bid bid) throws com.navprayas.bidding.engine.except.BiddingException { 
+	      try { this.bid = bid;
 /* 35 */       start();
 /*    */     }
 /*    */     catch (Exception e) {
@@ -39,8 +40,6 @@
 /*    */     }
 /*    */   }
 /*    */ }
-
-
 /* Location:              /home/cfeindia/Desktop/bidding-engine.jar!/com/navprayas/bidding/engine/core/BidderImpl.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1

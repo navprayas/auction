@@ -22,20 +22,6 @@
 /*     */   private static JedisPool pool;
 /*     */   private static RedisImpl _instance;
 /*  24 */   GenericObjectPool.Config config = new GenericObjectPool.Config();
-/*     */   
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
 /*     */   RedisImpl()
 /*     */   {
 /*  41 */     if (pool == null) {
