@@ -44,6 +44,8 @@ public class BidItemsCacheServiceImpl implements IBidItemsCacheService {
 	public long setNextActiveBidItem(AuctionCacheBean auctionCacheBean) {
 		AuctionSearchBean auctionSearchBean = new AuctionSearchBean();
 		auctionSearchBean.setClientId(auctionCacheBean.getClientId());
+		auctionSearchBean.setSchemaName(auctionCacheBean.getSchemaName());
+		
 		if(startFlag) {
 			startFlag = false;
 			logger.debug("In Start of Sequence");

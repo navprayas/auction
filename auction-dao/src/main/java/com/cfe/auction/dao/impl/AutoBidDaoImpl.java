@@ -15,11 +15,11 @@ public class AutoBidDaoImpl extends DAOImpl<Integer, AutoBids> implements
 		AutoBidDao {
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<AutoBids> getAutoBids(AuctionSearchBean auctionSearchBean) {
 
 		Query query = getEntityManager(auctionSearchBean.getSchemaName()).createQuery(
 				"from AutoBids");
-
 		List<AutoBids> autoBids = query.getResultList();
 		
 		return autoBids;

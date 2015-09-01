@@ -58,15 +58,14 @@ public class BIdItemDaoImpl extends DAOImpl<Integer, BidItem> implements
 	public void updateBidItem(AuctionSearchBean auctionSearchBean, BidItem bidItem) {
 
 		EntityManager entityManager = getEntityManager(auctionSearchBean.getSchemaName());
-		BidItem dbBidItem = entityManager.find(BidItem.class, bidItem.getId());
+		BidItem dbBidItem = entityManager.find(BidItem.class, bidItem.getBidItemId());
 		if(dbBidItem != null) {
-			entityManager.getTransaction().begin();
 			dbBidItem.setBidStartTime(bidItem.getBidStartTime());
 			dbBidItem.setBidEndTime(bidItem.getBidEndTime());
 			dbBidItem.setLastUpDateTime(bidItem.getLastUpDateTime());
 			dbBidItem.setCurrentMarketPrice(bidItem.getCurrentMarketPrice());
 			dbBidItem.setStatusCode(bidItem.getStatus());
-			entityManager.getTransaction().commit();
+			entityManager.merge(dbBidItem);
 		}
 	}
 	@SuppressWarnings("unchecked")

@@ -23,6 +23,7 @@ import com.cfe.auction.model.persist.BidItem;
 import com.cfe.auction.model.persist.ClientDetails;
 import com.cfe.auction.service.AutoBidService;
 import com.cfe.auction.service.BidsService;
+import com.cfe.auction.service.cache.IBidItemsCacheService;
 import com.cfe.auction.service.cache.manager.AuctionCacheManager;
 import com.cfe.auction.web.constants.CommonConstants;
 import com.cfe.auction.web.constants.SessionConstants;
@@ -41,9 +42,12 @@ public class BidController {
 
 	@Autowired
 	AutoBidService autoBidService;
+	
 	@Autowired
 	private BidsService bidsService;
 
+	@Autowired
+	IBidItemsCacheService bidItemCacheService;
 	@RequestMapping(value = "/saveautobid", method = RequestMethod.POST)
 	public String saveAutoBid(
 			@RequestParam(value = "bidItemId", required = true) Long bidItemId,
@@ -98,6 +102,7 @@ public class BidController {
 
 		auctionSearchBean.setSchemaName(clientDetails.getSchemaKey());
 		auctionSearchBean.setClientId(clientDetails.getId());
+		
 		Bid bid = new Bid();
 		bid.setBidItemId(bidItemId);
 		bid.setBidType(bidType);
@@ -109,9 +114,9 @@ public class BidController {
 		bid.setBidItemGroupId(AuctionCacheManager.getActiveAuctionCacheBean(
 				auctionSearchBean).getBidItemGroupId());
 		bidsService.createBidService(bid, auctionSearchBean);
-		if (bidType == 2) {
-			BidItem bidItem = null;// bidItemsCacheService.getBidItem(bidItemId);
-
+		bid.setBidStatus("");
+		BidItem bidItem = AuctionCacheManager.getBidItem(auctionSearchBean, bidItemId);
+		if (bidType == 2 && bidItem != null) {
 			Map<Long, String> bidItemWithRanks = new HashMap<Long, String>();
 			Map<Long, String> bidItemWithAutoBidFlag = new HashMap<Long, String>();
 			Bidder tempBidder = new Bidder();

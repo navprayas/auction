@@ -11,8 +11,12 @@ public class BidsDaoImpl extends DAOImpl<Integer, Bids> implements BidsDao {
 
 	@Override
 	public void createBids(Bids bids, AuctionSearchBean auctionSearchBean) {
-		getEntityManager(auctionSearchBean.getSchemaName()).persist(bids);
-
+		try {
+			getEntityManager(auctionSearchBean.getSchemaName()).persist(bids);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 }

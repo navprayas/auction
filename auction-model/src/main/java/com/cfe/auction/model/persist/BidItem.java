@@ -419,9 +419,9 @@ public class BidItem extends AbstractPO<Integer> {
 				.getTime());
 		long currTime = TimeUnit.MILLISECONDS.toSeconds(System
 				.currentTimeMillis());
-		if (lUpdateTime > bEndTime - timeExtAfterBid) {
-			return currTime - lUpdateTime + timeExtAfterBid;
-		}
+		/*if (lUpdateTime > bEndTime - timeExtAfterBid) {
+			return lUpdateTime - currTime + timeExtAfterBid;
+		}*/
 		return (bEndTime - currTime > 0) ? bEndTime - currTime : 0;
 	}
 
