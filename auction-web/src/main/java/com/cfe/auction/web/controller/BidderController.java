@@ -97,7 +97,6 @@ public class BidderController {
 					for (BidItem bidItem : bidItemsFinal) {
 						LOG.debug("bidItem : " + bidItem.getBidItemId() + " "
 								+ bidItem.getBidSpan() + " " + refreshTime);
-						refreshTime += bidItem.getBidSpan();
 						bidItem.setTimeLeft(refreshTime);
 						refreshTime += bidItem.getBidSpan();
 						if (bidItem.getCurrentMarketPrice() == null) {
