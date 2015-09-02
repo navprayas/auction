@@ -57,19 +57,27 @@ public class ObserverController {
 				.getAttribute(SessionConstants.CLIENT_INFO);
 		AuctionSearchBean auctionSearchBean = new AuctionSearchBean(
 				clientDetails.getSchemaKey());
-		AuctionCacheBean auctionCacheBean = AuctionCacheManager
-				.getActiveAuctionCacheBean(auctionSearchBean);
+		
 		auctionSearchBean.setClientId(clientDetails.getId());
 		auctionSearchBean.setSchemaName(clientDetails.getSchemaKey());
 		auctionSearchBean.setRole(session.getAttribute(
 				CommonConstants.USER_ROLE).toString());
+
 		auctionSearchBean.setUserId(user.getId());
-		auctionSearchBean.setAuctionStartTime(auctionCacheBean
-				.getAuctionStartTime());
+		AuctionCacheBean auctionCacheBean = AuctionCacheManager
+				.getActiveAuctionCacheBean(auctionSearchBean);
+		if (auctionCacheBean != null && auctionCacheBean.getAuctionId() != null
+				&& !auctionCacheBean.isAuctionClosed()) {
+			auctionSearchBean.setAuctionId(auctionCacheBean.getAuctionId());
+			auctionSearchBean.setAuctionStartTime(auctionCacheBean
+					.getAuctionStartTime());
+			model.put("bidItems",
+					biditemUtilService.getBidItemsMarketList(auctionSearchBean));
+			model.put("timeextention", 180);
+		}
+		
 		LOG.debug("Market List");
-		model.put("bidItems",
-				biditemUtilService.getBidItemsMarketList(auctionSearchBean));
-		model.put("timeextention", 180);
+		
 
 		return "observermarketlist";
 	}
@@ -85,9 +93,14 @@ public class ObserverController {
 		auctionSearchBean.setSchemaName(clientDetails.getSchemaKey());
 		auctionSearchBean.setRole(session.getAttribute(
 				CommonConstants.USER_ROLE).toString());
+		AuctionCacheBean auctionCacheBean = AuctionCacheManager
+				.getActiveAuctionCacheBean(auctionSearchBean);
+		if (auctionCacheBean != null && auctionCacheBean.getAuctionId() != null
+				&& !auctionCacheBean.isAuctionClosed()) {
 		auctionSearchBean.setUserId(user.getId());
 		model.put("bidItems", biditemUtilService
 				.getBidItemsActiveMarketList(auctionSearchBean));
+		}
 		return "observeractivemarket";
 	}
 
@@ -102,9 +115,14 @@ public class ObserverController {
 		auctionSearchBean.setSchemaName(clientDetails.getSchemaKey());
 		auctionSearchBean.setRole(session.getAttribute(
 				CommonConstants.USER_ROLE).toString());
+		AuctionCacheBean auctionCacheBean = AuctionCacheManager
+				.getActiveAuctionCacheBean(auctionSearchBean);
+		if (auctionCacheBean != null && auctionCacheBean.getAuctionId() != null
+				&& !auctionCacheBean.isAuctionClosed()) {
 		auctionSearchBean.setUserId(user.getId());
 		model.put("bidItems", biditemUtilService
 				.getBidItemsClosedMarketList(auctionSearchBean));
+		}
 		return "observerclosedmarket";
 	}
 

@@ -27,8 +27,7 @@ public class BidsDaoImpl extends DAOImpl<Integer, Bids> implements BidsDao {
 	public List<Bids> getReportSummary(AuctionSearchBean auctionSearchBean) {
 		// TODO Auto-generated method stub
 		Query query = getEntityManager(auctionSearchBean.getSchemaName())
-				.createQuery(
-						"From CloseBids closeBids where closeBids.bidderName= :bidderName ");
+				.createQuery("From Bids");
 		return query.getResultList();
 	}
 

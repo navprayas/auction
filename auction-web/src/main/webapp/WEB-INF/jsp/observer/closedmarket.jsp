@@ -62,7 +62,7 @@
 						<li><a aria-controls="home" role="tab" data-toggle="tab"
 							href="activemarketlist" onclick="openUrl(this.href)">Active
 								Market</a></li>
-						<li><a aria-controls="home" role="tab" data-toggle="tab"
+						<li class="active" role="presentation"><a aria-controls="home" role="tab" data-toggle="tab"
 							href="closedmarketlist" class="active"
 							onclick="openUrl(this.href)">Closed Market</a></li>
 					</ul>

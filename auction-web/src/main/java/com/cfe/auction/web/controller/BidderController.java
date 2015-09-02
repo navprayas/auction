@@ -64,7 +64,8 @@ public class BidderController {
 		System.out.println("clientDetails" + clientDetails.getId());
 		AuctionCacheBean auctionCacheBean = AuctionCacheManager
 				.getActiveAuctionCacheBean(auctionSearchBean);
-		if (auctionCacheBean != null && auctionCacheBean.getAuctionId() != null && !auctionCacheBean.isAuctionClosed()) {
+		if (auctionCacheBean != null && auctionCacheBean.getAuctionId() != null
+				&& !auctionCacheBean.isAuctionClosed()) {
 
 			auctionSearchBean.setAuctionId(auctionCacheBean.getAuctionId());
 			auctionSearchBean.setUserId(user.getId());
@@ -73,14 +74,13 @@ public class BidderController {
 			auctionSearchBean.setRole(session.getAttribute(
 					CommonConstants.USER_ROLE).toString());
 
-			model.put("bidItems", biditemUtilService
-					.getBidItemsMarketList(auctionSearchBean));
+			model.put("bidItems",
+					biditemUtilService.getBidItemsMarketList(auctionSearchBean));
 			model.put("timeextention", 120);
 
 		}
 		return "biddermarketlist";
 	}
-
 
 	@RequestMapping(value = "/activemarketlist", method = RequestMethod.GET)
 	public String getActiveMarketList(ModelMap model, HttpSession session) {
@@ -89,17 +89,15 @@ public class BidderController {
 		ClientDetails clientDetails = (ClientDetails) session
 				.getAttribute(SessionConstants.CLIENT_INFO);
 
-		AuctionSearchBean auctionSearchBean = new AuctionSearchBean(
-				clientDetails.getSchemaKey());
+		AuctionSearchBean auctionSearchBean = new AuctionSearchBean(clientDetails.getSchemaKey());
 		auctionSearchBean.setClientId(clientDetails.getId());
-		auctionSearchBean.setSchemaName(clientDetails.getSchemaKey());
-
 		auctionSearchBean.setAuctionId(AuctionCacheManager
 				.getActiveAuctionId(auctionSearchBean));
 
 		AuctionCacheBean auctionCacheBean = AuctionCacheManager
 				.getActiveAuctionCacheBean(auctionSearchBean);
-		if (auctionCacheBean != null && auctionCacheBean.getAuctionId() != null && !auctionCacheBean.isAuctionClosed()) {
+		if (auctionCacheBean != null && auctionCacheBean.getAuctionId() != null
+				&& !auctionCacheBean.isAuctionClosed()) {
 			auctionSearchBean.setUserId(user.getId());
 			auctionSearchBean.setRole(session.getAttribute(
 					CommonConstants.USER_ROLE).toString());
@@ -124,13 +122,16 @@ public class BidderController {
 		auctionSearchBean.setSchemaName(clientDetails.getSchemaKey());
 		auctionSearchBean.setAuctionId(AuctionCacheManager
 				.getActiveAuctionId(auctionSearchBean));
-		auctionSearchBean.setUserId(user.getId());
-		auctionSearchBean.setRole(session.getAttribute(
-				CommonConstants.USER_ROLE).toString());
-		model.put("bidItems", biditemUtilService
-				.getBidItemsClosedMarketList(auctionSearchBean));
-
+		AuctionCacheBean auctionCacheBean = AuctionCacheManager
+				.getActiveAuctionCacheBean(auctionSearchBean);
+		if (auctionCacheBean != null && auctionCacheBean.getAuctionId() != null
+				&& !auctionCacheBean.isAuctionClosed()) {
+			auctionSearchBean.setUserId(user.getId());
+			auctionSearchBean.setRole(session.getAttribute(
+					CommonConstants.USER_ROLE).toString());
+			model.put("bidItems", biditemUtilService
+					.getBidItemsClosedMarketList(auctionSearchBean));
+		}
 		return "bidderclosedmarket";
 	}
 }
-

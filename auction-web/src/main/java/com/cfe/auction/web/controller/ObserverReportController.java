@@ -12,9 +12,14 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.cfe.auction.model.auction.persist.AuctionCacheBean;
 import com.cfe.auction.model.auction.persist.AuctionSearchBean;
 import com.cfe.auction.model.persist.Bids;
+import com.cfe.auction.model.persist.ClientDetails;
+import com.cfe.auction.model.persist.User;
 import com.cfe.auction.service.BidsService;
+import com.cfe.auction.service.cache.manager.AuctionCacheManager;
+import com.cfe.auction.web.constants.SessionConstants;
 
 @Controller
 @RequestMapping("/observer/**")
@@ -24,14 +29,24 @@ public class ObserverReportController {
 	private BidsService bidsService;
 
 	@RequestMapping(value = "/observerreport", method = RequestMethod.GET)
-	public String getObserverReportSummary(ModelMap modelMap,
-			HttpSession session) {
+	public String getObserverReportSummary(ModelMap model, HttpSession session) {
 
 		logger.debug("In getObserverReportSummary Method::");
+		User user = (User) session.getAttribute(SessionConstants.USER_INFO);
 
-		AuctionSearchBean auctionSearchBean = new AuctionSearchBean();
+		ClientDetails clientDetails = (ClientDetails) session
+				.getAttribute(SessionConstants.CLIENT_INFO);
+
+		AuctionSearchBean auctionSearchBean = new AuctionSearchBean(
+				clientDetails.getSchemaKey());
+		auctionSearchBean.setClientId(clientDetails.getId());
+		auctionSearchBean.setAuctionId(AuctionCacheManager
+				.getActiveAuctionId(auctionSearchBean));
 
 		List<Bids> bidsList = bidsService.getReportSummary(auctionSearchBean);
+		System.out.println("Bids Items" + bidsList);
+
+		model.addAttribute("bidsreport", bidsList);
 		/*
 		 * List<Bids> bidsList = reportService.getReportSummary1(userName,
 		 * null); List<BidderCategory> bidCategoryList = commonService
