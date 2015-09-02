@@ -80,6 +80,7 @@ public class BidItemUtilityServiceImpl implements BiditemUtilService {
 								categoryIds,
 								AuctionCacheManager
 										.getActiveBidSequenceId(auctionSearchBean));
+				bidItems = bidItemsFinal;
 				if (bidItemsFinal != null) {
 					for (BidItem bidItem : bidItemsFinal) {
 						LOG.debug("bidItem : " + bidItem.getBidItemId() + " "
