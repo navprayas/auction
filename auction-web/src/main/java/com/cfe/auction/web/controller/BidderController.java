@@ -65,7 +65,7 @@ public class BidderController {
 		System.out.println("clientDetails" + clientDetails.getId());
 		AuctionCacheBean auctionCacheBean = AuctionCacheManager
 				.getActiveAuctionCacheBean(auctionSearchBean);
-		if (auctionCacheBean != null && auctionCacheBean.getAuctionId() != null) {
+		if (auctionCacheBean != null && auctionCacheBean.getAuctionId() != null && !auctionCacheBean.isAuctionClosed()) {
 
 			auctionSearchBean.setAuctionId(auctionCacheBean.getAuctionId());
 
@@ -141,18 +141,21 @@ public class BidderController {
 
 		auctionSearchBean.setAuctionId(AuctionCacheManager
 				.getActiveAuctionId(auctionSearchBean));
-
-		List<BidderCategory> bidderCategoryList = bidderCategoryService
-				.getBidderCategory(user.getId(), auctionSearchBean);
-		BidItem bidItem = AuctionCacheManager
-				.getActiveBidItem(auctionSearchBean);
-		if (bidItem != null) {
-			List<BidItem> bidItems = new ArrayList<BidItem>();
-			bidItems.add(bidItem);
-			List<Integer> categoryIds = getCategoryIdList(bidderCategoryList);
-			model.put("bidItems", bidItemFilterService
-					.getBidItemListForActiveMarketList(bidItems, categoryIds,
-							bidItem.getSeqId()));
+		AuctionCacheBean auctionCacheBean = AuctionCacheManager
+				.getActiveAuctionCacheBean(auctionSearchBean);
+		if (auctionCacheBean != null && auctionCacheBean.getAuctionId() != null && !auctionCacheBean.isAuctionClosed()) {
+			List<BidderCategory> bidderCategoryList = bidderCategoryService
+					.getBidderCategory(user.getId(), auctionSearchBean);
+			BidItem bidItem = AuctionCacheManager
+					.getActiveBidItem(auctionSearchBean);
+			if (bidItem != null) {
+				List<BidItem> bidItems = new ArrayList<BidItem>();
+				bidItems.add(bidItem);
+				List<Integer> categoryIds = getCategoryIdList(bidderCategoryList);
+				model.put("bidItems", bidItemFilterService
+						.getBidItemListForActiveMarketList(bidItems, categoryIds,
+								bidItem.getSeqId()));
+			}
 		}
 		return "bidderactivemarket";
 	}

@@ -82,11 +82,11 @@
 			<div class="top-line">
 				<div class="col-xs-12 col-sm-6">
 					<ul class="nav nav-tabs" role="tablist">
-						<li role="presentation"><a aria-controls="home" role="tab"
+						<li><a aria-controls="home" role="tab"
 							data-toggle="tab" href="marketlist" onclick="openUrl(this.href)">Market
 								List</a></li>
-						<li><a aria-controls="home" role="tab" data-toggle="tab"
-							href="activemarketlist" class="active"
+						<li class="active" role="presentation"><a aria-controls="home" role="tab" data-toggle="tab"
+							href="activemarketlist" 
 							onclick="openUrl(this.href)">Active Market</a></li>
 						<li><a aria-controls="home" role="tab" data-toggle="tab"
 							href="closedmarketlist" onclick="openUrl(this.href)">Closed
@@ -223,7 +223,7 @@
 				});
 
 			}
-
+			window.location.reload(true);
 		}
 
 		function setNextBidDisabled(nextBidButton) {

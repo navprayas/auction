@@ -114,7 +114,12 @@ public class BidController {
 		bid.setBidItemGroupId(AuctionCacheManager.getActiveAuctionCacheBean(
 				auctionSearchBean).getBidItemGroupId());
 		bidsService.createBidService(bid, auctionSearchBean);
+		
 		BidItem bidItem = AuctionCacheManager.getBidItem(auctionSearchBean, bidItemId);
+		if(bidItem.getCurrentMarketPrice() == null || bidItem.getCurrentMarketPrice() < bid.getBidAmount()) {
+			bidItem.setCurrentMarketPrice(bid.getBidAmount());
+		};
+		
 		if (bidType == 2 && bidItem != null) {
 			Map<Long, String> bidItemWithRanks = new HashMap<Long, String>();
 			Map<Long, String> bidItemWithAutoBidFlag = new HashMap<Long, String>();

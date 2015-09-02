@@ -84,9 +84,11 @@ public class AuctionCacheManager implements InitializingBean {
 	}
 	
 	public static BidItem getActiveBidItem(AuctionSearchBean auctionSearchBean) {
-		Long bidItemId = activeAuctionMap.get(auctionSearchBean.getClientId()).getActiveBidItemId();
-		if(bidItemId != null){
-			return activeAuctionMap.get(auctionSearchBean.getClientId()).getBidItemsMap().get(bidItemId);
+		if (activeAuctionMap.get(auctionSearchBean.getClientId()) != null){
+			Long bidItemId = activeAuctionMap.get(auctionSearchBean.getClientId()).getActiveBidItemId();
+			if(bidItemId != null){
+				return activeAuctionMap.get(auctionSearchBean.getClientId()).getBidItemsMap().get(bidItemId);
+			}
 		}
 		return null;
 	}
@@ -95,6 +97,17 @@ public class AuctionCacheManager implements InitializingBean {
 		activeAuctionMap.get(auctionSearchBean.getClientId()).setActiveBidItemId(activeBidItemId);
 	}
 
+	public static void setAuctionClosed(AuctionSearchBean auctionSearchBean) {
+		activeAuctionMap.get(auctionSearchBean.getClientId()).setAuctionClosed(true);
+	}
+	
+	public static boolean isAuctionClosed(AuctionSearchBean auctionSearchBean) {
+		if(activeAuctionMap.get(auctionSearchBean.getClientId()) != null) {
+			return activeAuctionMap.get(auctionSearchBean.getClientId()).isAuctionClosed();
+		}
+		return false;
+	}
+	
 	public static Long getActiveBidItemId(AuctionSearchBean auctionSearchBean) {
 		return activeAuctionMap.get(auctionSearchBean.getClientId()).getActiveBidItemId();
 	}
