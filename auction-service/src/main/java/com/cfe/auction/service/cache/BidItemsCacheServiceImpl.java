@@ -69,10 +69,14 @@ public class BidItemsCacheServiceImpl implements IBidItemsCacheService {
 			else {
 				cleanBidItem(AuctionCacheManager.getActiveBidItemId(auctionSearchBean), auctionSearchBean);
 				Long activeBidItemId = AuctionCacheService.pollActiveBidItemId(auctionCacheBean);
-				AuctionCacheManager.setActiveBidItemId(auctionSearchBean, activeBidItemId);
-				bidItem = getBidItem(activeBidItemId, auctionSearchBean);
-				if(bidItem == null) {
-					return 0;
+				if(activeBidItemId != null) {
+					AuctionCacheManager.setActiveBidItemId(auctionSearchBean, activeBidItemId);
+					bidItem = getBidItem(activeBidItemId, auctionSearchBean);
+					if(bidItem == null) {
+						return 0;
+					}
+				} else {
+					AuctionCacheManager.setAuctionClosed(auctionSearchBean);
 				}
 				return bidItem.getBidSpan();
 			}

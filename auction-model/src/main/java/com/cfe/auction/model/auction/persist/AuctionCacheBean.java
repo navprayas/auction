@@ -19,6 +19,7 @@ public class AuctionCacheBean {
 	private Date auctionStartTime;
 	private Long activeBidItemId;
 	private Long bidItemGroupId;
+	private boolean isAuctionClosed = false;
 	
 	
 	private List<BidItem> bidItems;
@@ -72,5 +73,11 @@ public class AuctionCacheBean {
 	}
 	public void setBidItemGroupId(Long bidItemGroupId) {
 		this.bidItemGroupId = bidItemGroupId;
+	}
+	public boolean isAuctionClosed() {
+		return isAuctionClosed;
+	}
+	public void setAuctionClosed(boolean isAuctionClosed) {
+		this.isAuctionClosed = isAuctionClosed;
 	}
 }
