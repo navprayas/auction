@@ -35,12 +35,12 @@ public class BidItemUtilityServiceImpl implements BiditemUtilService {
 			AuctionSearchBean auctionSearchBean) {
 
 		List<BidItem> bidItems = new ArrayList<BidItem>();
-		List<BidderCategory> bidderCategoryList=new ArrayList<BidderCategory>();
-		
+		List<BidderCategory> bidderCategoryList = new ArrayList<BidderCategory>();
+
 		if (auctionSearchBean.getRole().equalsIgnoreCase(
 				CommonConstants.ROLE_OBSERVER)) {
 			if (AuctionCacheManager.getActiveAuctionId(auctionSearchBean) != null) {
-				 bidderCategoryList = bidderCategoryService
+				bidderCategoryList = bidderCategoryService
 						.getAllCategory(AuctionCacheManager
 								.getActiveAuctionId(auctionSearchBean));
 				LOG.debug("Category Id" + bidderCategoryList);
@@ -55,9 +55,8 @@ public class BidItemUtilityServiceImpl implements BiditemUtilService {
 			}
 		} else {
 
-			 bidderCategoryList = bidderCategoryService
-					.getBidderCategory(auctionSearchBean.getUserId(),
-							auctionSearchBean);
+			bidderCategoryList = bidderCategoryService.getBidderCategory(
+					auctionSearchBean.getUserId(), auctionSearchBean);
 			bidItems = AuctionCacheManager.getBidItems(auctionSearchBean);
 			Date currDate = new Date();
 			long refreshTime = auctionSearchBean.getAuctionStartTime()
@@ -66,22 +65,28 @@ public class BidItemUtilityServiceImpl implements BiditemUtilService {
 			LOG.debug("*****refreshTime::" + refreshTime);
 			if (refreshTime <= 0) {
 				refreshTime = 0;
+				BidItem bidItem = AuctionCacheManager
+						.getActiveBidItem(auctionSearchBean);
+				if (bidItem != null) {
+					refreshTime = bidItem.getTimeLeft();
+				}
 			}
 			if (bidItems != null) {
 				System.out.println("BidItems" + bidItems);
 				List<Integer> categoryIds = getCategoryIdList(bidderCategoryList);
 				List<BidItem> bidItemsFinal = bidItemFilterService
-						.getBidItemListForMarketList(bidItems, categoryIds,
+						.getBidItemListForMarketList(
+								bidItems,
+								categoryIds,
 								AuctionCacheManager
-								.getActiveBidSequenceId(auctionSearchBean));
-
+										.getActiveBidSequenceId(auctionSearchBean));
 				if (bidItemsFinal != null) {
 					for (BidItem bidItem : bidItemsFinal) {
 						LOG.debug("bidItem : " + bidItem.getBidItemId() + " "
 								+ bidItem.getBidSpan() + " " + refreshTime);
 						refreshTime += bidItem.getBidSpan();
 						bidItem.setTimeLeft(refreshTime);
-						refreshTime += bidItem.getBidSpan();
+						bidItem.setTimeCounter(refreshTime);
 						if (bidItem.getCurrentMarketPrice() == null) {
 							bidItem.setCurrentMarketPrice(bidItem
 									.getMinBidPrice());
@@ -140,8 +145,7 @@ public class BidItemUtilityServiceImpl implements BiditemUtilService {
 		List<BidItem> bidItems = new ArrayList<BidItem>();
 		List<BidderCategory> bidderCategoryList = new ArrayList<BidderCategory>();
 		if (auctionSearchBean.getRole().equalsIgnoreCase(
-				CommonConstants.ROLE_OBSERVER))
-		{
+				CommonConstants.ROLE_OBSERVER)) {
 			bidderCategoryList = bidderCategoryService
 					.getAllCategory(AuctionCacheManager
 							.getActiveAuctionId(auctionSearchBean));
