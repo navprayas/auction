@@ -52,11 +52,8 @@ public class RestResponseController {
 		if (AuctionCacheManager.getActiveAuctionId(auctionSearchBean) != null) {
 			List<BidderCategory> bidderCategoryList = bidderCategoryService
 					.getBidderCategory(user.getId(),auctionSearchBean);
-		
 			LOG.debug("Category Id" + bidderCategoryList);
-
 			List<BidItem> bidItems = AuctionCacheManager.getBidItems(auctionSearchBean);
-
 			System.out.println("Ajax bid items" + bidItems);
 			if (bidderCategoryList != null && bidderCategoryList.size() > 0) {
 				List<Integer> categoryIds = getCategoryIdList(bidderCategoryList);

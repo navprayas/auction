@@ -52,7 +52,7 @@ public class HomeController {
 
 		HttpSession session = httpServletRequest.getSession();
 		session.setAttribute(CommonConstants.USER_NAME, name);
-		session.setAttribute("category", category);
+		session.setAttribute(CommonConstants.USER_ROLE, category);
 		User user = (User) session.getAttribute(SessionConstants.USER_INFO);
 		ClientDetails clientDetails = (ClientDetails) session
 				.getAttribute(SessionConstants.CLIENT_INFO);
