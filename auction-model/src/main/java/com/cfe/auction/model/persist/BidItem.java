@@ -90,6 +90,9 @@ public class BidItem extends AbstractPO<Integer> {
 	@Transient
 	private long timeLeft;
 
+	@Transient
+	private long timeCounter;
+	
 	public String getSerialNo() {
 		return serialNo;
 	}
@@ -472,6 +475,14 @@ public class BidItem extends AbstractPO<Integer> {
 		this.bidItemId = bidItemId;
 	}
 
+	public long getTimeCounter() {
+		return timeCounter;
+	}
+
+	public void setTimeCounter(long timeCounter) {
+		this.timeCounter = timeCounter;
+	}
+
 	/*public Long getBiditemgroupid() {
 		return biditemgroupid;
 	}
@@ -480,4 +491,5 @@ public class BidItem extends AbstractPO<Integer> {
 		this.biditemgroupid = biditemgroupid;
 	}
 */
+	
 }

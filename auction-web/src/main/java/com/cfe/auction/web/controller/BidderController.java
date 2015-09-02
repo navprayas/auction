@@ -82,7 +82,12 @@ public class BidderController {
 			refreshTime = (long) (refreshTime / 1000);
 			LOG.debug("*****refreshTime::" + refreshTime);
 			if (refreshTime <= 0) {
-				refreshTime = 0;
+				//it means auction has already started
+				BidItem bidItem = AuctionCacheManager
+						.getActiveBidItem(auctionSearchBean);
+				if (bidItem != null) {
+					refreshTime = bidItem.getTimeLeft();
+				}
 			}
 			if (bidItems != null) {
 				System.out.println("BidItems" + bidItems);
@@ -97,7 +102,7 @@ public class BidderController {
 					for (BidItem bidItem : bidItemsFinal) {
 						LOG.debug("bidItem : " + bidItem.getBidItemId() + " "
 								+ bidItem.getBidSpan() + " " + refreshTime);
-						bidItem.setTimeLeft(refreshTime);
+						bidItem.setTimeCounter(refreshTime);
 						refreshTime += bidItem.getBidSpan();
 						if (bidItem.getCurrentMarketPrice() == null) {
 							bidItem.setCurrentMarketPrice(bidItem

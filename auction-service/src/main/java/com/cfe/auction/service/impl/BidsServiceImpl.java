@@ -38,6 +38,7 @@ public class BidsServiceImpl extends CRUDServiceImpl<Integer, Bids, BidsDao>
 		bids.setBidTime(new Date());
 		bids.setBidType(bid.getBidType());
 		bids.setComments(bid.getComments());
+		bids.setBidderName(bid.getBidderName());
 		bidsDao.createBids(bids, auctionSearchBean);
 	}
 
