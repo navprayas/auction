@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="f" uri="http://www.springframework.org/tags/form"%>
@@ -38,14 +39,14 @@
 				ts = timeSpans[i];
 				ex = parseInt(extendTime);
 				diff = 0;
-				if (i == 0 && ex > 0) {
+				/* if (i == 0 && ex > 0) {
 					diff = ex - ts;
 					if (diff < 0)
 						diff = 0;
 					timeSpans[0] = ex;
-				} else {
+				} else { */
 					timeSpans[i] += diff;
-				}
+				//}
 
 				if (timeSpans[i] <= 0) {
 					refreshPage();
@@ -72,8 +73,8 @@
 						document.getElementById("lLTime").value = currentTime.getTime();
 						return false;
 					}
-					document.getElementById("lLTime").value = currentTime.getTime();
-					window.location.reload(true);*/
+					document.getElementById("lLTime").value = currentTime.getTime();*/
+					window.location.reload(true);
 		}
 	</script>
 
@@ -159,9 +160,9 @@
 									<td>${marketlist.minBidPrice}</td>
 									<td>${marketlist.minBidIncrement}</td>
 									<td>
-										<div id="countdown${marketlist.bidItemId}">${(status.index+1)*timeextention}</div>
+										<div id="countdown${marketlist.bidItemId}">${marketlist.timeCounter}</div>
 										<script>
-											setTimeLefts(parseInt('${(status.index+1)*timeextention}'),'${marketlist.bidItemId}');
+										setTimeLefts(parseInt('${marketlist.timeCounter}'), '${marketlist.bidItemId}');
 										</script>
 									</td>
 									<td>${marketlist.createdTime}</td>

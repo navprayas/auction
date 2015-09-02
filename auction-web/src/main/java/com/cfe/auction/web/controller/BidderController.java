@@ -1,9 +1,5 @@
 package com.cfe.auction.web.controller;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -16,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.cfe.auction.model.auction.persist.AuctionCacheBean;
 import com.cfe.auction.model.auction.persist.AuctionSearchBean;
-import com.cfe.auction.model.persist.BidItem;
-import com.cfe.auction.model.persist.BidderCategory;
 import com.cfe.auction.model.persist.ClientDetails;
 import com.cfe.auction.model.persist.User;
 import com.cfe.auction.service.AutoBidService;
@@ -79,11 +73,9 @@ public class BidderController {
 			auctionSearchBean.setRole(session.getAttribute(
 					CommonConstants.USER_ROLE).toString());
 
-			List<BidItem> bidItems = biditemUtilService
-					.getBidItemsMarketList(auctionSearchBean);
-
-			model.put("bidItems", bidItems);
-			model.put("timeextention", 60);
+			model.put("bidItems", biditemUtilService
+					.getBidItemsMarketList(auctionSearchBean));
+			model.put("timeextention", 120);
 
 		}
 		return "biddermarketlist";
