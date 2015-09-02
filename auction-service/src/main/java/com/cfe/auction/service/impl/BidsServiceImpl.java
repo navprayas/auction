@@ -1,6 +1,7 @@
 package com.cfe.auction.service.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,12 @@ public class BidsServiceImpl extends CRUDServiceImpl<Integer, Bids, BidsDao>
 		bids.setComments(bid.getComments());
 		bids.setBidderName(bid.getBidderName());
 		bidsDao.createBids(bids, auctionSearchBean);
+	}
+
+	@Override
+	public List<Bids> getReportSummary(AuctionSearchBean auctionSearchBean) {
+		// TODO Auto-generated method stub
+		return bidsDao.getReportSummary(auctionSearchBean);
 	}
 
 }

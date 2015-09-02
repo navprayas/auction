@@ -4,6 +4,5 @@ Bundle-Name: auction-web
 Bundle-SymbolicName: auction-web
 Bundle-Version: 1.0.0.qualifier
 Export-Package: com.cfe.auction.web,
- com.cfe.auction.web.constants,
  com.cfe.auction.web.controller,
  com.cfe.auction.web.util

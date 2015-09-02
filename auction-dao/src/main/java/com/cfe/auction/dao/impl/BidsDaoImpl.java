@@ -1,5 +1,9 @@
 package com.cfe.auction.dao.impl;
 
+import java.util.List;
+
+import javax.persistence.Query;
+
 import org.springframework.stereotype.Service;
 
 import com.cfe.auction.dao.BidsDao;
@@ -16,7 +20,16 @@ public class BidsDaoImpl extends DAOImpl<Integer, Bids> implements BidsDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
+	}
+
+	@Override
+	public List<Bids> getReportSummary(AuctionSearchBean auctionSearchBean) {
+		// TODO Auto-generated method stub
+		Query query = getEntityManager(auctionSearchBean.getSchemaName())
+				.createQuery(
+						"From CloseBids closeBids where closeBids.bidderName= :bidderName ");
+		return query.getResultList();
 	}
 
 }

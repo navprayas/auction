@@ -17,7 +17,6 @@ import com.cfe.auction.service.BidderCategoryService;
 import com.cfe.auction.service.BiditemUtilService;
 import com.cfe.auction.service.IBidItemFilterService;
 import com.cfe.auction.service.cache.manager.AuctionCacheManager;
-import com.cfe.auction.web.constants.CommonConstants;
 
 @Service
 @Transactional
@@ -37,26 +36,10 @@ public class BidItemUtilityServiceImpl implements BiditemUtilService {
 		List<BidItem> bidItems = new ArrayList<BidItem>();
 		List<BidderCategory> bidderCategoryList = new ArrayList<BidderCategory>();
 
-		if (auctionSearchBean.getRole().equalsIgnoreCase(
-				CommonConstants.ROLE_OBSERVER)) {
-			if (AuctionCacheManager.getActiveAuctionId(auctionSearchBean) != null) {
-				bidderCategoryList = bidderCategoryService
-						.getAllCategory(AuctionCacheManager
-								.getActiveAuctionId(auctionSearchBean));
-				LOG.debug("Category Id" + bidderCategoryList);
-
-				bidItems = AuctionCacheManager.getBidItems(auctionSearchBean);
-				if (bidItems != null) {
-					List<Integer> categoryIds = getCategoryIdList(bidderCategoryList);
-					bidItemFilterService.getBidItemListForMarketList(bidItems,
-							categoryIds, AuctionCacheManager
-									.getActiveBidSequenceId(auctionSearchBean));
-				}
-			}
-		} else {
-
+		if (AuctionCacheManager.getActiveAuctionId(auctionSearchBean) != null) {
 			bidderCategoryList = bidderCategoryService.getBidderCategory(
 					auctionSearchBean.getUserId(), auctionSearchBean);
+			LOG.debug("Category Id" + bidderCategoryList);
 			bidItems = AuctionCacheManager.getBidItems(auctionSearchBean);
 			Date currDate = new Date();
 			long refreshTime = auctionSearchBean.getAuctionStartTime()
@@ -71,16 +54,15 @@ public class BidItemUtilityServiceImpl implements BiditemUtilService {
 					refreshTime = bidItem.getTimeLeft();
 				}
 			}
+
+			List<Integer> categoryIds = getCategoryIdList(bidderCategoryList);
+			List<BidItem> bidItemsFinal = bidItemFilterService
+					.getBidItemListForMarketList(bidItems, categoryIds,
+							AuctionCacheManager
+									.getActiveBidSequenceId(auctionSearchBean));
+
 			if (bidItems != null) {
-				System.out.println("BidItems" + bidItems);
-				List<Integer> categoryIds = getCategoryIdList(bidderCategoryList);
-				List<BidItem> bidItemsFinal = bidItemFilterService
-						.getBidItemListForMarketList(
-								bidItems,
-								categoryIds,
-								AuctionCacheManager
-										.getActiveBidSequenceId(auctionSearchBean));
-				bidItems = bidItemsFinal;
+
 				if (bidItemsFinal != null) {
 					for (BidItem bidItem : bidItemsFinal) {
 						LOG.debug("bidItem : " + bidItem.getBidItemId() + " "
@@ -119,22 +101,14 @@ public class BidItemUtilityServiceImpl implements BiditemUtilService {
 		List<BidItem> bidItems = new ArrayList<BidItem>();
 		BidItem bidItem = null;
 		List<BidderCategory> bidderCategoryList = new ArrayList<BidderCategory>();
-		if (auctionSearchBean.getRole().equalsIgnoreCase(
-				CommonConstants.ROLE_OBSERVER)) {
-			bidderCategoryList = bidderCategoryService
-					.getAllCategory(AuctionCacheManager
-							.getActiveAuctionId(auctionSearchBean));
-		} else {
-			bidderCategoryList = bidderCategoryService.getBidderCategory(
-					auctionSearchBean.getUserId(), auctionSearchBean);
-		}
+		bidderCategoryList = bidderCategoryService.getBidderCategory(
+				auctionSearchBean.getUserId(), auctionSearchBean);
 		bidItem = AuctionCacheManager.getActiveBidItem(auctionSearchBean);
 		bidItems.add(bidItem);
 		if (bidItem != null) {
 			List<Integer> categoryIds = getCategoryIdList(bidderCategoryList);
 			bidItems = bidItemFilterService.getBidItemListForActiveMarketList(
 					bidItems, categoryIds, bidItem.getSeqId());
-
 		}
 
 		return bidItems;
@@ -145,17 +119,8 @@ public class BidItemUtilityServiceImpl implements BiditemUtilService {
 			AuctionSearchBean auctionSearchBean) {
 		List<BidItem> bidItems = new ArrayList<BidItem>();
 		List<BidderCategory> bidderCategoryList = new ArrayList<BidderCategory>();
-		if (auctionSearchBean.getRole().equalsIgnoreCase(
-				CommonConstants.ROLE_OBSERVER)) {
-			bidderCategoryList = bidderCategoryService
-					.getAllCategory(AuctionCacheManager
-							.getActiveAuctionId(auctionSearchBean));
-		} else {
-
-			bidderCategoryList = bidderCategoryService.getBidderCategory(
-					auctionSearchBean.getUserId(), auctionSearchBean);
-		}
-
+		bidderCategoryList = bidderCategoryService.getBidderCategory(
+				auctionSearchBean.getUserId(), auctionSearchBean);
 		bidItems = AuctionCacheManager.getBidItems(auctionSearchBean);
 		List<Integer> categoryIds = getCategoryIdList(bidderCategoryList);
 		bidItems = bidItemFilterService.getBidItemListForClosedMarketList(

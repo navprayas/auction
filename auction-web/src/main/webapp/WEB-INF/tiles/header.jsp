@@ -69,7 +69,7 @@
 						<sec:authorize ifAnyGranted="ROLE_OBSERVER">
 
 							<li class="active"><a href="marketlist">Forward Market</a></li>
-							<li><a href="#">Reports</a></li>
+							<li><a href="observerreport">Reports</a></li>
 							<li><a href="#">Online Users</a></li>
 							<li><a href="${files_url}/termandcondition.pdf">General
 									Terms &amp; Condition</a></li>

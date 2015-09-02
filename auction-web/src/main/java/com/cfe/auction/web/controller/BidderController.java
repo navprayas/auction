@@ -96,6 +96,7 @@ public class BidderController {
 
 		auctionSearchBean.setAuctionId(AuctionCacheManager
 				.getActiveAuctionId(auctionSearchBean));
+
 		AuctionCacheBean auctionCacheBean = AuctionCacheManager
 				.getActiveAuctionCacheBean(auctionSearchBean);
 		if (auctionCacheBean != null && auctionCacheBean.getAuctionId() != null && !auctionCacheBean.isAuctionClosed()) {
@@ -105,6 +106,7 @@ public class BidderController {
 			model.put("bidItems", biditemUtilService
 					.getBidItemsActiveMarketList(auctionSearchBean));
 		}
+
 		return "bidderactivemarket";
 	}
 
@@ -131,3 +133,4 @@ public class BidderController {
 		return "bidderclosedmarket";
 	}
 }
+
