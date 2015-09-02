@@ -1,5 +1,7 @@
 package com.cfe.auction.service.impl;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +33,9 @@ public class BidsServiceImpl extends CRUDServiceImpl<Integer, Bids, BidsDao>
 		bids.setBidItemId(bid.getBidItemId());
 		bids.setBidAmount(bid.getBidAmount());
 		bids.setCurrency("INR");
-		bids.setBidStatus(bid.getBidStatus());
+		//bids.setBidStatus(bid.getBidStatus());
+		bids.setBidStatus("A");
+		bids.setBidTime(new Date());
 		bids.setBidType(bid.getBidType());
 		bids.setComments(bid.getComments());
 		bidsDao.createBids(bids, auctionSearchBean);

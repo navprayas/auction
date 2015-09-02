@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="f" uri="http://www.springframework.org/tags/form"%>
@@ -159,10 +160,11 @@
 									<td>${marketlist.minBidPrice}</td>
 									<td>${marketlist.minBidIncrement}</td>
 									<td>
-										<div id="countdown${marketlist.bidItemId}">${(status.index+1)*timeextention}</div>
+										<div id="countdown${marketlist.bidItemId}">${marketlist.timeLeft}</div>
 										<script>
-											setTimeLefts(parseInt('${(status.index+1)*timeextention}'),'${marketlist.bidItemId}');
+										setTimeLefts(parseInt('${marketlist.timeLeft}'), '${marketlist.bidItemId}');
 										</script>
+										${marketlist.timeLeft}
 									</td>
 									<td>${marketlist.createdTime}</td>
 									<td>

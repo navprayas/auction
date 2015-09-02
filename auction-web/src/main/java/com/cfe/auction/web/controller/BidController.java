@@ -114,7 +114,6 @@ public class BidController {
 		bid.setBidItemGroupId(AuctionCacheManager.getActiveAuctionCacheBean(
 				auctionSearchBean).getBidItemGroupId());
 		bidsService.createBidService(bid, auctionSearchBean);
-		bid.setBidStatus("");
 		BidItem bidItem = AuctionCacheManager.getBidItem(auctionSearchBean, bidItemId);
 		if (bidType == 2 && bidItem != null) {
 			Map<Long, String> bidItemWithRanks = new HashMap<Long, String>();
