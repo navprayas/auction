@@ -242,6 +242,13 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		
+		<!-- JXL DEPENDENCY START -->
+		<dependency>
+			<groupId>net.sourceforge.jexcelapi</groupId>
+			<artifactId>com.springsource.jxl</artifactId>
+		</dependency>
+		<!-- JXL DEPENDENCY END -->
 
 	</dependencies>
 	<build>

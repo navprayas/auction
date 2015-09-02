@@ -30,8 +30,8 @@
 				</div>
 				<div class="col-xs-12 col-sm-6">
 					<ul class="list-inline pull-right">
-						<li><a href="#excel">Export to Excel</a></li>
-						<li><a href="#pdf">Download PDF</a></li>
+						<li><a href="excelreport">Export to Excel</a></li>
+						<li><a href="pdfreport">Download PDF</a></li>
 						<li><a href="#print">Print</a></li>
 					</ul>
 				</div>
@@ -65,178 +65,71 @@
 						<table id="marketlist-pagination"
 							class="table table-bordered table-striped text-center">
 							<tr>
-							<td>Sr. No.</td>
-							<td>Lot. No</td>
-							<td>Description</td>
-							<td>Category</td>
-							<td>Material Name</td>
-							<td>Remark</td>
-							<td>Length Range</td>
-							<td>Actual Length (Approx)
-							</td>
-							<td>Quantity</td>
-							<td>Zone</td>
-							<td colspan="2">
-								<table>
-									<tr>
-										<td colspan="2">H1</td>
-									</tr>
+								<td>Sr. No.</td>
+								<td>Lot. No</td>
+								<td>Description</td>
+								<td>Category</td>
+								<td>Material Name</td>
+								<td>Remark</td>
+								<td>Length Range</td>
+								<td>Actual Length (Approx)</td>
+								<td>Quantity</td>
+								<td>Zone</td>
+								<td colspan="2">
+									<table>
+										<tr>
+											<td colspan="2">H1</td>
+										</tr>
 
-									<tr>
-										<td>Company Name</td>
-										<td>Bid Price</td>
-									</tr>
-								</table>
-							</td>
-							<td colspan="2">
-								<table>
-									<tr>
-										<td colspan="2">H2</td>
-									</tr>
-									<tr>
-										<td>Company Name</td>
-										<td>Bid Price</td>
-									</tr>
-								</table>
-							</td>
-							<td colspan="2">H3
-								<table>
-									<tr>
-										<td>Company Name</td>
-										<td>Bid Price</td>
-									</tr>
-								</table></td>
-							<td>Lot's Status
+										<tr>
+											<td>Company Name</td>
+											<td>Bid Price</td>
+										</tr>
+									</table>
 								</td>
-							<td>Sales Price</td>
-							<td>Total Sales (Qty X SalesPrice)</td>
-						</tr>
+								<td colspan="2">
+									<table>
+										<tr>
+											<td colspan="2">H2</td>
+										</tr>
+										<tr>
+											<td>Company Name</td>
+											<td>Bid Price</td>
+										</tr>
+									</table>
+								</td>
+								<td colspan="2">H3
+									<table>
+										<tr>
+											<td>Company Name</td>
+											<td>Bid Price</td>
+										</tr>
+									</table>
+								</td>
+								<td>Lot's Status</td>
+								<td>Sales Price</td>
+								<td>Total Sales (Qty X SalesPrice)</td>
+							</tr>
 
 							<c:forEach items="${bidsreport}" var="bidItem" varStatus="status">
 								<tr>
 									<td>${status.index+1}</td>
-									<td>${bidItem.bidId}
-										</td>
-									<td><div class="modal fade" id="dialog_desc${status.index+1}"
-										tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-										<div class="modal-dialog" role="document">
-											<div class="modal-content">
-												<div class="modal-header">
-													<button type="button" class="close" data-dismiss="modal"
-														aria-label="Close">
-														<span aria-hidden="true">&times;</span>
-													</button>
-													<h4 class="modal-title" id="myModalLabel">Description</h4>
-												</div>
-												<div class="modal-body">
-													<div id="dialog_desc${status.index+1}"
-														title="Item Description" class="table-responsive user-map">
-
-														<table
-															class="table table-bordered table-striped text-center">
-															<tr>
-																<td align="left" valign="top"><form name="form1"
-																		method="post" action="">
-																		<table
-																			class="table table-bordered table-striped text-center">
-																			<tr>
-																				<td>Sr. No.</td>
-																				<td>Category</td>
-																				<td>Lot No.</td>
-																				<td>Material Name</td>
-																				<td>Remark</td>
-																				<td>Length Range</td>
-																				<td>Actual Length <br> (Approx) </td>
-																				<td>Qty</td>
-																				<td>Zone</td>
-																			</tr>
-																			<tr>
-																				<td>${bids.bidItem.serialNo}.</td>
-																				<td>${bids.bidItem.category.categoryName}</td>
-																				<c:forEach items="${bids.bidItem.itemLots}"
-																					var="itemLotUnique" varStatus="status2">
-																					<c:if test="${status2.index+1 == 1}">
-																						<td>${itemLotUnique.lotNo}</td>
-																					</c:if>
-																				</c:forEach>
-
-																				<td>${bids.bidItem.name}</td>
-																				<c:if
-																					test="${fn:length(bids.bidItem.itemLots) == 1}">
-																					<c:forEach items="${bids.bidItem.itemLots}"
-																						var="itemLotUnique" varStatus="status2">
-																						<td>${itemLotUnique.remark}</td>
-																						<td>${itemLotUnique.lengthRange}</td>
-																						<td>${itemLotUnique.actualLengh}</td>
-																					</c:forEach>
-																				</c:if>
-																				<c:if test="${fn:length(bids.bidItem.itemLots) > 1}">
-																					<td>&nbsp;</td>
-																					<td>&nbsp;</td>
-																					<td>&nbsp;</td>
-																				</c:if>
-
-																				<td>${bids.bidItem.totalQuantity}
-																					${bids.bidItem.unit}</td>
-																				<c:if
-																					test="${fn:length(bids.bidItem.itemLots) == 1}">
-																					<c:forEach items="${bids.bidItem.itemLots}"
-																						var="itemLotUnique" varStatus="status2">
-																						<td>${bids.bidItem.zone}</td>
-																					</c:forEach>
-																				</c:if>
-																				<c:if test="${fn:length(bids.bidItem.itemLots) > 1}">
-																					<td>&nbsp;</td>
-																				</c:if>
-																			</tr>
-
-																			<c:if test="${fn:length(bids.bidItem.itemLots) > 1}">
-																				<c:forEach items="${bids.bidItem.itemLots}"
-																					var="itemLot" varStatus="status1">
-																					<tr>
-																						<td>${status1.index+1}.</td>
-																						<td>${bids.bidItem.category.categoryName}</td>
-																						<td>${itemLot.lotNo}</td>
-																						<td>${itemLot.name}</td>
-
-																						<td>${itemLot.remark}</td>
-																						<td>${itemLot.lengthRange}</td>
-																						<td>${itemLot.actualLengh}</td>
-																						<td>${itemLot.quantity}${itemLot.unit}</td>
-																						<td>${itemLot.zone}</td>
-																					</tr>
-																				</c:forEach>
-																			</c:if>
-
-																		</table>
-																	</form></td>
-															</tr>
-														</table>
-													</div>
-
-
-												</div>
-											</div>
-										</div>
-									</div> <input type="submit" name="button7" id="desc${status.index+1}"
-									value="Desc" data-toggle="modal"
-									data-target="#dialog_desc${status.index+1}" /></td>
-									
-									<td>${bidItem.name}</td>
-									<c:if test="${fn:length(bidItem.itemLots) == 1}">
-										<c:forEach items="${bidItem.itemLots}" var="itemLotUnique"
-											varStatus="status2">
-											<td>${itemLotUnique.remark}</td>
-											<td>${itemLotUnique.lengthRange}</td>
-											<td>${itemLotUnique.actualLengh}</td>
-										</c:forEach>
-									</c:if>
-									<c:if test="${fn:length(bidItem.itemLots) > 1}">
-										<td>&nbsp;</td>
-										<td>&nbsp;</td>
-										<td>&nbsp;</td>
-									</c:if>
-									<td>${bidItem.totalQuantity}${bidItem.unit}</td>
+									<td>${bidItem.bidId}</td>
+									<td>${bidItem.bidderName}</td>
+									<td>${bidItem.bidAmount}</td>
+									<td>${bidItem.currency}</td>
+									<td>${bidItem.bidStatus}</td>
+									<td>${bidItem.comments}</td>
+									<td>${bidItem.bidType}</td>
+									<td>${bidItem.bidAmount}</td>
+									<td>${bidItem.currency}</td>
+									<td>${bidItem.bidStatus}</td>
+									<td>${bidItem.comments}</td>
+									<td>${bidItem.bidType}</td>
+									<td>${bidItem.currency}</td>
+									<td>${bidItem.bidStatus}</td>
+									<td>${bidItem.comments}</td>
+									<td>${bidItem.bidType}</td>
 								</tr>
 							</c:forEach>
 						</table>
