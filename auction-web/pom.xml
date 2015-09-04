@@ -249,6 +249,25 @@
 			<artifactId>com.springsource.jxl</artifactId>
 		</dependency>
 		<!-- JXL DEPENDENCY END -->
+		
+		<!-- ITEXTPDF DEPENDENCY START -->
+			 <dependency>
+				<groupId>com.itextpdf</groupId>
+				<artifactId>itextpdf</artifactId>
+			</dependency> 
+			<!-- ITEXTPDF DEPENDENCY END -->
+			
+			<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+		</dependency>
+			
 
 	</dependencies>
 	<build>

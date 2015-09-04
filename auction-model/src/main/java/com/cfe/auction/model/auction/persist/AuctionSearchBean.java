@@ -5,24 +5,29 @@ import java.util.Date;
 /**
  * 
  * @author Vikas Anand
- *
+ * 
  */
 public class AuctionSearchBean {
 
 	public AuctionSearchBean(final String schemaName) {
 		this.schemaName = schemaName;
 	}
-	
-	public AuctionSearchBean () {
-		
+
+	public AuctionSearchBean() {
+
 	}
+
 	private String schemaName;
 	private Integer auctionId;
 	private Long genericId;
 	private Integer clientId;
 	private String role;
 	private Integer userId;
-	private Date auctionStartTime;	
+	private Date auctionStartTime;
+
+	private String fromDate;
+	private String toDate;
+
 	public String getSchemaName() {
 		return schemaName;
 	}
@@ -77,6 +82,22 @@ public class AuctionSearchBean {
 
 	public void setAuctionStartTime(Date auctionStartTime) {
 		this.auctionStartTime = auctionStartTime;
+	}
+
+	public String getFromDate() {
+		return fromDate;
+	}
+
+	public void setFromDate(String fromDate) {
+		this.fromDate = fromDate;
+	}
+
+	public String getToDate() {
+		return toDate;
+	}
+
+	public void setToDate(String toDate) {
+		this.toDate = toDate;
 	}
 
 }

@@ -12,7 +12,6 @@ import com.cfe.auction.model.persist.Bids;
 
 @Service
 public class BidsDaoImpl extends DAOImpl<Integer, Bids> implements BidsDao {
-
 	@Override
 	public void createBids(Bids bids, AuctionSearchBean auctionSearchBean) {
 		try {
@@ -26,9 +25,24 @@ public class BidsDaoImpl extends DAOImpl<Integer, Bids> implements BidsDao {
 	@Override
 	public List<Bids> getReportSummary(AuctionSearchBean auctionSearchBean) {
 		// TODO Auto-generated method stub
-		Query query = getEntityManager(auctionSearchBean.getSchemaName())
-				.createQuery("From Bids");
+		Query query = null;
+
+		String fromDate = auctionSearchBean.getFromDate();
+		String toDate = auctionSearchBean.getToDate();
+		if ((fromDate == null || fromDate.equals(""))
+				&& (toDate == null || toDate.endsWith(""))) {
+
+			query = getEntityManager(auctionSearchBean.getSchemaName())
+					.createQuery("From Bids");
+
+		} else {
+			query = getEntityManager(auctionSearchBean.getSchemaName())
+					.createQuery(
+							" from Bids where  bidTime >='"
+									+ auctionSearchBean.getFromDate()
+									+ "' and bidTime<='"
+									+ auctionSearchBean.getToDate() + "'");
+		}
 		return query.getResultList();
 	}
-
 }

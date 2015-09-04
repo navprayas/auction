@@ -1,9 +1,15 @@
 package com.cfe.auction.web.controller;
 
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,16 +17,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.cfe.auction.common.Bid;
 import com.cfe.auction.model.auction.persist.AuctionSearchBean;
-import com.cfe.auction.model.persist.Bids;
 import com.cfe.auction.model.persist.ClientDetails;
 import com.cfe.auction.model.persist.User;
 import com.cfe.auction.service.BidsService;
 import com.cfe.auction.service.cache.manager.AuctionCacheManager;
 import com.cfe.auction.web.constants.SessionConstants;
 import com.cfe.auction.web.util.ExcelWriterUtils;
+import com.cfe.auction.web.util.PDFWriterUtils;
+import com.itextpdf.text.DocumentException;
 
 @Controller
 @RequestMapping("/observer/**")
@@ -30,7 +38,9 @@ public class ObserverReportController {
 	private BidsService bidsService;
 
 	@RequestMapping(value = "/observerreport", method = RequestMethod.GET)
-	public String getObserverReportSummary(ModelMap model, HttpSession session) {
+	public String getObserverReportSummary(ModelMap model, HttpSession session,
+			@RequestParam(required = false) String fromDate,
+			@RequestParam(required = false) String toDate) {
 
 		logger.debug("In getObserverReportSummary Method::");
 		User user = (User) session.getAttribute(SessionConstants.USER_INFO);
@@ -43,37 +53,21 @@ public class ObserverReportController {
 		auctionSearchBean.setClientId(clientDetails.getId());
 		auctionSearchBean.setAuctionId(AuctionCacheManager
 				.getActiveAuctionId(auctionSearchBean));
+		auctionSearchBean.setFromDate(fromDate);
+		auctionSearchBean.setToDate(toDate);
 
-		List<Bids> bidsList = bidsService.getReportSummary(auctionSearchBean);
-		System.out.println("Bids Items" + bidsList);
-
+		List<Bid> bidsList = bidsService.getReportSummary(auctionSearchBean);
+		System.out.println(fromDate + " " + toDate);
 		model.addAttribute("bidsreport", bidsList);
-		/*
-		 * List<Bids> bidsList = reportService.getReportSummary1(userName,
-		 * null); List<BidderCategory> bidCategoryList = commonService
-		 * .getCategoryList(userName); Set<String> bidsStatusSet =
-		 * reportService.getLotsList(userName);
-		 * 
-		 * ReportsTotal reportsTotal = getReportsTotal(bidsList);
-		 * 
-		 * Date d1 = new Date(); SimpleDateFormat sdf = new
-		 * SimpleDateFormat(DATE_FORMAT); String date = sdf.format(d1);
-		 * 
-		 * modelMap.addAttribute("dateFromStr", date);
-		 * modelMap.addAttribute("dateToStr", date);
-		 * 
-		 * modelMap.addAttribute("BidsList", bidsList);
-		 * modelMap.addAttribute("bidderCategoryList", bidCategoryList);
-		 * modelMap.addAttribute("reportsTotal", reportsTotal);
-		 * modelMap.addAttribute("bidsStatusSet", bidsStatusSet);
-		 * modelMap.addAttribute("bidsStat", 0);
-		 */
+
 		return "observerreport";
 	}
 
 	@RequestMapping(value = "/excelreport", method = RequestMethod.GET)
-	public ModelAndView getObserverSummary1ReportExcel(ModelMap modelMap,
-			HttpSession session) {
+	public void getObserverSummary1ReportExcel(ModelMap modelMap,
+			HttpSession session, HttpServletResponse response,
+			@RequestParam(required = false) String fromDate,
+			@RequestParam(required = false) String toDate) {
 
 		logger.debug("In getObserverReportSummary Method::");
 
@@ -85,33 +79,49 @@ public class ObserverReportController {
 		auctionSearchBean.setClientId(clientDetails.getId());
 		auctionSearchBean.setAuctionId(AuctionCacheManager
 				.getActiveAuctionId(auctionSearchBean));
+		auctionSearchBean.setFromDate(fromDate);
+		auctionSearchBean.setToDate(toDate);
 
-		List<Bids> bidsList = bidsService.getReportSummary(auctionSearchBean);
-		System.out.println("Bids Items" + bidsList);
-		ExcelWriterUtils.getExcelFileFromList(bidsList);
-		return new ModelAndView("ExcelObserverReportSummary1", "list", bidsList);
+		List<Bid> bidList = bidsService.getReportSummary(auctionSearchBean);
+
+		response.setContentType("application/vnd.ms-excel");
+		response.setHeader("Content-Disposition",
+				"attachment; filename=ExcelReport.xls");
+		Workbook wb = ExcelWriterUtils.getExcelFile(bidList);
+		try {
+			javax.servlet.ServletOutputStream out = response.getOutputStream();
+			wb.write(out);
+			out.flush();
+			out.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
-	@RequestMapping(value = "/excelreport", method = RequestMethod.GET)
-	public ModelAndView getObserverSummary1ReportPDF(ModelMap modelMap,
-			HttpSession session) {
+	@RequestMapping(value = "/pdfreport", method = RequestMethod.GET)
+	public void getObserverSummary1ReportPDF(ModelMap modelMap,
+			HttpSession session, HttpServletResponse response,
+			@RequestParam(required = false) String fromDate,
+			@RequestParam(required = false) String toDate)
+			throws DocumentException, IOException {
 
 		logger.debug("In getObserverReportSummary Method::");
 		ClientDetails clientDetails = (ClientDetails) session
 				.getAttribute(SessionConstants.CLIENT_INFO);
-
 		AuctionSearchBean auctionSearchBean = new AuctionSearchBean(
 				clientDetails.getSchemaKey());
 		auctionSearchBean.setClientId(clientDetails.getId());
 		auctionSearchBean.setAuctionId(AuctionCacheManager
 				.getActiveAuctionId(auctionSearchBean));
-
-		List<Bids> bidsList = bidsService.getReportSummary(auctionSearchBean);
-		System.out.println("Bids Items" + bidsList);
-
-		return new ModelAndView("PDfObserverSummary1ReportView", "list",
-				bidsList);
-
+		auctionSearchBean.setFromDate(fromDate);
+		auctionSearchBean.setToDate(toDate);
+		List<Bid> bidsList = bidsService.getReportSummary(auctionSearchBean);
+		response.setContentType("application/pdf");
+		response.setHeader("content-disposition",
+				"attachment; filename=PDFReport.pdf");
+		javax.servlet.ServletOutputStream out = response.getOutputStream();
+		PDFWriterUtils.getPDFFile(bidsList, out);
 	}
 
 }

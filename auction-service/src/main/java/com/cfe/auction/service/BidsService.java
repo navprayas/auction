@@ -8,6 +8,6 @@ import com.cfe.auction.model.persist.Bids;
 
 public interface BidsService extends CRUDService<Integer, Bids> {
 	public void createBidService(Bid bids, AuctionSearchBean auctionSearchBean);
-	public List<Bids> getReportSummary(AuctionSearchBean auctionSearchBean);
+	public List<Bid>  getReportSummary(AuctionSearchBean auctionSearchBean);
 
 }

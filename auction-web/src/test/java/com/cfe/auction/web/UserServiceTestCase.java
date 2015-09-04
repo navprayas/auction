@@ -21,5 +21,6 @@ public class UserServiceTestCase extends TestCase {
 
 		UserService userService = (UserService) context
 				.getBean("userServiceImpl");
+		userService.getUserByUserName("bidder");
 	}
 }

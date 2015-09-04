@@ -9,6 +9,7 @@
 		<class>com.cfe.auction.model.persist.User</class>
 		<class>com.cfe.auction.model.persist.UserRole</class>
 		<class>com.cfe.auction.model.persist.ClientDetails</class>
+		<class>com.cfe.auction.model.persist.UserRoleId</class>
 		<properties>
 			<property name="hibernate.transaction.manager_lookup_class"
 				value="com.atomikos.icatch.jta.hibernate3.TransactionManagerLookup" />

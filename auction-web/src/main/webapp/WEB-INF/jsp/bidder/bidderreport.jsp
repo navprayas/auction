@@ -82,8 +82,24 @@
 							<c:forEach items="${wonList}" var="bidItem" varStatus="status">
 								<tr>
 									<td>${status.index+1}</td>
-									<td><div id="dialog_desc${status.index+1}"
-											style="display: none;" class="table-responsive user-map">
+									<td>
+									<div class="modal fade" id="dialog_desc${status.index+1}"
+								tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal"
+												aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+											<h4 class="modal-title" id="dialog_desc${status.index+1}">Description</h4>
+										</div>
+										<div class="modal-body">
+									
+									
+									
+									<div id="dialog_desc${status.index+1}"
+											 class="table-responsive user-map">
 											<table class="table table-bordered table-striped text-center">
 												<tr>
 													<td>
@@ -142,9 +158,11 @@
 													</td>
 												</tr>
 											</table>
-										</div> <input type="submit" name="button3"
+										</div>
+										</div></div></div></div>
+										 <input type="submit" name="button3"
 										id="desc${status.index+1}" value="Desc"
-										onclick="opneDialogBox('dialog_desc${status.index+1}')" /></td>
+										data-toggle="modal" data-target="#dialog_desc${status.index+1}"  /></td>
 									<td>${bidItem.bidItemId}</td>
 									<td>${bidItem.category.categoryName}</td>
 									<td>${bidItem.name}</td>
