@@ -10,6 +10,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -28,6 +29,7 @@ public class BidItem extends AbstractPO<Integer> {
 
 	@Id
 	@Column(name = "BIDITEMID")
+	@GeneratedValue
 	private Long bidItemId;
 
 	@Column(name = "SERIALNUMBER")
@@ -92,7 +94,7 @@ public class BidItem extends AbstractPO<Integer> {
 
 	@Transient
 	private long timeCounter;
-	
+
 	public String getSerialNo() {
 		return serialNo;
 	}
@@ -116,30 +118,34 @@ public class BidItem extends AbstractPO<Integer> {
 		this.isProcessed = isProcessed;
 	}
 
-	/*@Column(name = "AUTOBIDID")
-	private Long AUTOBIDID;
-
-	*//**
+	/*
+	 * @Column(name = "AUTOBIDID") private Long AUTOBIDID;
+	 *//**
 	 * @return the aUTOBIDID
-	 *//*
-	public Long getAUTOBIDID() {
-		return AUTOBIDID;
-	}*/
+	 */
+	/*
+	 * public Long getAUTOBIDID() { return AUTOBIDID; }
+	 */
 
 	/**
 	 * @param aUTOBIDID
 	 *            the aUTOBIDID to set
 	 */
-	/*public void setAUTOBIDID(Long aUTOBIDID) {
-		AUTOBIDID = aUTOBIDID;
-	}*/
+	/*
+	 * public void setAUTOBIDID(Long aUTOBIDID) { AUTOBIDID = aUTOBIDID; }
+	 */
 
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
-	@JoinColumn(name = "categoryid", referencedColumnName = "categoryid")
-	private Category category;
+	/*
+	 * @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch =
+	 * FetchType.EAGER)
+	 * 
+	 * @JoinColumn(name = "categoryid", referencedColumnName = "categoryid")
+	 * private Category category;
+	 */
 
-	/*@Column(name = "BIDITEMGROUPID")
-	private Long biditemgroupid;*/
+	/*
+	 * @Column(name = "BIDITEMGROUPID") private Long biditemgroupid;
+	 */
 
 	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
 	@JoinColumn(name = "bidItemId", referencedColumnName = "bidItemId")
@@ -176,6 +182,16 @@ public class BidItem extends AbstractPO<Integer> {
 
 	@Column(name = "biditemgroupid")
 	private Long bidItemGroupId;
+
+	@Column(name = "marketId")
+	private int marketId;
+
+	@Transient
+	@Column(name = "nocolum")
+	private String nocolum;
+
+	@Column(name = "categoryId")
+	public int categoryId;
 
 	public long getBidSpan() {
 		return bidSpan;
@@ -345,14 +361,6 @@ public class BidItem extends AbstractPO<Integer> {
 		this.lastUpDateTime = lastUpDateTime;
 	}
 
-	public Category getCategory() {
-		return category;
-	}
-
-	public void setCategory(Category category) {
-		this.category = category;
-	}
-
 	public String getCurrency() {
 		return currency;
 	}
@@ -364,7 +372,7 @@ public class BidItem extends AbstractPO<Integer> {
 	@Override
 	public String toString() {
 		return "BidItem [bidItemId=" + getBidItemId() + ",categoryId = "
-				+ category.getId() + "]";
+				+ categoryId + "]";
 	}
 
 	public void setAutoBids(List<AutoBids> autoBids) {
@@ -422,9 +430,10 @@ public class BidItem extends AbstractPO<Integer> {
 				.getTime());
 		long currTime = TimeUnit.MILLISECONDS.toSeconds(System
 				.currentTimeMillis());
-		/*if (lUpdateTime > bEndTime - timeExtAfterBid) {
-			return lUpdateTime - currTime + timeExtAfterBid;
-		}*/
+		/*
+		 * if (lUpdateTime > bEndTime - timeExtAfterBid) { return lUpdateTime -
+		 * currTime + timeExtAfterBid; }
+		 */
 		return (bEndTime - currTime > 0) ? bEndTime - currTime : 0;
 	}
 
@@ -483,13 +492,34 @@ public class BidItem extends AbstractPO<Integer> {
 		this.timeCounter = timeCounter;
 	}
 
-	/*public Long getBiditemgroupid() {
-		return biditemgroupid;
+	public int getCategoryId() {
+		return categoryId;
 	}
 
-	public void setBiditemgroupid(Long biditemgroupid) {
-		this.biditemgroupid = biditemgroupid;
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
 	}
-*/
-	
+
+	public int getMarketId() {
+		return marketId;
+	}
+
+	public void setMarketId(int marketId) {
+		this.marketId = marketId;
+	}
+
+	public String getNocolum() {
+		return nocolum;
+	}
+
+	public void setNocolum(String nocolum) {
+		this.nocolum = nocolum;
+	}
+
+	/*
+	 * public Category getCategory() { return category; }
+	 * 
+	 * public void setCategory(Category category) { this.category = category; }
+	 */
+
 }

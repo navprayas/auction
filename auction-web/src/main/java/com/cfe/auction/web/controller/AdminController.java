@@ -20,10 +20,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.cfe.auction.model.auction.persist.AuctionCacheBean;
 import com.cfe.auction.model.auction.persist.AuctionSearchBean;
 import com.cfe.auction.model.persist.Auction;
+import com.cfe.auction.model.persist.BidItem;
 import com.cfe.auction.model.persist.ClientDetails;
 import com.cfe.auction.model.persist.User;
 import com.cfe.auction.service.CategoryService;
@@ -265,6 +267,57 @@ public class AdminController {
 		bidItemsCacheService.initCache(auctionCacheBean);
 		String msg = "Auction Started - " + auctionId;
 		return "redirect:/admin/auctionmanagement?Message=" + msg;
+	}
+
+	@RequestMapping(value = "/fileupload", method = RequestMethod.GET)
+	public String registrationPageForUser(ModelMap modelMap, HttpSession session) {
+		ClientDetails clientDetails = (ClientDetails) session
+				.getAttribute(SessionConstants.CLIENT_INFO);
+		List<Auction> auctionList = iAuctionService
+				.getAuctionList(clientDetails.getSchemaKey());
+		List<Auction> newAuctionList = new ArrayList<Auction>();
+		for (Auction auction : auctionList) {
+			if ("Start".equalsIgnoreCase(auction.getStatus())
+					|| "Running".equalsIgnoreCase(auction.getStatus())) {
+				newAuctionList.add(auction);
+			}
+		}
+
+		modelMap.addAttribute("AuctionList", newAuctionList);
+		return "fileupload";
+	}
+
+	@RequestMapping(value = "/fileupload", method = RequestMethod.POST)
+	public String saveData(@RequestParam MultipartFile file,
+			HttpSession session, ModelMap model) {
+
+		String message = "File Upload Successfully";
+		ClientDetails clientDetails = (ClientDetails) session
+				.getAttribute(SessionConstants.CLIENT_INFO);
+		
+		AuctionSearchBean auctionSearchBean = new AuctionSearchBean(
+				clientDetails.getSchemaKey());
+		auctionSearchBean.setClientId(clientDetails.getId());
+		auctionSearchBean.setSchemaName(clientDetails.getSchemaKey());
+		List<Auction> auctionList = iAuctionService
+				.getAuctionList(clientDetails.getSchemaKey());
+		List<Auction> newAuctionList = new ArrayList<Auction>();
+		for (Auction auction : auctionList) {
+			if ("Start".equalsIgnoreCase(auction.getStatus())
+					|| "Running".equalsIgnoreCase(auction.getStatus())) {
+				newAuctionList.add(auction);
+			}
+		}
+
+		model.addAttribute("AuctionList", newAuctionList);
+		try {
+			iAuctionService.saveAuctionData(file,auctionSearchBean);
+		} catch (Exception e) {
+			e.printStackTrace();
+			message = "File Not Upload";
+		}
+		model.addAttribute("messages", message);
+		return "fileupload";
 	}
 
 }

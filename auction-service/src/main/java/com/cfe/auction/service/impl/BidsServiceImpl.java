@@ -12,10 +12,13 @@ import com.cfe.auction.common.Bid;
 import com.cfe.auction.dao.BidItemDao;
 import com.cfe.auction.dao.BidderCategoryDao;
 import com.cfe.auction.dao.BidsDao;
+import com.cfe.auction.dao.CategoryDao;
 import com.cfe.auction.dao.IAuctionDao;
 import com.cfe.auction.model.auction.persist.AuctionSearchBean;
 import com.cfe.auction.model.persist.BidItem;
+import com.cfe.auction.model.persist.BidderCategory;
 import com.cfe.auction.model.persist.Bids;
+import com.cfe.auction.model.persist.Category;
 import com.cfe.auction.service.BidsService;
 
 @Service("bidsServiceImpl")
@@ -30,6 +33,8 @@ public class BidsServiceImpl extends CRUDServiceImpl<Integer, Bids, BidsDao>
 	private IAuctionDao iAuctionDao;
 	@Autowired
 	private BidderCategoryDao bidderCategoryDao;
+	@Autowired
+	private CategoryDao categoryDao;
 
 	@Autowired
 	public BidsServiceImpl(BidsDao dao) {
@@ -74,7 +79,8 @@ public class BidsServiceImpl extends CRUDServiceImpl<Integer, Bids, BidsDao>
 					auctionSearchBean);
 
 			bid.setBidItemName(bidItem.getName());
-			bid.setCategoryName(bidItem.getCategory().getCategoryName());
+			Category category = categoryDao.get(bidItem.getCategoryId());
+			bid.setCategoryName(category.getCategoryName());
 			bid.setZone(bidItem.getZone());
 			bid.setLocation(bidItem.getLocation());
 			bid.setCity(bidItem.getCity());

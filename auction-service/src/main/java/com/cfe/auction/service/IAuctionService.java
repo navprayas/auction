@@ -1,7 +1,10 @@
 package com.cfe.auction.service;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.cfe.auction.model.auction.persist.AuctionSearchBean;
 import com.cfe.auction.model.persist.Auction;
@@ -28,5 +31,7 @@ public interface IAuctionService extends CRUDService<Integer, Auction> {
 	void closeAuction(AuctionSearchBean auctionSearchBean);
 
 	boolean isValidAuction(AuctionSearchBean auctionSearchBean);
+
+	void saveAuctionData(MultipartFile file,AuctionSearchBean auctionSearchBean) throws IOException;
 
 }

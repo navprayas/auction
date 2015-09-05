@@ -61,7 +61,7 @@
 							<li><a href="registeruser">Create User</a></li>
 							<li><a href="changepassword">Change Password</a></li>
 							<li><a href="createauction">Create Auction</a></li>
-							<li><a href="#">File Upload</a></li>
+							<li><a href="fileupload">File Upload</a></li>
 
 						</sec:authorize>
 

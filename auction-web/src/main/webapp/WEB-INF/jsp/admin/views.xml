@@ -32,6 +32,11 @@
 		<put-attribute name="body"
 			value="/WEB-INF/jsp/admin/userregistration.jsp" />
 	</definition>
+	<definition name="fileupload" extends="baseLayout">
+		<put-attribute name="title" value="File Upload Auction" />
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/admin/fileupload.jsp" />
+	</definition>
 
 
 

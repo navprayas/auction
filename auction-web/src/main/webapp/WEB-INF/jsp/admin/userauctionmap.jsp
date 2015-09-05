@@ -42,13 +42,13 @@
 
 
 						</li>
-						
+
 
 						<li><a aria-controls="home" role="tab" data-toggle="tab"
 							href="activemarketlist" onclick="openUrl(this.href)"></a></li>
 						<li><a aria-controls="home" role="tab" data-toggle="tab"
 							href="closedmarketlist" onclick="openUrl(this.href)"></a></li>
-							<li><c:if test="${ not empty message }">
+						<li><c:if test="${ not empty message }">
 						${ message}
 						
 						</c:if></li>
@@ -56,9 +56,9 @@
 				</div>
 				<div class="col-xs-12 col-sm-6">
 					<ul class="list-inline pull-right">
-						<li><a href="#excel">Export to Excel</a></li>
-						<li><a href="#pdf">Download PDF</a></li>
-						<li><a href="#print">Print</a></li>
+						<!-- <li><a href="#excel"></a></li>
+						<li><a href="#pdf"></a></li>
+						<li><a href="#print"></a></li> -->
 					</ul>
 				</div>
 				<div class="clearfix"></div>
@@ -70,9 +70,9 @@
 						<div class="col-sx-12 col-sm-12 select-date">
 							<form role="form">
 								<c:forEach var="category" items="${categorylist}">
-									<div class="col-xs-12 col-sm-4 col-md-3 col-lg-2 tetrt">
+									<div class="col-xs-6 col-sm-2">
 										<input type="checkbox" id="${category.id}" name="Categories">
-										&nbsp;${category.categoryName}</input>
+										${category.categoryName}</input>
 									</div>
 								</c:forEach>
 							</form>

@@ -2,6 +2,8 @@ package com.cfe.auction.common;
 
 import java.util.Date;
 
+import javax.persistence.Transient;
+
 public class BidItemUi {
 
 	private Long bidItemId;
@@ -42,7 +44,6 @@ public class BidItemUi {
 	private Long bidItemGroupId;
 
 	private Long timeleft;
-
 	public Long getBidItemId() {
 		return bidItemId;
 	}

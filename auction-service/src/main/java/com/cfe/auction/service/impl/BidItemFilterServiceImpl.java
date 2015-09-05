@@ -27,7 +27,7 @@ public class BidItemFilterServiceImpl implements IBidItemFilterService {
 			final String categoryId) {
 
 		List<BidItem> bidItemFinal = filter(
-				having(on(BidItem.class).getCategory().getId(),
+				having(on(BidItem.class).getCategoryId(),
 						Matchers.equalTo(categoryId)), bidItems);
 
 		return bidItemFinal;
@@ -41,7 +41,7 @@ public class BidItemFilterServiceImpl implements IBidItemFilterService {
 			List<BidItem> temp = new ArrayList<BidItem>();
 			for (Integer categoryId : categoryIds) {
 				temp.addAll(filter(
-						having(on(BidItem.class).getCategory().getId(),
+						having(on(BidItem.class).getCategoryId(),
 								Matchers.equalTo(categoryId)), bidItems));
 			}
 			if (bidSeqId != null) {
@@ -60,7 +60,7 @@ public class BidItemFilterServiceImpl implements IBidItemFilterService {
 	public List<BidItem> getBidItemListForClosedMarket(List<BidItem> bidItems,
 			final String categoryId) {
 		List<BidItem> bidItemFinal = filter(
-				having(on(BidItem.class).getCategory().getId(),
+				having(on(BidItem.class).getCategoryId(),
 						Matchers.equalTo(categoryId)), bidItems);
 		return bidItemFinal;
 	}
@@ -69,7 +69,7 @@ public class BidItemFilterServiceImpl implements IBidItemFilterService {
 	public List<BidItem> getBidItemListForActiveMarket(List<BidItem> bidItems,
 			Integer categoryId) {
 		return filter(
-				having(on(BidItem.class).getCategory().getId(),
+				having(on(BidItem.class).getCategoryId(),
 						Matchers.equalTo(categoryId)), bidItems);
 	}
 
@@ -78,7 +78,7 @@ public class BidItemFilterServiceImpl implements IBidItemFilterService {
 			List<BidItem> bidItems, Integer categoryId) {
 		List<BidItemUi> bidItemList = new ArrayList<BidItemUi>();
 		List<BidItem> bidItemsResult = filter(
-				having(on(BidItem.class).getCategory().getId(),
+				having(on(BidItem.class).getCategoryId(),
 						Matchers.equalTo(categoryId)), bidItems);
 		bidItemToBidItemUiConverter(bidItemList, bidItemsResult);
 
@@ -121,7 +121,7 @@ public class BidItemFilterServiceImpl implements IBidItemFilterService {
 			List<BidItem> temp = new ArrayList<BidItem>();
 			for (Integer categoryId : categoryIds) {
 				temp.addAll(filter(
-						having(on(BidItem.class).getCategory().getId(),
+						having(on(BidItem.class).getCategoryId(),
 								Matchers.equalTo(categoryId)), bidItems));
 			}
 			if (bidSeqId != null) {
@@ -146,7 +146,7 @@ public class BidItemFilterServiceImpl implements IBidItemFilterService {
 			List<BidItem> temp = new ArrayList<BidItem>();
 			for (Integer categoryId : categoryIds) {
 				temp.addAll(filter(
-						having(on(BidItem.class).getCategory().getId(),
+						having(on(BidItem.class).getCategoryId(),
 								Matchers.equalTo(categoryId)), bidItems));
 			}
 			if (bidSeqId != null) {
@@ -171,7 +171,7 @@ public class BidItemFilterServiceImpl implements IBidItemFilterService {
 			List<BidItem> temp = new ArrayList<BidItem>();
 			for (Integer categoryId : categoryIds) {
 				temp.addAll(filter(
-						having(on(BidItem.class).getCategory().getId(),
+						having(on(BidItem.class).getCategoryId(),
 								Matchers.equalTo(categoryId)), bidItems));
 			}
 			if (bidSeqId != null) {
@@ -199,7 +199,7 @@ public class BidItemFilterServiceImpl implements IBidItemFilterService {
 			List<BidItem> temp = new ArrayList<BidItem>();
 			for (Integer categoryId : categoryIds) {
 				temp.addAll(filter(
-						having(on(BidItem.class).getCategory().getId(),
+						having(on(BidItem.class).getCategoryId(),
 								Matchers.equalTo(categoryId)), bidItems));
 			}
 			if (bidSeqId != null) {
@@ -226,7 +226,7 @@ public class BidItemFilterServiceImpl implements IBidItemFilterService {
 			List<BidItem> temp = new ArrayList<BidItem>();
 			for (Integer categoryId : categoryIds) {
 				temp.addAll(filter(
-						having(on(BidItem.class).getCategory().getId(),
+						having(on(BidItem.class).getCategoryId(),
 								Matchers.equalTo(categoryId)), bidItems));
 			}
 			if (bidSeqId != null) {
