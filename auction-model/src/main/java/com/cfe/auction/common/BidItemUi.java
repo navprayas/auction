@@ -1,8 +1,9 @@
 package com.cfe.auction.common;
 
 import java.util.Date;
+import java.util.List;
 
-import javax.persistence.Transient;
+import com.cfe.auction.model.persist.ItemLot;
 
 public class BidItemUi {
 
@@ -44,6 +45,22 @@ public class BidItemUi {
 	private Long bidItemGroupId;
 
 	private Long timeleft;
+
+	private List<ItemLot> itemLots;
+	private String categoryName;
+	
+	
+	private String unit;
+
+	
+	private boolean autoBidFlag;
+
+	
+	private Double amountAutoBid;
+
+	
+	private Integer totalQuantity;
+
 	public Long getBidItemId() {
 		return bidItemId;
 	}
@@ -202,6 +219,54 @@ public class BidItemUi {
 
 	public void setTimeleft(Long timeleft) {
 		this.timeleft = timeleft;
+	}
+
+	public List<ItemLot> getItemLots() {
+		return itemLots;
+	}
+
+	public void setItemLots(List<ItemLot> itemLots) {
+		this.itemLots = itemLots;
+	}
+
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+
+	public Integer getTotalQuantity() {
+		return totalQuantity;
+	}
+
+	public void setTotalQuantity(Integer totalQuantity) {
+		this.totalQuantity = totalQuantity;
+	}
+
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
+	public boolean isAutoBidFlag() {
+		return autoBidFlag;
+	}
+
+	public void setAutoBidFlag(boolean autoBidFlag) {
+		this.autoBidFlag = autoBidFlag;
+	}
+
+	public Double getAmountAutoBid() {
+		return amountAutoBid;
+	}
+
+	public void setAmountAutoBid(Double amountAutoBid) {
+		this.amountAutoBid = amountAutoBid;
 	}
 
 }

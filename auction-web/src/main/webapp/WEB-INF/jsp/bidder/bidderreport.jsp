@@ -119,7 +119,7 @@
 															</tr>
 															<tr>
 																<td>${status.index+1}.</td>
-																<td>${bidItem.category.categoryName}</td>
+																<td>${bidItem.categoryName}</td>
 																<td>${bidItem.bidItemId}</td>
 																<td>${bidItem.name}</td>
 																<c:if test="${fn:length(bidItem.itemLots) == 1}">
@@ -144,7 +144,7 @@
 																	varStatus="status1">
 																	<tr>
 																		<td>${status1.index+1}</td>
-																		<td>${bidItem.category.categoryName}</td>
+																		<td>${bidItem.categoryName}</td>
 																		<td>${itemLot.lotId}</td>
 																		<td>${itemLot.name}</td>
 																		<td>${itemLot.remark}</td>
@@ -164,7 +164,7 @@
 										id="desc${status.index+1}" value="Desc"
 										data-toggle="modal" data-target="#dialog_desc${status.index+1}"  /></td>
 									<td>${bidItem.bidItemId}</td>
-									<td>${bidItem.category.categoryName}</td>
+									<td>${bidItem.categoryName}</td>
 									<td>${bidItem.name}</td>
 									<c:if test="${fn:length(bidItem.itemLots) == 1}">
 										<c:forEach items="${bidItem.itemLots}" var="itemLotUnique"

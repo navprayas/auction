@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cfe.auction.common.Bid;
+import com.cfe.auction.common.BidItemUi;
 import com.cfe.auction.dao.BidItemDao;
 import com.cfe.auction.dao.CategoryDao;
 import com.cfe.auction.dao.IAuctionDao;
@@ -51,42 +52,28 @@ public class BidItemServiceImpl extends
 
 	@Transactional
 	@Override
-	public List<BidItem> getWonList(String username,
+	public List<BidItemUi> getWonList(String username,
 			AuctionSearchBean auctionSearchBean) {
-		List<Bid> bidList = new ArrayList<Bid>();
+		List<BidItemUi> bidItemsList = new ArrayList<BidItemUi>();
 
-		converterBidsToBidEntity(bidList,
+		converterBidsToBidEntity(bidItemsList,
 				bidItemDao.getWonList(username, auctionSearchBean),
 				auctionSearchBean);
-		return bidItemDao.getWonList(username, auctionSearchBean);
+		return bidItemsList;
 	}
 
-	private void converterBidsToBidEntity(List<Bid> bidList,
+	private void converterBidsToBidEntity(List<BidItemUi> bidList,
 			List<BidItem> bidItems, AuctionSearchBean auctionSearchBean) {
-		Bid bid = null;
+		BidItemUi bidItemUi = null;
 		for (BidItem bidItem : bidItems) {
-			bid = new Bid();
-			bid.setBidItemName(bidItem.getName());
+			bidItemUi = new BidItemUi();
+			bidItemUi.setBidItemId(bidItem.getBidItemId());
+			bidItemUi.setName(bidItem.getName());
+			bidItemUi.setItemLots(bidItem.getItemLots());
 			Category category = categoryDao.get(bidItem.getCategoryId());
-			bid.setCategoryName(category.getCategoryName());
-			bid.setZone(bidItem.getZone());
-			bid.setLocation(bidItem.getLocation());
-			bid.setCity(bidItem.getCity());
-			bid.setUnit(bidItem.getUnit());
-			bid.setTotalQuantity(bidItem.getTotalQuantity());
-			/*bid.setAuctionId(bids.getAuctionId());
-			bid.setAuctionName(iAuctionDao.get(
-					Integer.parseInt(bids.getAuctionId().toString())).getName());
-			bid.setBidAmount(bids.getBidAmount());
-			bid.setBidderName(bids.getBidderName());
-			bid.setBidStatus(bids.getBidStatus());
-			bid.setBidTime(bids.getBidTime());
-			bid.setBidType(bids.getBidType());
-			bid.setComments(bids.getComments());
-			bid.setStatus(bids.getBidStatus());
-			bid.setCurrency(bids.getCurrency());
-			bid.setSalesPrice(bids.getBidAmount());*/
-			bidList.add(bid);
+			bidItemUi.setCategoryName(category.getCategoryName());
+			bidItemUi.setUnit(bidItem.getUnit());
+			bidList.add(bidItemUi);
 
 		}
 

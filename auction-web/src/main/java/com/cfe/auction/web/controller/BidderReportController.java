@@ -12,6 +12,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.cfe.auction.common.BidItemUi;
 import com.cfe.auction.model.auction.persist.AuctionSearchBean;
 import com.cfe.auction.model.persist.BidItem;
 import com.cfe.auction.model.persist.BidderCategory;
@@ -54,7 +55,7 @@ public class BidderReportController {
 		auctionSearchBean.setSchemaName(clientDetails.getSchemaKey());
 		
 		LOG.debug("UserName" + user.getUsername());
-		List<BidItem> wonList = bidItemService.getWonList(user.getUsername(), auctionSearchBean);
+		List<BidItemUi> wonList = bidItemService.getWonList(user.getUsername(), auctionSearchBean);
 		LOG.debug("closedbids List::" + wonList);
 		modelMap.addAttribute("wonList", wonList);
 		List<BidderCategory> categoryList = bidderCategoryService
